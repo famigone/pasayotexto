@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 import { NavBar } from '../components'
-import { MoviesList, MoviesInsert, MoviesUpdate } from '../pages'
+import { Ejemplos, Comunidad, Experiencia } from '../pages'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -12,9 +12,9 @@ function App() {
         <Router>
             <NavBar />
             <Routes>
-                <Route path="/experiencias" element={<MoviesList/>} />
-                <Route path="/experiencias/create" element={MoviesInsert} />
-                <Route path="/movies/update/:id"element={MoviesUpdate}/>
+                <Route path="/ejemplos" element={Ejemplos} />
+                <Route path="/comunidad" element={Comunidad} />
+                <Route path="/experiencia/:id"element={Experiencia}/>
             </Routes>
         </Router>
      </div>   

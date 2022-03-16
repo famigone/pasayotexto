@@ -22,12 +22,12 @@ const Links = () => {
                 <Collapse>
                     <List>
                         <Item>
-                            <Link to="/movies/list" className="nav-link">
+                            <Link to="/ejemplos" className="nav-link">
                                 EXPERIENCIAS
                             </Link>
                         </Item>
                         <Item>
-                            <Link to="/movies/create" className="nav-link">
+                            <Link to="/comunidad" className="nav-link">
                                 COMUNIDAD
                             </Link>
                         </Item>

@@ -14,7 +14,7 @@ const Wrapper = styled.a.attrs({
 const Logo = () => {
 
         return (
-            <Wrapper href="https://c4.fi.uncoma.edu.ar">
+            <Wrapper href="/">
                 <img src={logo} width="100%" height="50" alt="PASAYO Texto" />
             </Wrapper>
         )
