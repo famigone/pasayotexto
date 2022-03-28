@@ -9,6 +9,9 @@ export const getAllExperiencias = () => api.get(`/experiencias`)
 export const updateExperienciaById = (id, payload) => api.put(`/experiencia/${id}`, payload)
 export const deleteExperienciaById = id => api.delete(`/experiencia/${id}`)
 export const getExperienciaById = id => api.get(`/experiencia/${id}`)
+export const getLogin = () => api.get(`/login`)
+export const getRegister = () => api.get(`/register`)
+
 
 const apis = {
     insertExperiencia,
@@ -16,6 +19,8 @@ const apis = {
     updateExperienciaById,
     deleteExperienciaById,
     getExperienciaById,
+    getRegister,
+    getLogin
 }
 
 export default apis

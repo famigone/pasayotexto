@@ -120,10 +120,22 @@ getExperiencias = async (req, res) => {
     }).catch(err => console.log(err))
 }
 
+
+
+getLogin = async (req, res) => {
+     res.render('login');
+}
+
+getRegister = async (req, res) => {
+     res.render('register');
+}
+
 module.exports = {
     createExperiencia,
     updateExperiencia,
     deleteExperiencia,
     getExperiencias,
     getExperienciaById,
+    getLogin,
+    getRegister
 }
