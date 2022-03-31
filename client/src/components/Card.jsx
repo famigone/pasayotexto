@@ -11,6 +11,12 @@ width: 18rem;
 background-color:#EEEEEE
 `
 
+const UnBadge = styled.div.attrs({
+    className: 'badge bg-danger',
+})`
+
+
+`
 
 
 
@@ -18,22 +24,29 @@ const Card = ({title, body}) => {
 
     return (
             <UnaCard>                  
-                  <div className="card-header">SECUENCIAL</div>
+                  <div className="card-header"><b>{title}</b></div>
                   <div className="card-body">
-                    <h5 className="card-title">{title}</h5>
+                    <h5 className="card-title"></h5>
                     <p className="card-text">{body}</p>
                     
                   </div>
-
+                  <ul className="list-group list-group-flush">
+                        <li className="list-group-item"><b>Objetivo Didáctico:</b> resolver problemas con instrucciones secuenciales</li>
+                        <li className="list-group-item"><b>Tema:</b> secuencias</li>
+                        <li className="list-group-item"><b>Tópico:</b> <span className="badge bg-success">cumpleaños</span></li>
+                       
+                    </ul>                    
                      <div className="btn-group btn-group-sm" role="group" aria-label="Basic example" >
                       
-                      <button type="button" className="btn btn-warning">Solución</button>
-                      <button type="button" className="btn btn-warning">Resolver</button>
+                      <button type="button" className="btn btn-warning">Solución</button>                      
+                      <button type="button" className="btn btn-warning">Resolver</button>                      
                     </div>
-
+                    
                    <div className="card-footer text-black ">
-                      
-                      <span class="badge bg-danger">famigone</span>
+                        
+                     <div className="d-flex justify-content-end">
+                        <UnBadge> famigone </UnBadge>
+                     </div>   
                    </div>
             </UnaCard>
             )

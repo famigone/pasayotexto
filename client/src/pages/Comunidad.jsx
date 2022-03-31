@@ -2,17 +2,28 @@ import React from 'react';
 import StackGrid from "react-stack-grid";
 import Experiencia from "./Experiencia"
 import Card from '../components/Card'
+import Filtro from '../components/Filtro'
+import styled from 'styled-components'
+
+
+const Container = styled.div.attrs({
+    className: 'container',
+})``
+
 const Comunidad = () => {
-    console.log("adentrooo")
+
 
     return (
-        <StackGrid columnWidth={100}>
-             
+        <div>
+            <Filtro/>
+            <StackGrid columnWidth={100}>
+                 
 
-            <div key="key2">
-                <Experiencia/>
-            </div>                                                              
-        </StackGrid>
+                <div key="key2">
+                    <Experiencia/>
+                </div>                                                              
+            </StackGrid>
+        </div>
             )
 
 }
