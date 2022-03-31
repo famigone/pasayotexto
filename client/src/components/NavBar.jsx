@@ -17,23 +17,27 @@ const Nav = styled.nav.attrs({
     right: 0;
     left: 0;
     z-index: 1030;  
-    background-color: #FFFFFF 
+    background-color: #EEEEEE 
 `
 
 
 
+const NavBar = () => {
 
-class NavBar extends Component {
-    render() {
+    
         return (
+            <div>
             <Container>
                 <Nav>                 
                     <Logo />
                     <Links />                                     
                 </Nav>
+
             </Container>
-        )
-    }
+             <br/><br/><br/><br/>   
+            
+            </div>
+            )
 }
 
 export default NavBar
