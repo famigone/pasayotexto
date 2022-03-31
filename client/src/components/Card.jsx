@@ -32,7 +32,8 @@ const Card = ({title, body}) => {
                     </div>
 
                    <div className="card-footer text-black ">
-                      <i>famigone</i>
+                      
+                      <span class="badge bg-danger">famigone</span>
                    </div>
             </UnaCard>
             )
