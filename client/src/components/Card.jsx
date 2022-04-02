@@ -33,13 +33,12 @@ const Card = ({title, body}) => {
                   <ul className="list-group list-group-flush">
                         <li className="list-group-item"><b>Objetivo Didáctico:</b> resolver problemas con instrucciones secuenciales</li>
                         <li className="list-group-item"><b>Tema:</b> secuencias</li>
-                        <li className="list-group-item"><b>Tópico:</b> <span className="badge bg-success">cumpleaños</span></li>
-                       
-                    </ul>                    
+                        <li className="list-group-item"><b>Tópico:</b> <span className="badge bg-success">cumpleaños</span></li>                       
+                  </ul>                    
                      <div className="btn-group btn-group-sm" role="group" aria-label="Basic example" >
                       
-                      <button type="button" className="btn btn-warning">Solución</button>                      
-                      <button type="button" className="btn btn-warning">Resolver</button>                      
+                      <button type="button" className="btn btn-warning"><i className="bi bi-play-fill"></i> Solución</button>                      
+                      <button type="button" className="btn btn-warning"><i className="bi bi-pin-map"></i> Resolver</button>                      
                     </div>
                     
                    <div className="card-footer text-black ">
@@ -49,8 +48,6 @@ const Card = ({title, body}) => {
                      </div>   
                    </div>
             </UnaCard>
-            )
-
-}
+        )}
 
 export default Card;
