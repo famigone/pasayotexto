@@ -27,6 +27,7 @@ const Card = ({title, body}) => {
                   <div className="card-header"><b>{title}</b></div>
                   <div className="card-body">
                     <h5 className="card-title"></h5>
+
                     <p className="card-text">{body}</p>
                     
                   </div>

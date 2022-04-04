@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Modal } from 'react-bootstrap';
-
+import FormExperiencia from './FormExperiencia'
 
 
 
@@ -22,8 +22,7 @@ const ModalExperiencia = (props) => {
           <Modal.Title>Nueva Experiencia</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          I will not close if you click outside me. Don't even try to press
-          escape key.
+          <FormExperiencia/>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={props.onHide}>

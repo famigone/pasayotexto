@@ -39,13 +39,13 @@ const Filtro = () => {
                             
                            <div className="btn-group" role="group" aria-label="Basic radio toggle button group">
                               <input type="radio" className="btn-check" name="btnradio" id="btnradio1" autoComplete="off"/>
-                              <label className="btn btn-outline-warning" forhtml="btnradio1">Secuencias</label>
+                              <label className="btn btn-outline-warning" forhtml="btnradio1"><b>SECUENCIAS</b></label>
 
                               <input type="radio" className="btn-check" name="btnradio" id="btnradio2" autoComplete="off"/>
-                              <label className="btn btn-outline-warning" forhtml="btnradio2">Alternativas</label>
+                              <label className="btn btn-outline-warning" forhtml="btnradio2"><b>ALTERNATIVAS</b></label>
 
                               <input type="radio" className="btn-check" name="btnradio" id="btnradio3" autoComplete="off"/>
-                              <label className="btn btn-outline-warning" forhtml="btnradio3">Repetitivas</label>
+                              <label className="btn btn-outline-warning" forhtml="btnradio3"><b>REPETITIVAS</b></label>
 
                               
                             </div>
@@ -54,10 +54,10 @@ const Filtro = () => {
                             </li>
                             <div className="btn-group" role="group" aria-label="Basic radio toggle button group">
                               <input type="radio" className="btn-check" name="btnMiasTodas" id="btnradioMias" autoComplete="off"/>
-                              <label className="btn btn-outline-warning" forhtml="btnradioMias">Solo mías</label>
+                              <label className="btn btn-outline-warning" forhtml="btnradioMias"><b>MÍAS</b></label>
 
                               <input type="radio" className="btn-check" name="btnMiasTodas" id="btnradioTodas" autoComplete="off"/>
-                              <label className="btn btn-outline-warning" forhtml="btnradioTodas">Todas</label>  
+                              <label className="btn btn-outline-warning" forhtml="btnradioTodas"><b>TODAS</b></label>  
                             </div>
 
                           </ul>

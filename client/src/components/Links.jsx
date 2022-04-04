@@ -23,12 +23,12 @@ const Links = () => {
                     <List>
                         <Item>                        
                             <Link to="/ejemplos" className="nav-link">
-                                EXPERIENCIAS
+                                <b>EXPERIENCIAS</b>
                             </Link>
                         </Item>
                         <Item>
                             <Link to="/comunidad" className="nav-link">
-                                COMUNIDAD
+                                <b>COMUNIDAD</b>
                             </Link>
                         </Item>
                     </List>
