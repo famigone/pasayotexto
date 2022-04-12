@@ -15,6 +15,6 @@ app.use(bodyParser.json())
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
-app.use('/', routes); //to use the routes
+app.use('/api', routes); //to use the routes
 
 app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`))

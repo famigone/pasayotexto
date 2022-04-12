@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Button, Modal } from 'react-bootstrap';
 import FormExperiencia from './FormExperiencia'
+import LogoPasayo from './LogoPasayo'
 
 
 
-const ModalExperiencia = (props) => {  
+const ModalExperiencia = (props) => {
 
 
   return (
@@ -12,24 +13,23 @@ const ModalExperiencia = (props) => {
 
 
       <Modal
-        {...props}         
+        {...props}
         backdrop="static"
         keyboard={false}
         size="lg"
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>Nueva Experiencia</Modal.Title>
+          <Modal.Title>
+              <LogoPasayo/>
+               Nueva Experiencia
+
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <FormExperiencia/>
+          <FormExperiencia {...props}/>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={props.onHide}>
-            Mejor no
-          </Button>
-          <Button variant="warning">Guardar</Button>
-        </Modal.Footer>
+        
       </Modal>
     </>
   );
@@ -37,4 +37,3 @@ const ModalExperiencia = (props) => {
 
 
 export default ModalExperiencia;
-

@@ -3,21 +3,21 @@ const Schema = mongoose.Schema
 
 const Experiencia = new Schema(
     {
-      xml: {
+      titulo: {
         type: String,
-        required: true  
+        required: true
       },
       narrativa: {
         type: String,
-        required: true  
+        required: true
       },
-      categoria: {
+      tema: {
         type: String,
-        required: true  
-      },       
+        required: true
+      },
       objetivo: {
         type: String,
-        required: true  
+        required: true
       },
       activo: {
         type: Boolean

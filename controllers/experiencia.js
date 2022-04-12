@@ -106,7 +106,7 @@ getExperienciaById = async (req, res) => {
     }).catch(err => console.log(err))
 }
 
-getExperiencias = async (req, res) => {
+getAllExperiencias = async (req, res) => {
     await Experiencia.find({}, (err, experiencias) => {
         if (err) {
             return res.status(400).json({ success: false, error: err })
@@ -134,7 +134,7 @@ module.exports = {
     createExperiencia,
     updateExperiencia,
     deleteExperiencia,
-    getExperiencias,
+    getAllExperiencias,
     getExperienciaById,
     getLogin,
     getRegister
