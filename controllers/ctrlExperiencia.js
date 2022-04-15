@@ -88,7 +88,7 @@ deleteExperiencia = async (req, res) => {
         }
 
         return res.status(200).json({ success: true, data: experiencia })
-    }).catch(err => console.log(err))
+    })
 }
 
 getExperienciaById = async (req, res) => {
@@ -103,22 +103,30 @@ getExperienciaById = async (req, res) => {
                 .json({ success: false, error: "experiencia not found" })
         }
         return res.status(200).json({ success: true, data: experiencia })
-    }).catch(err => console.log(err))
+    })
 }
 
-getAllExperiencias = async (req, res) => {
-    await Experiencia.find({}, (err, experiencias) => {
-        if (err) {
-            return res.status(400).json({ success: false, error: err })
-        }
-        if (!experiencias.length) {
-            return res
-                .status(404)
-                .json({ success: false, error: "Experiencia not found" })
-        }
-        return res.status(200).json({ success: true, data: experiencias })
-    }).catch(err => console.log(err))
+
+
+getAllExperiencias = (req, res) => {
+
+  const filtro = req.query
+  let filtroFinal = {}
+  if (filtro.tema !=="Todos") filtroFinal = filtro;
+  console.log(filtroFinal)
+  Experiencia.find(filtroFinal, (err, experiencias)  => {
+    if (err) {
+        return res.status(400).json({ success: false, error: err })
+    }
+    return res.status(200).json({ success: true, data: experiencias })
+  }).sort({createdAt: -1});
+
 }
+
+
+
+
+
 
 
 

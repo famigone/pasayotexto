@@ -20,10 +20,10 @@ const UnBadge = styled.div.attrs({
 
 
 
-const Card = (experiencia) => {
+const Card = ({experiencia}) => {
 
     return (
-            <UnaCard>
+            <UnaCard >
                   <div className="card-header"><b>{experiencia.titulo}</b></div>
                   <div className="card-body">
                     <h5 className="card-title"></h5>
