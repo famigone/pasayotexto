@@ -113,13 +113,15 @@ getAllExperiencias = (req, res) => {
   const filtro = req.query
   let filtroFinal = {}
   if (filtro.tema !=="Todos") filtroFinal = filtro;
-  console.log(filtroFinal)
+
+  const limite = filtro.limite
+  console.log(filtro.limite)
   Experiencia.find(filtroFinal, (err, experiencias)  => {
     if (err) {
         return res.status(400).json({ success: false, error: err })
     }
     return res.status(200).json({ success: true, data: experiencias })
-  }).sort({createdAt: -1});
+  }).sort({createdAt: -1}).limit(limite);
 
 }
 

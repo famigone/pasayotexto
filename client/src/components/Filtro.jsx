@@ -19,14 +19,14 @@ const Nav = styled.nav.attrs({
 
 
 
-const Filtro = ({refrescarExp, handleFiltro}) => {
+const Filtro = ({refrescarExp, handleFiltro, handleCargar}) => {
 
    const [modalShow, setModalShow] = useState(false);
    const [radioTemaValue, setRadioTemaValue] = useState('TODOS')
    const [radioAutorValue, setRadioAutorValue] = useState('MIAS')
    const radioTema = [
      { name: 'TODOS', value: 'Todos' },
-     { name: 'SECUENCIAL', value: 'Secuencial' },
+     { name: 'SECUENCIAL', value: 'Secuencias' },
      { name: 'MODULARIDAD', value: 'Modularidad' },
      { name: 'ALTERNATIVAS', value: 'Altenativas' },
      { name: 'REPETITIVAS', value: 'Repetitivas' }
@@ -62,7 +62,9 @@ const Filtro = ({refrescarExp, handleFiltro}) => {
                 <Nav>
                      <div className="container-fluid">
                         <a className="navbar-brand" href="#">
-
+                          <Button className="btn btn-warning" onClick={() => handleCargar()}>
+                              CARGAR
+                          </Button>
                             <Button className="btn btn-warning" onClick={() => setModalShow(true)}>
                                 <i className="bi bi-plus"></i>
                             </Button>
