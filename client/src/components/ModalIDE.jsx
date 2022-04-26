@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { Button, Modal } from 'react-bootstrap';
+import {ButtonGroup, Button, Modal, Table } from 'react-bootstrap';
 import FormExperiencia from './FormExperiencia'
 import LogoPasayo from './LogoPasayo'
-
+import TablaExp from './TablaExp'
+import CodeMirror from './CodeMirror'
 
 
 const ModalIDE = (props) => {
+
 
 
   return (
@@ -16,18 +18,21 @@ const ModalIDE = (props) => {
         {...props}
         backdrop="static"
         keyboard={false}
-        size="lg"
+        size="sm-down"
         centered
+        fullscreen={true}
       >
         <Modal.Header closeButton>
           <Modal.Title>
               <LogoPasayo/>
-               Nueva Experiencia
-
+              {props.experiencia.titulo}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <FormExperiencia {...props}/>
+          <TablaExp experiencia={props.experiencia}/>
+          <CodeMirror onHide={props.onHide} experiencia={props.experiencia}/>
+
+
         </Modal.Body>
 
       </Modal>

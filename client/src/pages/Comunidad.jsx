@@ -1,5 +1,6 @@
 import StackGrid from "react-stack-grid";
 import Experiencia from "./Experiencia"
+import ModalIDE from "../components/ModalIDE"
 import Card from '../components/Card'
 import Filtro from '../components/Filtro'
 import styled from 'styled-components'
@@ -10,11 +11,17 @@ import api from '../api'
 
 const Comunidad = () => {
   //const filtroInicial = {tema: "Todos", mias:true}
+  const constIncremento = 10
+  const constLimite = 10
   const filtroInicial = {tema: "Todos"}
   const [experiencias, setExperiencias] = useState([])
   const [filtro, setFiltro] = useState(filtroInicial)
-  const [limite, setLimite] = useState(5)
-  const constIncremento = 5
+  const [limite, setLimite] = useState(constLimite)
+  //expActual es la experiencia clickeada actualmente, al clickear debe levantar
+  //el modalIDEShow con los datos de esa exp
+  const [expActual, setExpActual] = useState("")
+  const [modalIDEShow, setModalIDEShow] = useState(false);
+
   const Divido = styled.nav.attrs({
       className: 'div',
   })`
@@ -42,6 +49,14 @@ const Comunidad = () => {
       //console.log(newFiltro);
     }
 
+  const handleClickExp = (exp) => {
+      setExpActual(exp)
+      setModalIDEShow(true)
+      console.log(exp)
+      //getExperiencias(newFiltro);
+      //console.log(newFiltro);
+    }
+
 
   useEffect(function() {
      getExperiencias(filtro);
@@ -52,12 +67,13 @@ const Comunidad = () => {
    const handleScroll = (e) => {
        const { offsetHeight, scrollTop, scrollHeight} = e.target
 
-       if (offsetHeight + scrollTop === scrollHeight) {
+       if (offsetHeight + scrollTop >= scrollHeight) {
          setLimite(limite+constIncremento)
          getExperiencias(filtro)
-         console.log(limite+constIncremento)
+
+        // console.log(limite+constIncremento)
        }
-       console.log(limite+constIncremento)
+       //console.log(limite+constIncremento)
        //setLimite(limite+constIncremento)
 
      }
@@ -75,13 +91,11 @@ const Comunidad = () => {
             <StackGrid columnWidth={300}>
               {experiencias.map((exp) => {
                       return(
-                        <Card key={exp._id} experiencia={exp}/>
+                        <Card key={exp._id} experiencia={exp} handleClickExp={handleClickExp}/>
                       )
                     })}
-
-
-
             </StackGrid>
+            <ModalIDE experiencia={expActual} show={modalIDEShow} onHide={()=>setModalIDEShow(false)}/>
         </Divido>
             )
 }

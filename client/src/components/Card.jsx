@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from './Image'
 import styled from 'styled-components'
-
+import { ToggleButtonGroup, ButtonGroup, ToggleButton, Button } from 'react-bootstrap';
 
 
 const UnaCard = styled.div.attrs({
@@ -20,7 +20,7 @@ const UnBadge = styled.div.attrs({
 
 
 
-const Card = ({experiencia}) => {
+const Card = ({experiencia, handleClickExp}) => {
 
     return (
             <UnaCard >
@@ -36,11 +36,18 @@ const Card = ({experiencia}) => {
                         <li className="list-group-item"><b>Tema:</b> {experiencia.tema}</li>
                         <li className="list-group-item"><b>Tópico:</b> <span className="badge bg-success">cumpleaños</span></li>
                   </ul>
-                     <div className="btn-group btn-group-sm" role="group" aria-label="Basic example" >
 
-                      <button type="button" className="btn btn-warning"><i className="bi bi-play-fill"></i> Solución</button>
-                      <button type="button" className="btn btn-warning"><i className="bi bi-pin-map"></i> Resolver</button>
-                    </div>
+                       <ButtonGroup >
+                           <Button className="btn btn-warning" >
+                             <i className="bi bi-play-fill"></i>
+                           </Button>
+                           <Button className="btn btn-warning" onClick={() => handleClickExp(experiencia)}>
+                             <i className="bi bi-pin-map"></i>
+                           </Button>
+                         </ButtonGroup >
+
+
+
 
                    <div className="card-footer text-black ">
 

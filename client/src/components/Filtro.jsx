@@ -62,12 +62,14 @@ const Filtro = ({refrescarExp, handleFiltro, handleCargar}) => {
                 <Nav>
                      <div className="container-fluid">
                         <a className="navbar-brand" href="#">
-                          <Button className="btn btn-warning" onClick={() => handleCargar()}>
-                              CARGAR
-                          </Button>
+                        <ButtonGroup >
                             <Button className="btn btn-warning" onClick={() => setModalShow(true)}>
-                                <i className="bi bi-plus"></i>
+                              <i className="bi bi-plus"></i>
                             </Button>
+                            <Button className="btn btn-warning" onClick={() => handleCargar()}>
+                              <i className="bi bi-arrow-repeat"></i>
+                            </Button>
+                          </ButtonGroup >
                         </a>
                         <div className="collapse navbar-collapse" id="navbarSupportedContent">
                           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
