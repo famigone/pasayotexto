@@ -8,7 +8,7 @@ const io = require('socket.io-client')
 const socket = io()
 
 
-const CodeMirror = (...props) => {
+const CodeMirror = ({...props}) => {
   const [code, setCode] = useState('alert("hola mundo")');
   const options = {
     lineNumbers: true,
