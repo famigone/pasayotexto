@@ -5,7 +5,7 @@ const api = axios.create({
 })
 
 export const insertExperiencia = payload => api.post('/experiencia', payload)
-export const getAllExperiencias = () => api.get('/experiencias')
+export const getAllExperiencias = (filtro) => api.get('/experiencias', {params:filtro})
 export const updateExperienciaById = (id, payload) => api.put('/experiencia/${id}', payload)
 export const deleteExperienciaById = id => api.delete('/experiencia/${id}')
 export const getExperienciaById = id => api.get('/experiencia/${id}')

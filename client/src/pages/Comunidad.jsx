@@ -1,5 +1,6 @@
 import StackGrid from "react-stack-grid";
 import Experiencia from "./Experiencia"
+import ModalIDE from "../components/ModalIDE"
 import Card from '../components/Card'
 import Filtro from '../components/Filtro'
 import styled from 'styled-components'
@@ -7,36 +8,96 @@ import React, { useState, useEffect } from 'react';
 import { get } from 'axios';
 import api from '../api'
 
+
 const Comunidad = () => {
+  //const filtroInicial = {tema: "Todos", mias:true}
+  const constIncremento = 10
+  const constLimite = 10
+  const filtroInicial = {tema: "Todos"}
   const [experiencias, setExperiencias] = useState([])
+  const [filtro, setFiltro] = useState(filtroInicial)
+  const [limite, setLimite] = useState(constLimite)
+  //expActual es la experiencia clickeada actualmente, al clickear debe levantar
+  //el modalIDEShow con los datos de esa exp
+  const [expActual, setExpActual] = useState("")
+  const [modalIDEShow, setModalIDEShow] = useState(false);
+
+  const Divido = styled.nav.attrs({
+      className: 'div',
+  })`
+
+  height: 545px;
+  overflow-y: auto;
+  `
+
+  const getExperiencias = async(filtro) => {
+    try {
+    // const response = await get("/api/experiencias", {params:filtro});
+      const unFiltro = {tema: filtro.tema, limite:limite}
+      const response = await api.getAllExperiencias(unFiltro)
+      setExperiencias(response.data.data);
+      //console.log(experiencias);
+    } catch(error) {
+      console.log('error', error);
+    }
+  }
+
+
+  const handleFiltro = (newFiltro) => {
+      setFiltro(newFiltro)
+      getExperiencias(newFiltro);
+      //console.log(newFiltro);
+    }
+
+  const handleClickExp = (exp) => {
+      setExpActual(exp)
+      setModalIDEShow(true)
+      console.log(exp)
+      //getExperiencias(newFiltro);
+      //console.log(newFiltro);
+    }
 
 
   useEffect(function() {
-     async function getExperiencias() {
-       try {
-        //const response = await get("/api/experiencias");
-         const response = await api.getAllExperiencias()
-         setExperiencias(response.data);
-       } catch(error) {
-         console.log('error', error);
+     getExperiencias(filtro);
+     //console.log("limite ",limite)
+   }, [limite]);
+
+
+   const handleScroll = (e) => {
+       const { offsetHeight, scrollTop, scrollHeight} = e.target
+
+       if (offsetHeight + scrollTop >= scrollHeight) {
+         setLimite(limite+constIncremento)
+         getExperiencias(filtro)
+
+        // console.log(limite+constIncremento)
        }
+       //console.log(limite+constIncremento)
+       //setLimite(limite+constIncremento)
+
      }
-     getExperiencias();
-   }, []);
+
+     const handleCargar = () => {
+           setLimite(limite+constIncremento)
+          // getExperiencias(filtro)
+       }
+
 
     return (
-        <div>
-            <Filtro/>
-            <StackGrid columnWidth={100}>
 
-
-                <div key="key2">
-                    <Experiencia/>
-                </div>
+        <Divido onScroll={handleScroll} >
+            <Filtro refrescarExp={getExperiencias} handleFiltro={handleFiltro} handleCargar={handleCargar}/>
+            <StackGrid columnWidth={300}>
+              {experiencias.map((exp) => {
+                      return(
+                        <Card key={exp._id} experiencia={exp} handleClickExp={handleClickExp}/>
+                      )
+                    })}
             </StackGrid>
-        </div>
+            <ModalIDE experiencia={expActual} show={modalIDEShow} onHide={()=>setModalIDEShow(false)}/>
+        </Divido>
             )
-
 }
 
 export default Comunidad;
