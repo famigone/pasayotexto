@@ -31,8 +31,8 @@ io.on('connection', (socket) => {
 
   //este evento es el que captura el coding
   socket.on('ide', function(data) {
-    //socket.join(data.room);
-    console.log('programandoooo');
+    socket.join(data.random);
+    console.log('unido a:' +data.random);
   });
 }
 )

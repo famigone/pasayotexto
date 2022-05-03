@@ -33,6 +33,7 @@ const Comunidad = () => {
   const getExperiencias = async(filtro) => {
     try {
     // const response = await get("/api/experiencias", {params:filtro});
+      if (!filtro) setFiltro(filtroInicial)
       const unFiltro = {tema: filtro.tema, limite:limite}
       const response = await api.getAllExperiencias(unFiltro)
       setExperiencias(response.data.data);

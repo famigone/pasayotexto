@@ -22,13 +22,14 @@ const Nav = styled.nav.attrs({
 const Filtro = ({refrescarExp, handleFiltro, handleCargar}) => {
 
    const [modalShow, setModalShow] = useState(false);
+   const [filtro, setFiltro] = useState({tema:"Todos"})
    const [radioTemaValue, setRadioTemaValue] = useState('TODOS')
    const [radioAutorValue, setRadioAutorValue] = useState('MIAS')
    const radioTema = [
      { name: 'TODOS', value: 'Todos' },
      { name: 'SECUENCIAL', value: 'Secuencias' },
      { name: 'MODULARIDAD', value: 'Modularidad' },
-     { name: 'ALTERNATIVAS', value: 'Altenativas' },
+     { name: 'ALTERNATIVAS', value: 'Alternativas' },
      { name: 'REPETITIVAS', value: 'Repetitivas' }
    ];
    const radioAutor = [
@@ -53,7 +54,7 @@ const Filtro = ({refrescarExp, handleFiltro, handleCargar}) => {
 
    const refrescar = () => {
      setModalShow(false)
-     refrescarExp()
+     refrescarExp(filtro)
    }
 
    return (
@@ -84,7 +85,7 @@ const Filtro = ({refrescarExp, handleFiltro, handleCargar}) => {
                                   name="radio"
                                   value={radio.value}
                                   checked={radioTemaValue === radio.value}
-                                  onChange={(ex) => handleChangeTema(ex.currentTarget.value)}
+                                  onChange={(e) => handleChangeTema(e.currentTarget.value)}
                                 >
                                   {radio.name}
                                 </ToggleButton>

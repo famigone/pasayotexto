@@ -17,7 +17,10 @@ const CodeMirror = ({...props}) => {
 
     }
     useEffect(function() {
-      socket.emit('ide', {experiencia: props.experiencia});
+      //un id random para identificar la sesión
+      const random = Math.random().toString(36).slice(2);
+      //enviamos experiencia y random al server
+      socket.emit('ide', {experiencia: props.experiencia, random: random});
        //console.log("limite ",limite)
      }, [code]);
 
