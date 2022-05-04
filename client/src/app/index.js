@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-
+import  CanalIDE  from '../components/CanalIDE'
 import { NavBar } from '../components'
 import { Comunidad } from '../pages'
 
@@ -14,14 +14,13 @@ function App() {
     <div style={{backgroundColor: '#FFFFFF'}}>
           <BrowserRouter>
             <NavBar/>
-
-            <Routes>                
-                <Route path="/" element={<NavBar/>} />            
-                <Route path="comunidad" element={<Comunidad/>} />            
+            <Routes>
+                <Route path="/" element={<NavBar/>} />
+                <Route path="comunidad" element={<Comunidad/>} />
+                <Route path="canal/:id/:canal" element={<CanalIDE/>} />
             </Routes>
-            
           </BrowserRouter>
-     </div>   
+     </div>
     )
 }
 

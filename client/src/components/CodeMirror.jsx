@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import {ButtonGroup, Button, Modal, Table } from 'react-bootstrap';
 import Codemirror from 'react-codemirror';
@@ -10,6 +11,8 @@ const socket = io()
 
 const CodeMirror = ({...props}) => {
   const [code, setCode] = useState('alert("hola mundo")');
+  const [link, setLink] = useState('');
+
   const options = {
     lineNumbers: true,
     mode: 'javascript',
@@ -19,6 +22,7 @@ const CodeMirror = ({...props}) => {
     useEffect(function() {
       //un id random para identificar la sesión
       const random = Math.random().toString(36).slice(2);
+      setLink("http://localhost:8000/canal/"+props.experiencia._id+"/"+random)
       //enviamos experiencia y random al server
       socket.emit('ide', {experiencia: props.experiencia, random: random});
        //console.log("limite ",limite)
@@ -41,6 +45,12 @@ const CodeMirror = ({...props}) => {
          }
        }
 
+    const runCopy = () => {
+      navigator.clipboard.writeText(link)
+  }
+
+
+
     return (
       <div>
 
@@ -56,6 +66,12 @@ const CodeMirror = ({...props}) => {
             </Button>
             <Button className="btn btn-warning" onClick={runCode}>
               <i class="bi bi-play-fill"></i>
+            </Button>
+          </ButtonGroup>
+          <ButtonGroup>
+
+            <Button className="btn btn-warning" onClick={runCopy} >
+              <i class="bi bi-share"></i>
             </Button>
           </ButtonGroup>
       </div>
