@@ -43,6 +43,11 @@ const Comunidad = () => {
     }
   }
 
+  useEffect(function() {
+     getExperiencias(filtro);
+     //console.log("limite ",limite)
+   }, [limite]);
+
 
   const handleFiltro = (newFiltro) => {
       setFiltro(newFiltro)
@@ -59,10 +64,6 @@ const Comunidad = () => {
     }
 
 
-  useEffect(function() {
-     getExperiencias(filtro);
-     //console.log("limite ",limite)
-   }, [limite]);
 
 
    const handleScroll = (e) => {
