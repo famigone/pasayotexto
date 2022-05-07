@@ -91,8 +91,9 @@ deleteExperiencia = async (req, res) => {
     })
 }
 
-getExperienciaById = async (req, res) => {
-    await Experiencia.findOne({ _id: req.params.id }, (err, experiencia) => {
+getExperienciaById =  (req, res) => {
+     console.log(req.params.id)
+     Experiencia.findOne({ _id: req.params.id }, (err, experiencia) => {
         if (err) {
             return res.status(400).json({ success: false, error: err })
         }
