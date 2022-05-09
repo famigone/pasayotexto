@@ -3,7 +3,7 @@ import { Button, Modal, Table } from 'react-bootstrap';
 
 
 const TablaExp = ({experiencia}) => {
-        console.log(experiencia)
+      //  console.log(experiencia)
         return (
           <Table striped bordered hover>
           <tbody>

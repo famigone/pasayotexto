@@ -5,13 +5,11 @@ import Codemirror from 'react-codemirror';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/monokai.css';
 import 'codemirror/mode/javascript/javascript.js'
-const io = require('socket.io-client')
-const socket = io()
 
 
 const CodeMirror = ({...props}) => {
-  const [code, setCode] = useState('alert("hola mundo")');
-  const [link, setLink] = useState('');
+  const [code, setCode] = useState('');
+  const link= "http://localhost:8000/canal/"+props.experiencia+"/"+props.canal
 
   const options = {
     lineNumbers: true,
@@ -19,17 +17,38 @@ const CodeMirror = ({...props}) => {
     theme: 'monokai',
 
     }
-    useEffect(function() {
-      //un id random para identificar la sesión
-      const random = Math.random().toString(36).slice(2);
-      setLink("http://localhost:8000/canal/"+props.experiencia._id+"/"+random)
-      //enviamos experiencia y random al server
-      socket.emit('ide', {experiencia: props.experiencia, random: random});
-       //console.log("limite ",limite)
-     }, [code]);
+
+  useEffect(function() {
+      console.log("conectando..."+props.canal)
+      props.socket.emit('canalIn', {experiencia: props.experiencia._id, canal: props.canal});
+      props.socket.on('codeoEmit', (payload) =>  {
+        console.log(payload)
+        updateCodeFromSockets(payload)})
+      return () => {
+        props.socket.disconnect();
+      }
+  }, []);
 
 
-  const updateCodeInState = (newText) => setCode(newText)
+  const updateCodeFromSockets = (payload) => {
+    console.log("recibi alto update")
+    setCode(payload.newCode)
+  }
+
+
+
+
+  const updateCodeInState = (newText) => {
+    setCode(newText)
+    console.log("conectando para actualizar..."+props.canal)
+    props.socket.emit('canalIn', {experiencia: props.experiencia._id, canal: props.canal});
+    //publicamos el evento
+    props.socket.emit('codeoEvent', {
+      canal: props.canal,
+      newCode: newText
+    })
+    //props.socket.disconnect();
+  }
 
 
     const runCode = () => {
@@ -62,16 +81,16 @@ const CodeMirror = ({...props}) => {
         <hr/>
           <ButtonGroup>
             <Button className="btn btn-warning" onClick={props.onHide}>
-              <i class="bi bi-dash-circle-fill"></i>
+              <i className="bi bi-dash-circle-fill"></i>
             </Button>
             <Button className="btn btn-warning" onClick={runCode}>
-              <i class="bi bi-play-fill"></i>
+              <i className="bi bi-play-fill"></i>
             </Button>
           </ButtonGroup>
           <ButtonGroup>
 
             <Button className="btn btn-warning" onClick={runCopy} >
-              <i class="bi bi-share"></i>
+              <i className="bi bi-share"></i>
             </Button>
           </ButtonGroup>
       </div>

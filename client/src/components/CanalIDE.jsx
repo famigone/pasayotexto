@@ -6,32 +6,36 @@ import TablaExp from './TablaExp'
 import CodeMirror from './CodeMirror'
 import { useParams } from 'react-router';
 import api from '../api'
+const io = require('socket.io-client')
+const socket = io()
 
 
 const CanalIDE = (props) => {
     const { id, canal } = useParams();
-    const [exp, setExp] = useState()
+    const [exp, setExp] = useState("")
+
     const getExperiencia = async() => {
       try {
       // const response = await get("/api/experiencias", {params:filtro});
         const response = await api.getExperienciaById(id)
         setExp(response.data.data);
-        //console.log(experiencias);
+        //console.log(response.data.data);
       } catch(error) {
         console.log('error', error);
       }
     }
 
     useEffect(function() {
+      // console.log(id);
        getExperiencia();
+
      }, []);
 
 
-
     return (
-      <>
+
         <Modal
-          {...props}
+
           backdrop="static"
           keyboard={false}
           size="sm-down"
@@ -48,12 +52,12 @@ const CanalIDE = (props) => {
           <Modal.Body>
             <TablaExp experiencia={exp}/>
 
-
+            <CodeMirror  experiencia={exp} canal={canal} socket={socket}/>
 
           </Modal.Body>
 
         </Modal>
-      </>
+
     );
   }
 

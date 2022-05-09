@@ -17,6 +17,7 @@ const Comunidad = () => {
   const [experiencias, setExperiencias] = useState([])
   const [filtro, setFiltro] = useState(filtroInicial)
   const [limite, setLimite] = useState(constLimite)
+  const [canal, setCanal] = useState("")
   //expActual es la experiencia clickeada actualmente, al clickear debe levantar
   //el modalIDEShow con los datos de esa exp
   const [expActual, setExpActual] = useState("")
@@ -55,10 +56,11 @@ const Comunidad = () => {
       //console.log(newFiltro);
     }
 
-  const handleClickExp = (exp) => {
+  const handleClickExp = (exp, canal) => {
       setExpActual(exp)
       setModalIDEShow(true)
-      console.log(exp)
+      setCanal(canal)
+    //  console.log(exp)
       //getExperiencias(newFiltro);
       //console.log(newFiltro);
     }
@@ -93,11 +95,11 @@ const Comunidad = () => {
             <StackGrid columnWidth={300}>
               {experiencias.map((exp) => {
                       return(
-                        <Card key={exp._id} experiencia={exp} handleClickExp={handleClickExp}/>
+                        <Card key={exp._id} experiencia={exp} handleClickExp={handleClickExp} canal={Math.random().toString(36).slice(2)}/>
                       )
                     })}
             </StackGrid>
-            <ModalIDE experiencia={expActual} show={modalIDEShow} onHide={()=>setModalIDEShow(false)}/>
+            <ModalIDE experiencia={expActual} show={modalIDEShow} onHide={()=>setModalIDEShow(false)} canal={canal}/>
         </Divido>
             )
 }

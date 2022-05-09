@@ -20,7 +20,7 @@ const UnBadge = styled.div.attrs({
 
 
 
-const Card = ({experiencia, handleClickExp}) => {
+const Card = ({experiencia, handleClickExp, canal}) => {
 
     return (
             <UnaCard >
@@ -41,7 +41,7 @@ const Card = ({experiencia, handleClickExp}) => {
                            <Button className="btn btn-warning" >
                              <i className="bi bi-play-fill"></i>
                            </Button>
-                           <Button className="btn btn-warning" onClick={() => handleClickExp(experiencia)}>
+                           <Button className="btn btn-warning" onClick={() => handleClickExp(experiencia, canal)}>
                              <i className="bi bi-pin-map"></i>
                            </Button>
                          </ButtonGroup >

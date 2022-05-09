@@ -23,16 +23,22 @@ const server = app.listen(apiPort, () => console.log(`Server running on port ${a
 const io = require('socket.io')(server);
 //webSockets
 io.on('connection', (socket) => {
-  console.log('a user connected');
+  //console.log('a user connected');
 
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
 
   //este evento es el que captura el coding
-  socket.on('ide', function(data) {
-    socket.join(data.random);
-    console.log('unido a:' +data.random);
+  socket.on('canalIn', function(data) {
+    socket.join(data.canal);
+    console.log('canalIn: ' + data.canal);
   });
+
+  socket.on('codeoEvent', function(data) {
+    socket.broadcast.to(data.canal).emit('codeoEmit',
+      data)
+    console.log('codeo: ' + data.newCode);
+  })
 }
 )
