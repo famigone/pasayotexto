@@ -92,8 +92,9 @@ const CodeMirror2 = ({...props}) => {
           onBeforeChange={(editor, data, code) => {
             setCode(code);
           }}
-          onChange={(editor, data, code) => {
-            console.log('controlled', code);
+          onChange={(editor, data, codex) => {
+            //console.log('controlled', code);
+            updateCodeInState(codex);
           }}
         />
           <ButtonGroup>
