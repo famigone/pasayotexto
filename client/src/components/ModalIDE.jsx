@@ -3,9 +3,9 @@ import {ButtonGroup, Button, Modal, Table } from 'react-bootstrap';
 import FormExperiencia from './FormExperiencia'
 import LogoPasayo from './LogoPasayo'
 import TablaExp from './TablaExp'
-import CodeMirror from './CodeMirror'
-const io = require('socket.io-client')
-const socket = io()
+//import CodeMirror from './CodeMirror'
+import CodeMirror2 from './CodeMirror2'
+
 
 const ModalIDE = (props) => {
 
@@ -33,10 +33,10 @@ const ModalIDE = (props) => {
         </Modal.Header>
         <Modal.Body>
           <TablaExp experiencia={props.experiencia}/>
-          <CodeMirror onHide={props.onHide}
+          <CodeMirror2 onHide={props.onHide}
                       experiencia={props.experiencia._id}
                       canal={props.canal}
-                      socket={socket}
+
           />
 
         </Modal.Body>

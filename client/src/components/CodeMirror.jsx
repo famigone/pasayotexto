@@ -5,7 +5,8 @@ import Codemirror from 'react-codemirror';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/monokai.css';
 import 'codemirror/mode/javascript/javascript.js'
-
+const io = require('socket.io-client')
+const socket = io("http://localhost:8000")
 
 const CodeMirror = ({...props}) => {
   const [code, setCode] = useState('');
@@ -20,18 +21,18 @@ const CodeMirror = ({...props}) => {
 
   useEffect(function() {
       console.log("conectando..."+props.canal)
-      props.socket.emit('canalIn', {experiencia: props.experiencia._id, canal: props.canal});
-      props.socket.on('codeoEmit', (payload) =>  {
-        console.log(payload)
+      socket.emit('canalIn', {experiencia: props.experiencia._id, canal: props.canal});
+      socket.on('codeoEmit', (payload) =>  {
         updateCodeFromSockets(payload)})
       return () => {
-        props.socket.disconnect();
+        socket.disconnect();
       }
   }, []);
 
 
   const updateCodeFromSockets = (payload) => {
-    console.log("recibi alto update")
+    console.log("recibi  update "+payload.newCode)
+    //este set code no actualiza el componente
     setCode(payload.newCode)
   }
 
@@ -41,13 +42,13 @@ const CodeMirror = ({...props}) => {
   const updateCodeInState = (newText) => {
     setCode(newText)
     console.log("conectando para actualizar..."+props.canal)
-    props.socket.emit('canalIn', {experiencia: props.experiencia._id, canal: props.canal});
+    socket.emit('canalIn', {experiencia: props.experiencia._id, canal: props.canal});
     //publicamos el evento
-    props.socket.emit('codeoEvent', {
+    socket.emit('codeoEvent', {
       canal: props.canal,
       newCode: newText
     })
-    //props.socket.disconnect();
+    //socket.disconnect();
   }
 
 
@@ -91,6 +92,9 @@ const CodeMirror = ({...props}) => {
 
             <Button className="btn btn-warning" onClick={runCopy} >
               <i className="bi bi-share"></i>
+            </Button>
+            <Button className="btn btn-warning" >
+              {code}
             </Button>
           </ButtonGroup>
       </div>

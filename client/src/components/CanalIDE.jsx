@@ -3,11 +3,11 @@ import {ButtonGroup, Button, Modal, Table } from 'react-bootstrap';
 import FormExperiencia from './FormExperiencia'
 import LogoPasayo from './LogoPasayo'
 import TablaExp from './TablaExp'
-import CodeMirror from './CodeMirror'
+//import CodeMirror from './CodeMirror'
+import CodeMirror2 from './CodeMirror2'
 import { useParams } from 'react-router';
 import api from '../api'
-const io = require('socket.io-client')
-const socket = io()
+
 
 
 const CanalIDE = (props) => {
@@ -52,7 +52,7 @@ const CanalIDE = (props) => {
           <Modal.Body>
             <TablaExp experiencia={exp}/>
 
-            <CodeMirror  experiencia={exp} canal={canal} socket={socket}/>
+            <CodeMirror2  experiencia={exp} canal={canal}/>
 
           </Modal.Body>
 
