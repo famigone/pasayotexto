@@ -37,8 +37,8 @@ io.on('connection', (socket) => {
 
   socket.on('codeoEvent', function(data) {
     console.log('emitiendo al canal: ' + data.canal+ ' el code '  + data.newCode);
-    socket.broadcast.to(data.canal).emit('codeoEmit', data);
-
+    socket.to(data.canal).emit('codeoEmit', data);
   })
 }
+
 )
