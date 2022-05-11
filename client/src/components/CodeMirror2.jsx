@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import {ButtonGroup, Button, Modal, Table } from 'react-bootstrap';
 //import Codemirror from 'react-codemirror';
@@ -29,56 +28,52 @@ const CodeMirror2 = ({...props}) => {
 
     }
 
-        const runCode = () => {
-             //console.log(javascriptCode)
-             // Generate JavaScript code and run it.
-
-             try {
-               eval(codigo);
-               //setmsgEjecutado(false)
-               //setTimeout(apagarMsg, 5000)
-             } catch (e) {
-               alert(e);
-             }
-           }
-
-        const runCopy = () => {
-          navigator.clipboard.writeText(link)
-      }
-
   useEffect(function() {
-      console.log("conectando..."+props.canal)
+    //  console.log("conectando..."+props.canal)
       socket.emit('canalIn', {experiencia: props.experiencia._id, canal: props.canal});
       socket.on('codeoEmit', (payload) =>  {
-        updateCodeFromSockets(payload)})
+        //no se si hace falta este if
+        if (codigo != payload.newCode) setCodigo(payload.newCode)
+      })
       return () => {
         socket.disconnect();
       }
   }, []);
 
 
-  const updateCodeFromSockets = (payload) => {
-    console.log("recibi update "+payload.newCode)
-    setCodigo(payload.newCode)
-  }
 
 
 
 
   const updateCodeInState = (newText) => {
-    //setCode(newText)
-    console.log("conectando para actualizar..."+props.canal)
-
-      socket.emit('canalIn', {experiencia: props.experiencia._id, canal: props.canal});
-      //publicamos el evento
-      socket.emit('codeoEvent', {
-        canal: props.canal,
-        newCode: newText
-      })
-
+    setCodigo(prevText => newText)
+    //console.log("conectando para actualizar..."+props.canal)
+    socket.emit('canalIn', {experiencia: props.experiencia._id, canal: props.canal});
+    //publicamos el evento
+    socket.emit('codeoEvent', {
+      canal: props.canal,
+      newCode: newText
+    })
     //socket.disconnect();
   }
 
+
+    const runCode = () => {
+         //console.log(javascriptCode)
+         // Generate JavaScript code and run it.
+
+         try {
+           eval(codigo);
+           //setmsgEjecutado(false)
+           //setTimeout(apagarMsg, 5000)
+         } catch (e) {
+           alert(e);
+         }
+       }
+
+    const runCopy = () => {
+      navigator.clipboard.writeText(link)
+  }
 
 
 
@@ -90,9 +85,12 @@ const CodeMirror2 = ({...props}) => {
         <CodeMirror
           value={codigo}
           options={options}
+          onKeyPress={(editor, event) => {
+
+            }
+          }
           onBeforeChange={(editor, data, code) => {
-            setCodigo(code);
-            //updateCodeInState(code)
+                setCodigo(code);
           }}
           onChange={(editor, data, code) => {
             //console.log('controlled', code);
