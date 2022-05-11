@@ -19,7 +19,7 @@ const io = require('socket.io-client')
 const socket = io("http://localhost:8000")
 
 const CodeMirror2 = ({...props}) => {
-  const [code, setCode] = useState('');
+  const [codigo, setCodigo] = useState('');
   const link= "http://localhost:8000/canal/"+props.experiencia+"/"+props.canal
 
   const options = {
@@ -28,6 +28,23 @@ const CodeMirror2 = ({...props}) => {
     theme: 'material',
 
     }
+
+        const runCode = () => {
+             //console.log(javascriptCode)
+             // Generate JavaScript code and run it.
+
+             try {
+               eval(codigo);
+               //setmsgEjecutado(false)
+               //setTimeout(apagarMsg, 5000)
+             } catch (e) {
+               alert(e);
+             }
+           }
+
+        const runCopy = () => {
+          navigator.clipboard.writeText(link)
+      }
 
   useEffect(function() {
       console.log("conectando..."+props.canal)
@@ -42,42 +59,26 @@ const CodeMirror2 = ({...props}) => {
 
   const updateCodeFromSockets = (payload) => {
     console.log("recibi update "+payload.newCode)
-    //este set code no actualiza el componente
-    setCode(payload.newCode)
+    setCodigo(payload.newCode)
   }
 
 
 
 
   const updateCodeInState = (newText) => {
-    setCode(newText)
+    //setCode(newText)
     console.log("conectando para actualizar..."+props.canal)
-    socket.emit('canalIn', {experiencia: props.experiencia._id, canal: props.canal});
-    //publicamos el evento
-    socket.emit('codeoEvent', {
-      canal: props.canal,
-      newCode: newText
-    })
+
+      socket.emit('canalIn', {experiencia: props.experiencia._id, canal: props.canal});
+      //publicamos el evento
+      socket.emit('codeoEvent', {
+        canal: props.canal,
+        newCode: newText
+      })
+
     //socket.disconnect();
   }
 
-
-    const runCode = () => {
-         //console.log(javascriptCode)
-         // Generate JavaScript code and run it.
-
-         try {
-           eval(code);
-           //setmsgEjecutado(false)
-           //setTimeout(apagarMsg, 5000)
-         } catch (e) {
-           alert(e);
-         }
-       }
-
-    const runCopy = () => {
-      navigator.clipboard.writeText(link)
-  }
 
 
 
@@ -87,14 +88,15 @@ const CodeMirror2 = ({...props}) => {
 
         <hr/>
         <CodeMirror
-          value={code}
+          value={codigo}
           options={options}
           onBeforeChange={(editor, data, code) => {
-            setCode(code);
+            setCodigo(code);
+            //updateCodeInState(code)
           }}
-          onChange={(editor, data, codex) => {
+          onChange={(editor, data, code) => {
             //console.log('controlled', code);
-            updateCodeInState(codex);
+            updateCodeInState(code);
           }}
         />
           <ButtonGroup>
@@ -110,9 +112,7 @@ const CodeMirror2 = ({...props}) => {
             <Button className="btn btn-warning" onClick={runCopy} >
               <i className="bi bi-share"></i>
             </Button>
-            <Button className="btn btn-warning" >
-              {code}
-            </Button>
+
           </ButtonGroup>
       </div>
     )
