@@ -47,7 +47,7 @@ const CodeMirror2 = ({...props}) => {
       socket.on('codeoEmit', (payload) =>  {
         setCodigo(payload.newCode)
       })
-      //return () => {  socket.disconnect();}
+      return () => {  socket.disconnect();}
   }, []);
 
 
