@@ -6,7 +6,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const db = require('./db')
 const app = express()
-const apiPort = 3000
+const apiPort = 3333
 
 
 
@@ -37,7 +37,7 @@ io.on('connection', (socket) => {
 
   socket.on('codeoEvent', function(data) {
     console.log('emitiendo al canal: ' + data.canal+ ' el code '  + data.newCode);
-    socket.to(data.canal).emit('codeoEmit', data);
+    socket.broadcast.to(data.canal).emit('codeoEmit', data);
   })
 }
 

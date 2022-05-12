@@ -16,7 +16,8 @@ require('codemirror/mode/javascript/javascript.js');
 
 
 const io = require('socket.io-client')
-const socket = io("http://localhost:8000")
+const ENDPOINT= "http://localhost:8000"
+let socket;
 
 const CodeMirror2 = ({...props}) => {
   const [codigo, setCodigo] = useState('');
@@ -30,18 +31,24 @@ const CodeMirror2 = ({...props}) => {
     }
 
   useEffect(function() {
+      socket = io(ENDPOINT)
+      socket.emit('canalIn',
+                  {experiencia: props.experiencia._id, canal: props.canal},
+                  (error) => {
+                      if (error) {
+                        alert(error);
+                      }
+      });
+
+  }, [ENDPOINT, props.canal]);
+
+  useEffect(function() {
     //  console.log("conectando..."+props.canal)
-      socket.emit('canalIn', {experiencia: props.experiencia._id, canal: props.canal});
       socket.on('codeoEmit', (payload) =>  {
-        //no se si hace falta este if
-        if (codigo != payload.newCode) setCodigo(payload.newCode)
+        setCodigo(payload.newCode)
       })
-      return () => {
-        socket.disconnect();
-      }
+      //return () => {  socket.disconnect();}
   }, []);
-
-
 
 
 
