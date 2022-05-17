@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import  CanalIDE  from '../components/CanalIDE'
 import { NavBar } from '../components'
 import { Comunidad } from '../pages'
+import  Login  from '../components/Login'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
@@ -18,6 +19,7 @@ function App() {
                 <Route path="/" element={<NavBar/>} />
                 <Route path="comunidad" element={<Comunidad/>} />
                 <Route path="canal/:id/:canal" element={<CanalIDE/>} />
+                <Route path="login" element={<Login/>} />
             </Routes>
           </BrowserRouter>
      </div>
