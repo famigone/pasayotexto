@@ -1,40 +1,76 @@
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
+
 import styled from 'styled-components'
-import { Button,Card, Form, Modal, Container } from 'react-bootstrap';
+import { Button, Card, Form, Modal, Container } from 'react-bootstrap';
 import logo from '../img/pasayotexto_small.png'
-
+import pasayo from '../img/pasayotexto.png'
 const Login = () => {
-return(
-  <Container>
 
-  <Card body
+  const [user, setUser] = useState("")
+  const [pass, setPass] = useState("")
+
+  const handleUser = (event) => setUser(event.target.value)
+
+  const handlePass = (event) => setPass(event.target.value)
+
+
+
+
+return(
+  <div className="row">
+      <div className="col">
+
+      </div>
+      <div className="col">
+
+<br/><br/><br/>
+  <Container>
+  <Card style={{ width: '22rem' }}>
+  <center><img src={pasayo} alt="C4" width={"100%"} /></center>
+
+  <Card.Body
   bg="light"
-  style={{ width: '28rem' }}
   className="mb-2"
 
   >
+
   <Form>
     <Form.Group className="mb-3" controlId="formBasicEmail">
-      <Form.Label>Email address</Form.Label>
-      <Form.Control type="email" placeholder="Enter email" />
-      <Form.Text className="text-muted">
-        We'll never share your email with anyone else.
-      </Form.Text>
+
+
+      <Form.Control name="usuario"
+                    placeholder="Usuario"
+                    value={user}
+                    onChange={handleUser}/>
     </Form.Group>
 
     <Form.Group className="mb-3" controlId="formBasicPassword">
-      <Form.Label>Password</Form.Label>
-      <Form.Control type="password" placeholder="Password" />
+
+      <Form.Control
+                    type="password"
+                    placeholder="Contraseña"
+                    name="pass"
+                    placeholder="Usuario"
+                    value={pass}
+                    onChange={handlePass}
+                    />
     </Form.Group>
-    <Form.Group className="mb-3" controlId="formBasicCheckbox">
-      <Form.Check type="checkbox" label="Check me out" />
-    </Form.Group>
-    <Button variant="warning" type="submit">
-      Submit
+
+    <Button variant="warning"
+            type="submit"
+            
+            >
+      Entrar
     </Button>
   </Form>
+   </Card.Body>
   </Card>
   </Container>
+  </div>
+  <div className="col">
+
+  </div>
+</div>
 )}
 
 export default Login
