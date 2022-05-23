@@ -16,7 +16,7 @@ require('codemirror/mode/javascript/javascript.js');
 
 const io = require('socket.io-client')
 //const ENDPOINT= "http://localhost:8000"
-const ENDPOINT= "https://pasayotexto.fi.uncoma.edu.ar"
+const ENDPOINT= "https://10.0.20.29"
 let socket;
 
 const CodeMirror2 = ({...props}) => {
