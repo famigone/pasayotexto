@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: 'https://pasayotexto.fi.uncoma.edu.ar:3337/api',
+  baseURL: 'http://pasayotexto.fi.uncoma.edu.ar:3337/api',
   //  baseURL: 'http://localhost:3333/api',
 })
 
