@@ -6,11 +6,11 @@ import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/monokai.css';
 import 'codemirror/mode/javascript/javascript.js'
 const io = require('socket.io-client')
-const socket = io("http://localhost:8000")
+const socket = io("https://pasayotexto.fi.uncoma.edu.ar:8000")
 
 const CodeMirror = ({...props}) => {
   const [code, setCode] = useState('');
-  const link= "http://localhost:8000/canal/"+props.experiencia+"/"+props.canal
+  const link= "https://pasayotexto.fi.uncoma.edu.ar:8000/canal/"+props.experiencia+"/"+props.canal
 
   const options = {
     lineNumbers: true,
