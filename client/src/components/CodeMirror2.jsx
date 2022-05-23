@@ -22,7 +22,7 @@ let socket;
 const CodeMirror2 = ({...props}) => {
   const [codigo, setCodigo] = useState('');
   //const link= "http://localhost:8000/canal/"+props.experiencia+"/"+props.canal
-  const link= "https://pasayotexto.fi.uncoma.edu.ar/"+props.experiencia+"/"+props.canal
+  const link= "https://pasayotexto.fi.uncoma.edu.ar/canal/"+props.experiencia+"/"+props.canal
 
   const options = {
     lineNumbers: true,
