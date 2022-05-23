@@ -15,12 +15,14 @@ require('codemirror/mode/javascript/javascript.js');
 
 
 const io = require('socket.io-client')
-const ENDPOINT= "http://localhost:8000"
+//const ENDPOINT= "http://localhost:8000"
+const ENDPOINT= "https://pasayotexto.fi.uncoma.edu.ar:8000"
 let socket;
 
 const CodeMirror2 = ({...props}) => {
   const [codigo, setCodigo] = useState('');
-  const link= "http://localhost:8000/canal/"+props.experiencia+"/"+props.canal
+  //const link= "http://localhost:8000/canal/"+props.experiencia+"/"+props.canal
+  const link= "https://pasayotexto.fi.uncoma.edu.ar:8000/"+props.experiencia+"/"+props.canal
 
   const options = {
     lineNumbers: true,
