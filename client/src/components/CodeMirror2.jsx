@@ -14,9 +14,12 @@ require('codemirror/mode/javascript/javascript.js');
 
 
 
-const io = require('socket.io-client')("https://pasayotextoback.fi.uncoma.edu.ar", {
-  rejectUnauthorized: false // WARN: please do not do this in production
+const io = require('socket.io-client'), {
+  withCredentials: true,
 });
+
+
+
 //const ENDPOINT= "http://localhost:8000"
 const ENDPOINT= "https://pasayotextoback.fi.uncoma.edu.ar"
 let socket;
