@@ -1,4 +1,5 @@
-
+const { createServer } = require("http");
+const { Server } = require("socket.io");
 require('dotenv').config();
 const express = require ('express');
 const routes = require('./routes/experiencia'); // import the routes
@@ -12,9 +13,7 @@ const apiPort = 3333
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(cors({
-    origin: "https://pasayotexto.fi.uncoma.edu.ar"
-}))
+app.use(cors())
 app.use(bodyParser.json())
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
@@ -22,7 +21,12 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 app.use('/api', routes); //to use the routes
 
 const server = app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`))
-const io = require('socket.io')(server);
+//este lo saque para probar
+//const io = require('socket.io')(server);
+
+const httpServer = createServer(app);
+const io = new Server(httpServer, { /* options */ })
+
 //webSockets
 io.on('connection', (socket) => {
   //console.log('a user connected');
