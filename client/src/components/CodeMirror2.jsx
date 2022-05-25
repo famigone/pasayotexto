@@ -14,7 +14,9 @@ require('codemirror/mode/javascript/javascript.js');
 
 
 
-const io = require('socket.io-client')
+const io = require('socket.io-client')("https://pasayotextoback.fi.uncoma.edu.ar", {
+  rejectUnauthorized: false // WARN: please do not do this in production
+});
 //const ENDPOINT= "http://localhost:8000"
 const ENDPOINT= "https://pasayotextoback.fi.uncoma.edu.ar"
 let socket;
@@ -32,9 +34,7 @@ const CodeMirror2 = ({...props}) => {
     }
 
   useEffect(function() {
-      socket = io(ENDPOINT, {
-  rejectUnauthorized: false // WARN: please do not do this in production
-})
+      socket = io(ENDPOINT)
       socket.emit('canalIn',
                   {experiencia: props.experiencia._id, canal: props.canal},
                   (error) => {
