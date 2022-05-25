@@ -35,9 +35,7 @@ const CodeMirror2 = ({...props}) => {
     }
 
   useEffect(function() {
-      socket = io(ENDPOINT, {
-  withCredentials: true,  
-});
+      socket = io(ENDPOINT,  { transports: ['websocket', 'polling', 'flashsocket'] });
       socket.emit('canalIn',
                   {experiencia: props.experiencia._id, canal: props.canal},
                   (error) => {
