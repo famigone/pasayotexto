@@ -24,8 +24,8 @@ const server = app.listen(apiPort, () => console.log(`Server running on port ${a
 //este lo saque para probar
 //const io = require('socket.io')(server);
 
-const httpServer = createServer(app);
-const io = new Server(httpServer, { cors: {
+//const httpServer = createServer(app);
+const io = new Server(server, { cors: {
     origin: "https://pasayotexto.fi.uncoma.edu.ar",
     credentials: true
   } })
