@@ -12,7 +12,9 @@ const apiPort = 3333
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(cors())
+app.use(cors({
+    origin: "https://pasayotexto.fi.uncoma.edu.ar"
+}))
 app.use(bodyParser.json())
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
