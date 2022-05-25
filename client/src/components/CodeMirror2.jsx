@@ -14,9 +14,7 @@ require('codemirror/mode/javascript/javascript.js');
 
 
 
-const io = require('socket.io-client'), {
-  withCredentials: true,
-});
+const io = require('socket.io-client')
 
 
 
@@ -37,7 +35,9 @@ const CodeMirror2 = ({...props}) => {
     }
 
   useEffect(function() {
-      socket = io(ENDPOINT)
+      socket = io(ENDPOINT, {
+  withCredentials: true,  
+});
       socket.emit('canalIn',
                   {experiencia: props.experiencia._id, canal: props.canal},
                   (error) => {
