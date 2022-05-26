@@ -21,14 +21,22 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 app.use('/api', routes); //to use the routes
 
 const server = app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`))
-//este lo saque para probar
+////////////////////////////////////////////
+//comentar en producción
 //const io = require('socket.io')(server);
-
 //const httpServer = createServer(app);
+////////////////////////////////////////////
+
+
+////////////////////////////////////////////
+//oficial en fai
 const io = new Server(server, { cors: {
     origin: "https://pasayotexto.fi.uncoma.edu.ar",
+    //origin: "http://localhost:8000",
     credentials: true
   } })
+//oficial en fai
+////////////////////////////////////////////
 
 //webSockets
 io.on('connection', (socket) => {
@@ -39,9 +47,10 @@ io.on('connection', (socket) => {
   });
 
   //este evento es el que captura el coding
-  socket.on('canalIn', function(data) {
-    socket.join(data.canal);
-    console.log('canalIn: ' + data.canal);
+  socket.on('canalIn', ({ experiencia, canal }, callback) => {
+    socket.join(canal);
+    console.log('canalIn: ' + canal);
+    //callback()
   });
 
   socket.on('codeoEvent', function(data) {

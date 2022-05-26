@@ -18,7 +18,7 @@ const io = require('socket.io-client')
 
 
 
-//const ENDPOINT= "http://localhost:8000"
+//const ENDPOINT= "http://localhost:3333"
 const ENDPOINT= "https://pasayotextoback.fi.uncoma.edu.ar"
 let socket;
 
@@ -35,16 +35,16 @@ const CodeMirror2 = ({...props}) => {
     }
 
   useEffect(function() {
-      socket = io(ENDPOINT , {
-        withCredentials: true,
-})    ;
-      socket.emit('canalIn',
-                  {experiencia: props.experiencia._id, canal: props.canal},
-                  (error) => {
-                      if (error) {
-                        alert(error);
-                      }
+      socket = io(ENDPOINT , {withCredentials: true});
+      //socket = io(ENDPOINT);
+      let experiencia= props.experiencia
+      let canal = props.canal
+      socket.emit("canalIn", { experiencia, canal }, (error) => {
+        if (error) {
+          alert(error);
+        }
       });
+
 
   }, [ENDPOINT, props.canal]);
 
@@ -99,17 +99,12 @@ const CodeMirror2 = ({...props}) => {
         <CodeMirror
           value={codigo}
           options={options}
-          onKeyPress={(editor, event) => {
 
-            }
-          }
           onBeforeChange={(editor, data, code) => {
                 setCodigo(code);
+                updateCodeInState(code);
           }}
-          onChange={(editor, data, code) => {
-            //console.log('controlled', code);
-            updateCodeInState(code);
-          }}
+
         />
           <ButtonGroup>
             <Button className="btn btn-warning" onClick={props.onHide}>
