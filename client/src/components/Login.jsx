@@ -9,6 +9,7 @@ const Login = () => {
   const [user, setUser] = useState("")
   const [pass, setPass] = useState("")
 
+
   const handleUser = (event) => setUser(event.target.value)
 
   const handlePass = (event) => setPass(event.target.value)
@@ -58,7 +59,7 @@ return(
 
     <Button variant="warning"
             type="submit"
-            
+
             >
       Entrar
     </Button>

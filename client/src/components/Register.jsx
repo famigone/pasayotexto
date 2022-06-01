@@ -5,6 +5,7 @@ import { Button, Card, Form, Modal, Container } from 'react-bootstrap';
 import logo from '../img/pasayotexto_small.png'
 import pasayo from '../img/pasayotexto.png'
 import axios from 'axios'
+import api from '../api'
 const Register = () => {
 
   const [user, setUser] = useState("")
@@ -31,28 +32,32 @@ const Register = () => {
   const handleMail2 = (event) =>
       setMail2(event.target.value)
 
+
+
   const handleSubmit = (event) => {
       console.log('sign-up handleSubmit, username: ')
       console.log(user)
       event.preventDefault()
       //request to server to add a new username/password
-    	axios.post('/user/', {
-    			username: user,
-    			password: pass
-    		})
-    			.then(response => {
-    				console.log(response)
-    				if (!response.data.errmsg) {
-    					console.log('successful signup')
-    					setRedirectTo('/login')
-    				} else {
-    					console.log('username already taken')
-    				}
-    			}).catch(error => {
-    				console.log('signup error: ')
-    				console.log(error)
-    			})
-    	}
+      async function postRegister() {
+        try {
+          //const response = await post('/experiencia', experiencia);
+          const usuario =  {
+        			username: user,
+        			password: pass
+        		}
+          const response = await api.postRegister(usuario)
+          console.log(response)
+          //redireeeeeeeeeeeeeeeeect
+          //props.history.push(`/articles/${response.data._id}`);
+        } catch(error) {
+          console.log('error', error);
+        }
+
+      }
+      postRegister()
+
+}
 
 return(
   <div className="row">

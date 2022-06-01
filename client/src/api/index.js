@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: 'https://pasayotextoback.fi.uncoma.edu.ar/api',
-  //baseURL: 'http://localhost:3333/api',
+  //baseURL: 'https://pasayotextoback.fi.uncoma.edu.ar/api',
+  baseURL: 'http://localhost:3333/api',
 })
 
 export const insertExperiencia = payload => api.post('/experiencia', payload)
@@ -11,7 +11,7 @@ export const updateExperienciaById = (id, payload) => api.put('/experiencia/${id
 export const deleteExperienciaById = id => api.delete('/experiencia/${id}')
 export const getExperienciaById = id => api.get('/experiencia/'+id)
 export const getLogin = () => api.get('/login')
-export const getRegister = () => api.get('/register')
+export const postRegister = payload => api.post('/register', payload)
 
 
 const apis = {
@@ -20,7 +20,7 @@ const apis = {
     updateExperienciaById,
     deleteExperienciaById,
     getExperienciaById,
-    getRegister,
+    postRegister,
     getLogin
 }
 
