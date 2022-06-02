@@ -1,19 +1,49 @@
-import React, { Component, useState } from 'react'
-
+import React, { Component, useState, useCallback, useEffect } from 'react'
+import { Navigate } from 'react-router-dom';
 import styled from 'styled-components'
-import { Button, Card, Form, Modal, Container } from 'react-bootstrap';
+import { Button, Alert, Card, Form, Modal, Container } from 'react-bootstrap';
 import logo from '../img/pasayotexto_small.png'
 import pasayo from '../img/pasayotexto.png'
 import axios from 'axios'
 import api from '../api'
+import {
+  GoogleReCaptchaProvider,
+  useGoogleReCaptcha
+} from 'react-google-recaptcha-v3';
+
+
+
+
 const Register = () => {
 
   const [user, setUser] = useState("")
   const [pass, setPass] = useState("")
   const [pass2, setPass2] = useState("")
+  const [errorMail, setErrorMail] = useState(false)
+  const [errorPass, setErrorPass] = useState(false)
+  const [errorBlanco, setErrorBlanco] = useState(false)
+  const [irLogin, setIrLogin] = useState(false)
   const [mail, setMail] = useState("")
   const [mail2, setMail2] = useState("")
   const [redirectTo, setRedirectTo] = useState("")
+  const { executeRecaptcha } = useGoogleReCaptcha();
+
+
+  const handleReCaptchaVerify = useCallback(async () => {
+    if (!executeRecaptcha) {
+      return;
+    }
+
+  const token = await executeRecaptcha('yourAction');
+    // Do whatever you want with the token
+    console.log(token)
+  }, [executeRecaptcha]);
+
+  useEffect(() => {
+    handleReCaptchaVerify();
+  }, [handleReCaptchaVerify]);
+
+
   const handleUser = (event) =>
       setUser(event.target.value)
 
@@ -33,30 +63,46 @@ const Register = () => {
       setMail2(event.target.value)
 
 
-
-  const handleSubmit = (event) => {
-      console.log('sign-up handleSubmit, username: ')
-      console.log(user)
-      event.preventDefault()
-      //request to server to add a new username/password
       async function postRegister() {
         try {
           //const response = await post('/experiencia', experiencia);
           const usuario =  {
-        			username: user,
-        			password: pass
-        		}
+              username: user,
+              password: pass,
+              mail: mail
+            }
           const response = await api.postRegister(usuario)
           console.log(response)
-          //redireeeeeeeeeeeeeeeeect
-          //props.history.push(`/articles/${response.data._id}`);
+          //seteo en true el estado de redirección
+          setIrLogin(true)
         } catch(error) {
           console.log('error', error);
         }
-
       }
-      postRegister()
+  const validarMail = () => {return (mail==mail2)}
 
+  const validarPass = () => {return (pass==pass2)}
+
+  const handleSubmit = (event) => {
+    //sin el prevent se dispara el submit aunque no valide
+      event.preventDefault()
+    //validamos blancos
+      if ((!user  || user ==="")   ||
+          (!pass  || pass ==="")   ||
+          (!mail2 || mail2==="")   ||
+          (!mail  || mail ==="")   ||
+          (!mail2 || mail2==="")
+        ) setErrorBlanco(true)
+      else setErrorBlanco(false)
+
+      if (!validarPass()) setErrorPass(true)
+      else setErrorPass(false)
+
+      if (!validarMail()) setErrorMail(true)
+      else setErrorMail(false)
+      // si todo ok hacemos submit y redirección a login
+      if (validarPass() && validarMail() && handleReCaptchaVerify())
+        postRegister()
 }
 
 return(
@@ -76,7 +122,9 @@ return(
   className="mb-2"
 
   >
-
+  {irLogin && (
+          <Navigate to="/login" replace={true} />
+        )}
   <Form>
     <Form.Group className="mb-3" controlId="formBasicEmail">
 
@@ -106,6 +154,12 @@ return(
                   onChange={handlePass2}
                   />
   </Form.Group>
+  <Alert variant="danger" show={errorPass}>
+    <p>
+       <i className="bi bi-robot"></i> Las contraseñas no coinciden...
+    </p>
+  </Alert>
+
     <Form.Group className="mb-3" controlId="formBasicPassword">
 
       <Form.Control
@@ -127,6 +181,23 @@ return(
       />
 
     </Form.Group>
+    <Alert variant="danger" show={errorMail}>
+      <p>
+         <i className="bi bi-robot"></i> Los correos no coinciden...
+      </p>
+    </Alert>
+    <Alert variant="danger" show={errorBlanco}>
+        <p>
+           <i className="bi bi-robot"></i> Todos los campos son obligatorios...
+        </p>
+      </Alert>
+      <Alert variant="warning" show={irLogin}>
+          <p>
+             <i className="bi bi-robot"></i> EXCELENTE! ya tenes tu cuenta PASAYO creada. En 5 segundos te redirigiremos al login de PASAYO TEXTO.
+          </p>
+      </Alert>
+
+
 
     <Button variant="warning" type="submit" onClick={handleSubmit}>
       Entrar
@@ -140,6 +211,7 @@ return(
 
   </div>
 </div>
+
 )}
 
 export default Register

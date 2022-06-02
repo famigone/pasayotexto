@@ -25,6 +25,7 @@
     "passport-local": "^1.0.0",
     "react-codemirror": "^1.0.0",
     "react-codemirror2": "^7.2.1",
+    "react-google-recaptcha-v3": "^1.9.8",
     "socket.io": "^4.5.0"
   }
 }

@@ -8,10 +8,14 @@ import  Register  from '../components/Register'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import 'bootstrap-icons/font/bootstrap-icons.css';
-
+import {
+  GoogleReCaptchaProvider,
+  useGoogleReCaptcha
+} from 'react-google-recaptcha-v3';
 
 function App() {
     return (
+    <GoogleReCaptchaProvider reCaptchaKey="6LeG8jsgAAAAAFe9icfeTg0nvsGCdMZIruRdjo5a">
     <div style={{backgroundColor: '#FFFFFF'}}>
           <BrowserRouter>
             <NavBar/>
@@ -24,6 +28,7 @@ function App() {
             </Routes>
           </BrowserRouter>
      </div>
+    </GoogleReCaptchaProvider>     
     )
 }
 
