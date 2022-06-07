@@ -33,11 +33,11 @@ app.use(cors({
   origin: "https://pasayotexto.fi.uncoma.edu.ar" ,
   credentials: true
 }))
-//app.use(function(req, res, next) {
-//  res.header("Access-Control-Allow-Origin", "https://pasayotexto.fi.uncoma.edu.ar");
-//  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//  next();
-//});
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "https://pasayotexto.fi.uncoma.edu.ar");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 app.use(bodyParser.json())
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
