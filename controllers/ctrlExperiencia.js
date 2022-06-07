@@ -109,7 +109,8 @@ getExperienciaById =  (req, res) => {
 
 
 
-getAllExperiencias = (req, res) => {  
+getAllExperiencias = (req, res) => {
+  res.set('Access-Control-Allow-Origin', '*');
   const filtro = req.query
   let filtroFinal = {}
   if (filtro.tema !=="Todos") filtroFinal = filtro;
