@@ -36,7 +36,7 @@ const Comunidad = () => {
     // const response = await get("/api/experiencias", {params:filtro});
       if (!filtro) setFiltro(filtroInicial)
       const unFiltro = {tema: filtro.tema, limite:limite}
-      const response = await api.getAllExperiencias(unFiltro, { mode: 'cors' })
+      const response = await api.getAllExperiencias(unFiltro)
       setExperiencias(response.data.data);
       //console.log(experiencias);
     } catch(error) {

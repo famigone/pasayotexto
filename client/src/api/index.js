@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const api = axios.create({
   baseURL: 'https://pasayotextoback.fi.uncoma.edu.ar/api',
-  //baseURL: 'http://localhost:3333/api',
+//  baseURL: 'http://localhost:3333/api',
 })
 
 export const insertExperiencia = payload => api.post('/experiencia', payload)
