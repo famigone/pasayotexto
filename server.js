@@ -14,12 +14,12 @@ const cookie_secret = '3j3k9kj23kjio8d'
 //const MongoStore = require('connect-mongo');
 const dbConnection = require('./db')
 //sessions
-//app.use(session({
-//    store: MongoStore.create({ mongoUrl: db }),
-//    secret: cookie_secret,
-//    resave: false,
-//    saveUninitialized: false
-//}));
+app.use(session({
+    store: MongoStore.create({ mongoUrl: "mongodb://127.0.0.1:27017/pasayo" }),
+    secret: cookie_secret,
+    resave: false,
+    saveUninitialized: false
+}));
 
 app.use( (req, res, next) => {
 //  console.log('req.session', req.session);
