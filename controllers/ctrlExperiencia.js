@@ -109,8 +109,8 @@ getExperienciaById =  (req, res) => {
 
 
 
-getAllExperiencias = (req, res) => {
-  res.set('Access-Control-Allow-Origin', '*');
+getAllExperiencias = (req, res, next) => {
+  res.set('Access-Control-Allow-Origin', 'https://pasayotexto.fi.uncoma.edu.ar');
   const filtro = req.query
   let filtroFinal = {}
   if (filtro.tema !=="Todos") filtroFinal = filtro;
