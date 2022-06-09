@@ -15,7 +15,6 @@ const cookie_secret = '3j3k9kj23kjio8d'
 const dbConnection = require('./db')
 //sessions
 app.use(session({
-    //store: MongoStore.create({ mongoUrl: "mongodb://127.0.0.1:27017/pasayo" }),
     store: db,
     secret: cookie_secret,
     resave: false,
@@ -29,11 +28,15 @@ app.use( (req, res, next) => {
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }))
-//app.use(cors())
-app.use(cors({
-  origin: "https://pasayotexto.fi.uncoma.edu.ar" ,
-  credentials: true
-}))
+app.use(cors())
+//--se cambian tres cosas
+//1- en client/api/index 
+//2- saca la línea proxy de client/package.jason y
+//3- se descomenta acá abajo
+//app.use(cors({
+//  origin: "https://pasayotexto.fi.uncoma.edu.ar" ,
+//  credentials: true
+//}))
 
 app.use(bodyParser.json())
 
