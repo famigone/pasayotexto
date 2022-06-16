@@ -45,7 +45,6 @@ const NavBara = ({username}) => {
                 <i className="bi bi-file-person"></i>  {username}
               </Nav>
             </Container>
-
     </Navbar>
 <br/>
 </div>
