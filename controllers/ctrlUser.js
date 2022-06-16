@@ -1,5 +1,5 @@
 const User = require('../models/user');
-
+const LocalStrategy = require('passport-local').Strategy
 
 postRegister = (req, res) => {
     console.log(req.body);
@@ -28,18 +28,38 @@ postRegister = (req, res) => {
 }
 
 getLogin1 = (req, res, next)=> {
-      console.log('routes/user.js, login, req.body: ');
       console.log(req.body)
       next()
   }
 
-getLogin2 =  (req, res) => {
-        console.log('logged in', req.user);
-        var userInfo = {
-            username: req.user.username
-        };
-        res.send(userInfo);
+getLogin =  (req, res, next) => {
+  const { username, password } = req.body
+  let error=""
+  let pincho= false;
+  User.findOne({ username: username }, (err, user) => {
+    if (err) {
+      pincho = true
+      error = err
     }
+    if (!user) {
+      pincho = true
+      error= 'Incorrect username'
+    }
+    if (!user.checkPassword(password)) {
+      pincho = true
+      error = 'Incorrect password'
+    }
+
+  })
+  var userInfo = {
+      username: username,
+      pincho: pincho
+  };
+  res.send(userInfo);
+}
+
+
+
 
 postLogout = (req, res) => {
     if (req.user) {
@@ -51,19 +71,18 @@ postLogout = (req, res) => {
 }
 
 getHome = (req, res, next) => {
-    console.log(req.user)
-    if (req.user) {
-        res.json({ user: req.user })
+    console.log(req.session.user)
+    if (req.session.user) {
+        res.json({ user: req.session.user })
     } else {
-        res.json({ user: null })
+        res.json({ user: 'te queres matar' })
     }
 }
 
 
 
 module.exports = {
-    getLogin1,
-    getLogin2,
+    getLogin,
     getRegister,
     postLogout,
     postRegister,

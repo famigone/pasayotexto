@@ -12,14 +12,16 @@ router.get('/experiencias', ExpCtrl.getAllExperiencias)
 router.put('/experiencia/:id', ExpCtrl.updateExperiencia)
 router.delete('/experiencia/:id', ExpCtrl.deleteExperiencia)
 router.get('/experiencia/:id', ExpCtrl.getExperienciaById)
+
 ///////////////////////////////////////////////////////////////////////////
 //user
-router.post('/register', UserCtrl.postRegister)
+router.get('/user/', UserCtrl.getHome)
+router.post('/user/logout', UserCtrl.postLogout)
+router.post('/user/register', UserCtrl.postRegister)
 router.post(
-    '/login',
-    UserCtrl.getLogin1,
-    passport.authenticate('local'),
-    UserCtrl.getLogin2,
+    '/user/login',
+  //  passport.authenticate('local', { failureRedirect: '/login' }),
+    UserCtrl.getLogin
 )
 ///////////////////////////////////////////////////////////////////////////
 // 4.

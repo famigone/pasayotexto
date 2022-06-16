@@ -36,7 +36,7 @@ const Register = () => {
 
   const token = await executeRecaptcha('yourAction');
     // Do whatever you want with the token
-    console.log(token)
+  //  console.log(token)
   }, [executeRecaptcha]);
 
   useEffect(() => {

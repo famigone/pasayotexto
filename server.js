@@ -4,41 +4,50 @@ require('dotenv').config();
 const express = require ('express');
 const session = require('express-session')
 const routes = require('./routes/rutasBack'); // import the routes
-
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const db = require('./db')
+const passport = require('./passport');
 const app = express()
 const apiPort = 3333
 const cookie_secret = '3j3k9kj23kjio8d'
-//const MongoStore = require('connect-mongo');
+const MongoStore = require('connect-mongo')
 const dbConnection = require('./db')
 //sessions
 app.use(session({
-    store: db,
+    store: MongoStore.create({
+      mongoUrl:'mongodb://127.0.0.1:27017/pasayo'
+    }),
     secret: cookie_secret,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie: {
+       secure: true,
+       httpOnly: true,
+       sameSite: 'none',
+    //   maxAge: 60 * 60 * 24 * 1000
+ },
 }));
 
-app.use( (req, res, next) => {
-//  console.log('req.session', req.session);
-  return next();
-});
 
-app.use(express.json());
+
+app.use(express.json())
+app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(cors())
+app.use(cors({
+  origin: "http://localhost:8000" ,
+  credentials: true
+}))
 //--se cambian tres cosas
-//1- en client/api/index 
+//1- en client/api/index
 //2- saca la línea proxy de client/package.jason y
 //3- se descomenta acá abajo
 //app.use(cors({
 //  origin: "https://pasayotexto.fi.uncoma.edu.ar" ,
 //  credentials: true
 //}))
-
-app.use(bodyParser.json())
+app.use(passport.initialize())
+app.use(passport.session()) // calls serializeUser and deserializeUser
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 

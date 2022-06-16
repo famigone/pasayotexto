@@ -18,10 +18,10 @@ const Links = () => {
 
         return (
             <React.Fragment>
-                
+
                 <Collapse>
                     <List>
-                        <Item>                        
+                        <Item>
                             <Link to="/ejemplos" className="nav-link">
                                 <b>EXPERIENCIAS</b>
                             </Link>

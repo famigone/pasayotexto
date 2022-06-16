@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { Component, useState, useEffect } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import  CanalIDE  from '../components/CanalIDE'
-import { NavBar } from '../components'
+import  NavBara  from '../components/NavBara'
+import  BarraEstado  from '../components/BarraEstado'
 import { Comunidad } from '../pages'
 import  Login  from '../components/Login'
 import  Register  from '../components/Register'
@@ -13,14 +14,16 @@ import {
   useGoogleReCaptcha
 } from 'react-google-recaptcha-v3';
 
+
+
 function App() {
     return (
     <GoogleReCaptchaProvider reCaptchaKey="6LeG8jsgAAAAAFe9icfeTg0nvsGCdMZIruRdjo5a">
     <div style={{backgroundColor: '#FFFFFF'}}>
           <BrowserRouter>
-            <NavBar/>
+            <BarraEstado/>
             <Routes>
-                <Route path="/" element={<NavBar/>} />
+                
                 <Route path="comunidad" element={<Comunidad/>} />
                 <Route path="canal/:id/:canal" element={<CanalIDE/>} />
                 <Route path="login" element={<Login/>} />
@@ -28,7 +31,7 @@ function App() {
             </Routes>
           </BrowserRouter>
      </div>
-    </GoogleReCaptchaProvider>     
+    </GoogleReCaptchaProvider>
     )
 }
 
