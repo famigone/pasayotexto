@@ -2,12 +2,12 @@ import React, { Component, useState } from 'react'
 import { Navigate } from 'react-router-dom';
 import styled from 'styled-components'
 import { Button, Card, Form, Modal, Container } from 'react-bootstrap';
-import logo from '../img/pasayotexto_small.png'
+import logo from '../img/login.png'
 import pasayo from '../img/pasayotexto.png'
 import axios from 'axios'
 import api from '../api'
-
-const Login = () => {
+import { Link } from 'react-router-dom'
+const Login = ({actualizarUsuario}) => {
 
   const [user, setUser] = useState("")
   const [pass, setPass] = useState("")
@@ -30,8 +30,9 @@ const Login = () => {
        const response = await api.postLogout(usuario)
        console.log("response: "+response)
        if (response.status === 200) {
+            console.log("VA A LLAMAR A ACTUALIZAR USUARIO")
             setLoggedIn(false)
-            setUsername("")
+            actualizarUsuario(usuario.username)
        }
      } catch(error) {
        console.log('error', error);
@@ -47,11 +48,11 @@ const Login = () => {
         }
       console.log("va a invocarrrrrr: ")
       const response = await api.postLogin(usuario)
-      //console.log("response: " + response)
+      //console.log("response: " + response.status)
       if (response.status === 200) {
-           console.log(response.data.username)
+          // console.log("entroooo al 200: "+response.data.username)
            setLoggedIn(true)
-           setUsername(response.data.username)
+           actualizarUsuario(response.data.username)
            setIrHome(true)
       }else{console.log("algo salió mal ")}
       //console.log(response)
@@ -78,7 +79,7 @@ return(
 <br/><br/><br/>
   <Container>
   <Card style={{ width: '22rem' }}>
-  <center><img src={pasayo} alt="C4" width={"100%"} /></center>
+  <center><img src={logo} alt="C4" width={"100%"} /></center>
 
   <Card.Body
   bg="light"
@@ -109,16 +110,20 @@ return(
                     onChange={handlePass}
                     />
     </Form.Group>
+    <div className="d-grid gap-2">
+      <Button variant="warning"
+              type="submit"
 
-    <Button variant="warning"
-            type="submit"
-
-            >
-      Entrar
-    </Button>
-    <Button variant="warning" onClick={logout}>
-      Logout
-    </Button>
+              >
+      <i className="bi bi-chat-heart"></i> Entrar
+      </Button>
+    </div>
+    <br/>
+    <div className="d-grid gap-2">
+      <Link to="/register" className="btn btn-warning">
+        <i className="bi bi-person-hearts"></i>  Crear Cuenta
+      </Link>
+    </div>
   </Form>
    </Card.Body>
   </Card>

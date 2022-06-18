@@ -36,25 +36,25 @@ getLogin =  (req, res, next) => {
   const { username, password } = req.body
   let error=""
   let pincho= false;
+  req.session.success = true;
   User.findOne({ username: username }, (err, user) => {
     if (err) {
-      pincho = true
+      req.session.success = false;
       error = err
     }
     if (!user) {
-      pincho = true
+      req.session.success = false;
       error= 'Incorrect username'
     }
     if (!user.checkPassword(password)) {
-      pincho = true
+      req.session.success = false;
       error = 'Incorrect password'
     }
-
   })
   var userInfo = {
       username: username,
-      pincho: pincho
   };
+  req.session.user = username
   res.send(userInfo);
 }
 
@@ -71,11 +71,13 @@ postLogout = (req, res) => {
 }
 
 getHome = (req, res, next) => {
-    console.log(req.session.user)
+    console.log("La Sesion: " + req.session.user)
     if (req.session.user) {
+        req.session.page_views++
         res.json({ user: req.session.user })
     } else {
-        res.json({ user: 'te queres matar' })
+        req.session.page_views=1
+        res.json({ user: req.session.page_views })
     }
 }
 

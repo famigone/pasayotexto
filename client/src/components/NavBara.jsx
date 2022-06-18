@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import Logo from './Logo'
 import LogoC4 from './LogoC4'
-import Links from './Links'
+
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Badge from 'react-bootstrap/Badge';
 import logo from '../img/PASAYOTEXTO_white.png'
-
+import { Link } from 'react-router-dom'
 const Container = styled.div.attrs({
     className: 'container',
 })``
@@ -17,10 +17,10 @@ const Container = styled.div.attrs({
 
 
 
-const NavBara = ({username}) => {
+const NavBara = ({user}) => {
 
 
-
+console.log("pinche usuario: "+user)
         return (
 <div>
           <Navbar  bg="warning"  expand="lg">
@@ -37,13 +37,19 @@ const NavBara = ({username}) => {
               </Navbar.Brand>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="me-auto">
-                    <Links />
-                </Nav>
+                      <Nav className="me-auto">
+                         <Link to="/ejemplos" className="nav-link"><b>ACTIVIDADES </b></Link>
+                         <Link to="/comunidad" className="nav-link"><b>EXPERIENCIAS</b></Link>
+                         {console.log("la verdad: "+user)}
+                         {user && <Link to="/logout" className="nav-link"><b><Badge bg="danger">{user}</Badge></b></Link>}
+                         {!user && <Link to="/login" className="nav-link"><b>ENTRAR</b></Link>}
+                      </Nav>
               </Navbar.Collapse>
+
               <Nav className="me-auto">
-                <i className="bi bi-file-person"></i>  {username}
               </Nav>
+
+
             </Container>
     </Navbar>
 <br/>

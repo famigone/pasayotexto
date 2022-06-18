@@ -3,13 +3,9 @@ import { Navigate } from 'react-router-dom';
 import styled from 'styled-components'
 import { Button, Alert, Card, Form, Modal, Container } from 'react-bootstrap';
 import logo from '../img/pasayotexto_small.png'
-import pasayo from '../img/pasayotexto.png'
+import pasayo from '../img/login.png'
 import axios from 'axios'
 import api from '../api'
-import {
-  GoogleReCaptchaProvider,
-  useGoogleReCaptcha
-} from 'react-google-recaptcha-v3';
 
 
 
@@ -26,22 +22,9 @@ const Register = () => {
   const [mail, setMail] = useState("")
   const [mail2, setMail2] = useState("")
   const [redirectTo, setRedirectTo] = useState("")
-  const { executeRecaptcha } = useGoogleReCaptcha();
 
 
-  const handleReCaptchaVerify = useCallback(async () => {
-    if (!executeRecaptcha) {
-      return;
-    }
 
-  const token = await executeRecaptcha('yourAction');
-    // Do whatever you want with the token
-  //  console.log(token)
-  }, [executeRecaptcha]);
-
-  useEffect(() => {
-    handleReCaptchaVerify();
-  }, [handleReCaptchaVerify]);
 
 
   const handleUser = (event) =>
@@ -101,7 +84,7 @@ const Register = () => {
       if (!validarMail()) setErrorMail(true)
       else setErrorMail(false)
       // si todo ok hacemos submit y redirección a login
-      if (validarPass() && validarMail() && handleReCaptchaVerify())
+      if (validarPass() && validarMail())
         postRegister()
 }
 
@@ -198,10 +181,11 @@ return(
       </Alert>
 
 
-
+<div className="d-grid gap-2">
     <Button variant="warning" type="submit" onClick={handleSubmit}>
-      Entrar
+      <i class="bi bi-person-hearts"></i> Crear la cuenta
     </Button>
+  </div>
   </Form>
    </Card.Body>
   </Card>

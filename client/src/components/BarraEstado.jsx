@@ -3,8 +3,8 @@ import axios from 'axios'
 import api from '../api'
 import  NavBara  from './NavBara'
 
-const BarraEstado = () => {
-  const [user, setUser] = useState("ingresar")
+const BarraEstado = ({user}) => {
+  //const [user, setUser] = useState("ingresar")
 
   async function getSesion() {
     try{
@@ -12,7 +12,7 @@ const BarraEstado = () => {
        console.log("response: "+ response.data.user)
        if (response.status === 200) {
         let usuario= response.data.user
-        setUser(usuario)
+    //    setUser(usuario)
        }
      } catch(error) {
        console.log('error', error);
@@ -20,13 +20,13 @@ const BarraEstado = () => {
  }
 
 
-useEffect(function() {
-   getSesion();
- }, []);
+//useEffect(function() {
+//   getSesion();
+// }, []);
 
-
+//console.log("BARRAESTADO: "+user)
   return (
-    <NavBara username={user}/>
+    <NavBara user={user}/>
 )}
 
 export default BarraEstado
