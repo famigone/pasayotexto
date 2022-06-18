@@ -22,6 +22,10 @@ const Experiencia = new Schema(
       activo: {
         type: Boolean
       }, //borrado lógico
+      user:{
+        type:String,
+        required:true
+      }
     },
     { timestamps: true },
 )

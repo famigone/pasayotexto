@@ -15,7 +15,7 @@ const App = () => {
     const [user, setUser] = useState(null)
     const actualizarUsuario = (usuario) => {
       setUser(usuario)
-      console.log("actualizó el usuario " + user)
+    //  console.log("actualizó el usuario " + user)
     }
     return (
           <BrowserRouter>
@@ -23,7 +23,7 @@ const App = () => {
             <Routes>
 
                 <Route path="comunidad" element={<RequireAuth user={user}/>}>
-                  <Route path="" element={<Comunidad />} />
+                  <Route path="" element={<Comunidad user={user}/>} />
                 </Route>
                 <Route path="canal/:id/:canal" element={<CanalIDE/>} />
                 <Route path="login" element={<Login actualizarUsuario={actualizarUsuario}/>} />
@@ -35,12 +35,9 @@ const App = () => {
 
 
 function RequireAuth({user}) {
-    console.log("la re mil puta madre "+user)
     if (user) {
-      console.log("entró por outlet")
       return <Outlet />
     }else{
-      console.log("entró por login")
       return <Navigate to="/login" replace/>
     }
 }

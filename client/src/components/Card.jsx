@@ -52,7 +52,7 @@ const Card = ({experiencia, handleClickExp, canal}) => {
                    <div className="card-footer text-black ">
 
                      <div className="d-flex justify-content-end">
-                        <UnBadge> famigone </UnBadge>
+                        <UnBadge> {experiencia.user} </UnBadge>
                      </div>
                    </div>
             </UnaCard>

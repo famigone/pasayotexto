@@ -19,7 +19,7 @@ const Nav = styled.nav.attrs({
 
 
 
-const Filtro = ({refrescarExp, handleFiltro, handleCargar}) => {
+const Filtro = ({user, refrescarExp, handleFiltro, handleCargar}) => {
 
    const [modalShow, setModalShow] = useState(false);
    const [filtro, setFiltro] = useState({tema:"Todos"})
@@ -125,7 +125,7 @@ const Filtro = ({refrescarExp, handleFiltro, handleCargar}) => {
 
             </Container>
              <br/>
-            <ModalExperiencia show={modalShow} onHide={refrescar}/>
+            <ModalExperiencia show={modalShow} onHide={refrescar} user={user}/>
             </div>
 
             )

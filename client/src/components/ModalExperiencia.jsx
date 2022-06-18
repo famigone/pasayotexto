@@ -22,14 +22,14 @@ const ModalExperiencia = (props) => {
         <Modal.Header closeButton>
           <Modal.Title>
               <LogoPasayo/>
-               Nueva Experiencia
+               Nueva Experiencia 
 
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <FormExperiencia {...props}/>
         </Modal.Body>
-        
+
       </Modal>
     </>
   );

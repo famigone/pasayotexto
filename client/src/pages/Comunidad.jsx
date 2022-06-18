@@ -9,7 +9,7 @@ import { get } from 'axios';
 import api from '../api'
 
 
-const Comunidad = () => {
+const Comunidad = ({user}) => {
   //const filtroInicial = {tema: "Todos", mias:true}
   const constIncremento = 10
   const constLimite = 10
@@ -91,7 +91,7 @@ const Comunidad = () => {
     return (
 
         <Divido onScroll={handleScroll} >
-            <Filtro refrescarExp={getExperiencias} handleFiltro={handleFiltro} handleCargar={handleCargar}/>
+            <Filtro user={user} refrescarExp={getExperiencias} handleFiltro={handleFiltro} handleCargar={handleCargar}/>
             <StackGrid columnWidth={300}>
               {experiencias.map((exp) => {
                       return(
