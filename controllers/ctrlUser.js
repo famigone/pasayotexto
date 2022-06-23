@@ -1,6 +1,6 @@
 const User = require('../models/user');
 const LocalStrategy = require('passport-local').Strategy
-
+const passport = require('../passport');
 postRegister = (req, res) => {
     console.log(req.body);
 
@@ -54,7 +54,10 @@ getLogin =  (req, res, next) => {
   var userInfo = {
       username: username,
   };
+  //console.log("username "+username)
   req.session.user = username
+  //req.session.userid=username;
+
   res.send(userInfo);
 }
 
@@ -71,13 +74,14 @@ postLogout = (req, res) => {
 }
 
 getHome = (req, res, next) => {
-    console.log("La Sesion: " + req.session.user)
+
+    console.log("La req.user en el getHome: " + req.user)
+    console.log("La req.session en el getHome: " + req.session.user)
+    console.log("La req.session.passport.user en el getHome: " + req.session.passport)
     if (req.session.user) {
-        req.session.page_views++
         res.json({ user: req.session.user })
     } else {
-        req.session.page_views=1
-        res.json({ user: req.session.page_views })
+        res.json({ user: null })
     }
 }
 

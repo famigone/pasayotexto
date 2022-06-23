@@ -15,7 +15,7 @@ router.get('/experiencia/:id', ExpCtrl.getExperienciaById)
 
 ///////////////////////////////////////////////////////////////////////////
 //user
-router.get('/user/', UserCtrl.getHome)
+router.get('/user/session', UserCtrl.getHome)
 router.post('/user/logout', UserCtrl.postLogout)
 router.post('/user/register', UserCtrl.postRegister)
 router.post(

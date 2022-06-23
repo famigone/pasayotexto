@@ -52,7 +52,7 @@ const CanalIDE = (props) => {
           <Modal.Body>
             <TablaExp experiencia={exp}/>
 
-            <CodeMirror2  experiencia={exp} canal={canal}/>
+            <CodeMirror2  experiencia={exp} canal={canal} />
 
           </Modal.Body>
 

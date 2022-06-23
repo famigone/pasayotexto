@@ -8,11 +8,11 @@ const BarraEstado = ({user}) => {
 
   async function getSesion() {
     try{
-       const response = await api.getLogin()
-
+       const response = await api.getHome()
+       console.log("RECARGAZO: "+ response.data.user)
        if (response.status === 200) {
-        console.log("RECARGAZO: "+ response.data.user)
-        setEluser(response.data.user)
+
+        if (eluser) setEluser(response.data.user)
       //  setUser(usuario)
        }
      } catch(error) {
@@ -24,6 +24,8 @@ const BarraEstado = ({user}) => {
 useEffect(function() {
    if (!user) getSesion();
  }, []);
+
+
   let usuario
   if (!user && !eluser) usuario = null
   if (!user && eluser) usuario = eluser

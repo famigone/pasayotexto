@@ -22,12 +22,12 @@ app.use(session({
     }),
     secret: cookie_secret,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
-       //secure: true,
-       //httpOnly: true,
-       //sameSite: 'none',
-      maxAge: 60 * 60 * 24 * 1000
+       secure: true,
+       httpOnly: true,
+       sameSite: 'none',
+       maxAge: 60 * 60 * 24 * 1000
  },
 }));
 
@@ -41,7 +41,8 @@ app.use(cors({
   origin: "http://localhost:8000" ,
   credentials: true
 }))
-//--se cambian tres cosas
+//--se cambian 4 cosas
+//0-cambiar acá la url del socket y en CodeMirror2
 //1- en client/api/index
 //2- saca la línea proxy de client/package.jason y
 //3- se descomenta acá abajo
@@ -67,8 +68,9 @@ const server = app.listen(apiPort, () => console.log(`Server running on port ${a
 ////////////////////////////////////////////
 //oficial en fai
 const io = new Server(server, { cors: {
-    origin: "https://pasayotexto.fi.uncoma.edu.ar",
-    //origin: "http://localhost:8000",
+    //DECOMENTAR EN PROD
+    //origin: "https://pasayotexto.fi.uncoma.edu.ar",
+    origin: "http://localhost:8000",
     credentials: true
   } })
 //oficial en fai
@@ -83,15 +85,22 @@ io.on('connection', (socket) => {
   });
 
   //este evento es el que captura el coding
-  socket.on('canalIn', ({ experiencia, canal }, callback) => {
+  socket.on('canalIn', ({ experiencia, canal, user }, callback) => {
     socket.join(canal);
-    //console.log('canalIn: ' + canal);
-    //callback()
+    console.log('user en canalIn: ' + user);
+    socket.broadcast.to(canal).emit('nuevoSubcriptor', user);
   });
 
   socket.on('codeoEvent', function(data) {
     //console.log('emitiendo al canal: ' + data.canal+ ' el code '  + data.newCode);
     socket.broadcast.to(data.canal).emit('codeoEmit', data);
+    //const sids = io.of("/").adapter.sids;
+  //  const sids = io.sockets.adapter.sids;
+
+//    sids.forEach(function(sid) {
+//      console.log('sid: ' + sid.);
+//    });
+
   })
 }
 

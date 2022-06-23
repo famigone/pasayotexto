@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import {ButtonGroup, Button, Modal, Table } from 'react-bootstrap';
+import {ButtonGroup, Badge, ListGroup, Button, Modal, Table } from 'react-bootstrap';
 //import Codemirror from 'react-codemirror';
 //import 'codemirror/lib/codemirror.css';
 //import 'codemirror/theme/monokai.css';
 //import 'codemirror/mode/javascript/javascript.js'
 import {Controlled as CodeMirror} from 'react-codemirror2';
+import axios from 'axios'
+import api from '../api'
 require('codemirror/lib/codemirror.css');
 require('codemirror/theme/material.css');
 require('codemirror/theme/neat.css');
@@ -18,14 +20,18 @@ const io = require('socket.io-client')
 
 
 
-//const ENDPOINT= "http://localhost:3333"
-const ENDPOINT= "https://pasayotextoback.fi.uncoma.edu.ar"
+const ENDPOINT= "http://localhost:3333"
+//DESCOMENTAR EN PROD
+//const ENDPOINT= "https://pasayotextoback.fi.uncoma.edu.ar"
 let socket;
 
 const CodeMirror2 = ({...props}) => {
+
   const [codigo, setCodigo] = useState('');
-  const link= "https://pasayotexto.fi.uncoma.edu.ar/canal/"+props.experiencia+"/"+props.canal
+  const [subscriptores, setSubscriptores] = useState([props.user]);
   //const link= "https://pasayotexto.fi.uncoma.edu.ar/canal/"+props.experiencia+"/"+props.canal
+
+  const link= "http://localhost:8000/canal/"+props.experiencia+"/"+props.canal
 
   const options = {
     lineNumbers: true,
@@ -39,7 +45,9 @@ const CodeMirror2 = ({...props}) => {
       //socket = io(ENDPOINT);
       let experiencia= props.experiencia
       let canal = props.canal
-      socket.emit("canalIn", { experiencia, canal }, (error) => {
+      let user = props.user
+      console.log("va a hacer canalIn en client con "+user)
+      socket.emit("canalIn", { experiencia, canal, user }, (error) => {
         if (error) {
           alert(error);
         }
@@ -49,15 +57,23 @@ const CodeMirror2 = ({...props}) => {
   }, [ENDPOINT, props.canal]);
 
   useEffect(function() {
-    //  console.log("conectando..."+props.canal)
+
       socket.on('codeoEmit', (payload) =>  {
+        console.log("payload..."+payload)
         setCodigo(payload.newCode)
       })
       return () => {  socket.disconnect();}
   }, []);
 
-
-
+  useEffect(function() {
+      //aquí nos llega el usuario nuevo que se suscribió al canal
+      //lo agregamos al array de subscriptores
+      socket.on('nuevoSubcriptor', (payload) =>  {
+        console.log("payload..."+payload)
+        setSubscriptores(current => [...current, payload.user]);
+      })
+      return () => {  socket.disconnect();}
+  }, []);
 
   const updateCodeInState = (newText) => {
     setCodigo(prevText => newText)
@@ -70,6 +86,9 @@ const CodeMirror2 = ({...props}) => {
     })
     //socket.disconnect();
   }
+
+
+
 
 
     const runCode = () => {
@@ -89,7 +108,13 @@ const CodeMirror2 = ({...props}) => {
       navigator.clipboard.writeText(link)
   }
 
-
+const listarSubscriptores = () => {
+  subscriptores.map((unUser) => {
+    return (
+      <ListGroup.Item>{unUser}</ListGroup.Item>
+    )
+  })
+}
 
     return (
       <div>
@@ -99,13 +124,14 @@ const CodeMirror2 = ({...props}) => {
         <CodeMirror
           value={codigo}
           options={options}
-
           onBeforeChange={(editor, data, code) => {
                 setCodigo(code);
                 updateCodeInState(code);
           }}
 
         />
+
+      <div className="d-grid gap-3">
           <ButtonGroup>
             <Button className="btn btn-warning" onClick={props.onHide}>
               <i className="bi bi-dash-circle-fill"></i>
@@ -113,14 +139,22 @@ const CodeMirror2 = ({...props}) => {
             <Button className="btn btn-warning" onClick={runCode}>
               <i className="bi bi-play-fill"></i>
             </Button>
-          </ButtonGroup>
-          <ButtonGroup>
+
 
             <Button className="btn btn-warning" onClick={runCopy} >
               <i className="bi bi-share"></i>
             </Button>
-
           </ButtonGroup>
+      </div>
+          <ListGroup horizontal>
+          {  subscriptores.map((unUser) => {
+              return (
+                <ListGroup.Item><Badge bg="danger">{unUser}</Badge></ListGroup.Item>
+              )
+            })}
+
+          </ListGroup>
+
       </div>
     )
 

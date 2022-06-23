@@ -99,7 +99,12 @@ const Comunidad = ({user}) => {
                       )
                     })}
             </StackGrid>
-            <ModalIDE experiencia={expActual} show={modalIDEShow} onHide={()=>setModalIDEShow(false)} canal={canal}/>
+            <ModalIDE experiencia={expActual}
+                      show={modalIDEShow}
+                      onHide={()=>setModalIDEShow(false)}
+                      canal={canal}
+                      user={user}
+                      />
         </Divido>
             )
 }

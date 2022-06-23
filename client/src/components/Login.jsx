@@ -1,16 +1,24 @@
 import React, { Component, useState } from 'react'
-import { Navigate } from 'react-router-dom';
+import {
+  Routes,
+  Route,
+  Link,
+  useNavigate,
+  useLocation,
+  Navigate,
+  Outlet,
+} from "react-router-dom";
 import styled from 'styled-components'
 import { Button, Card, Form, Modal, Container } from 'react-bootstrap';
 import logo from '../img/login.png'
 import pasayo from '../img/pasayotexto.png'
 import axios from 'axios'
 import api from '../api'
-import { Link } from 'react-router-dom'
 const Login = ({actualizarUsuario}) => {
 
   const [user, setUser] = useState("")
   const [pass, setPass] = useState("")
+  //const [from, setFrom] = useState("/experiencias")
   const [irHome, setIrHome] = useState(false)
   const [loggedIn, setLoggedIn] = useState(false)
   const [username, setUsername] = useState("")
@@ -18,6 +26,9 @@ const Login = ({actualizarUsuario}) => {
   const handleUser = (event) => setUser(event.target.value)
 
   const handlePass = (event) => setPass(event.target.value)
+  let navigate = useNavigate();
+  let location = useLocation();
+  let from = location.state?.from?.pathname || "/";
 
   async function logout(event) {
     try{
@@ -46,28 +57,36 @@ const Login = ({actualizarUsuario}) => {
           username: user,
           password: pass,
         }
-      console.log("va a invocarrrrrr: ")
+
       const response = await api.postLogin(usuario)
       //console.log("response: " + response.status)
       if (response.status === 200) {
           // console.log("entroooo al 200: "+response.data.username)
            setLoggedIn(true)
            actualizarUsuario(response.data.username)
-           setIrHome(true)
+           console.log("nos vamos a: "+from)
+           navigate(from, { replace: true });
+
       }else{console.log("algo salió mal ")}
       //console.log(response)
       //seteo en true el estado de redirección
-      setIrHome(true)
+      //setIrHome(true)
     } catch(error) {
       console.log('error', error);
     }
   }
 
   const handleSubmit = (event) => {
+
         event.preventDefault()
       //  console.log('handleSubmit')
         postLogin()
     }
+
+
+
+
+
 
 return(
   <div className="row">
@@ -88,9 +107,7 @@ return(
   >
 
   <Form onSubmit={handleSubmit}>
-  {irHome && (
-          <Navigate to="/" replace={true} />
-        )}
+
     <Form.Group className="mb-3" controlId="formBasicEmail">
 
 
