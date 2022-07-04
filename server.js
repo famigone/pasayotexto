@@ -8,7 +8,7 @@ const routes = require('./routes/rutasBack'); // import the routes
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const db = require('./db')
-const passport = require('./passport');
+//const passport = require('./passport');
 const app = express()
 const apiPort = 3333
 const cookie_secret = '3j3k9kj23kjio8d'
@@ -24,7 +24,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-       secure: true,
+       secure: false,
        httpOnly: true,
        sameSite: 'none',
        maxAge: 60 * 60 * 24 * 1000
@@ -50,8 +50,9 @@ app.use(cors({
 //  origin: "https://pasayotexto.fi.uncoma.edu.ar" ,
 //  credentials: true
 //}))
-app.use(passport.initialize())
-app.use(passport.session()) // calls serializeUser and deserializeUser
+
+//app.use(passport.initialize())
+//app.use(passport.session()) // calls serializeUser and deserializeUser
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
@@ -87,8 +88,8 @@ io.on('connection', (socket) => {
   //este evento es el que captura el coding
   socket.on('canalIn', ({ experiencia, canal, user }, callback) => {
     socket.join(canal);
-    console.log('user en canalIn: ' + user);
-    socket.broadcast.to(canal).emit('nuevoSubcriptor', user);
+  //  console.log('user en canalIn: ' + user);
+    if (user) socket.broadcast.to(canal).emit('nuevoSubcriptor', user);
   });
 
   socket.on('codeoEvent', function(data) {

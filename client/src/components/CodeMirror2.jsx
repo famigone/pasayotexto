@@ -28,11 +28,14 @@ let socket;
 const CodeMirror2 = ({...props}) => {
 
   const [codigo, setCodigo] = useState('');
-  const [subscriptores, setSubscriptores] = useState([props.user]);
+  let arregloInicial = []
+  if (props.useroriginal) arregloInicial = [props.user, props.useroriginal]
+  else  arregloInicial = [props.user]
+  const [subscriptores, setSubscriptores] = useState(arregloInicial);
   //const link= "https://pasayotexto.fi.uncoma.edu.ar/canal/"+props.experiencia+"/"+props.canal
 
-  const link= "http://localhost:8000/canal/"+props.experiencia+"/"+props.canal
-
+  const link= "http://localhost:8000/canal/"+props.experiencia+"/"+props.canal+"/"+props.user
+  //const linkSecret= "http://localhost:8000/canalsecret/"+props.experiencia+"/"+props.canal
   const options = {
     lineNumbers: true,
     mode: 'javascript',
@@ -62,7 +65,7 @@ const CodeMirror2 = ({...props}) => {
         console.log("payload..."+payload)
         setCodigo(payload.newCode)
       })
-      return () => {  socket.disconnect();}
+      return () => {  socket.disconnect({user:props.user});}
   }, []);
 
   useEffect(function() {
@@ -70,7 +73,7 @@ const CodeMirror2 = ({...props}) => {
       //lo agregamos al array de subscriptores
       socket.on('nuevoSubcriptor', (payload) =>  {
         console.log("payload..."+payload)
-        setSubscriptores(current => [...current, payload.user]);
+        setSubscriptores(current => [...current, payload]);
       })
       return () => {  socket.disconnect();}
   }, []);
@@ -107,11 +110,13 @@ const CodeMirror2 = ({...props}) => {
     const runCopy = () => {
       navigator.clipboard.writeText(link)
   }
-
+//  const runCopySecret = () => {
+//    navigator.clipboard.writeText(linkSecret)
+//  }
 const listarSubscriptores = () => {
   subscriptores.map((unUser) => {
     return (
-      <ListGroup.Item>{unUser}</ListGroup.Item>
+      <ListGroup.Item variant="secondary" key={unUser}>{unUser}</ListGroup.Item>
     )
   })
 }
@@ -131,7 +136,7 @@ const listarSubscriptores = () => {
 
         />
 
-      <div className="d-grid gap-3">
+      <div className="d-grid gap-4">
           <ButtonGroup>
             <Button className="btn btn-warning" onClick={props.onHide}>
               <i className="bi bi-dash-circle-fill"></i>
@@ -139,17 +144,16 @@ const listarSubscriptores = () => {
             <Button className="btn btn-warning" onClick={runCode}>
               <i className="bi bi-play-fill"></i>
             </Button>
-
-
             <Button className="btn btn-warning" onClick={runCopy} >
               <i className="bi bi-share"></i>
             </Button>
+
           </ButtonGroup>
       </div>
           <ListGroup horizontal>
           {  subscriptores.map((unUser) => {
               return (
-                <ListGroup.Item><Badge bg="danger">{unUser}</Badge></ListGroup.Item>
+                <ListGroup.Item variant="warning"><Badge bg="danger">{unUser}</Badge></ListGroup.Item>
               )
             })}
 

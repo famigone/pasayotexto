@@ -7,10 +7,12 @@ import styled from 'styled-components'
 import React, { useState, useEffect } from 'react';
 import { get } from 'axios';
 import api from '../api'
-
-
-const Comunidad = ({user}) => {
+import { createContext, useContext, useMemo } from "react";
+import  UserProvider  from '../components/UserProvider';
+import  UserContext  from '../components/UserContext';
+const Comunidad = () => {
   //const filtroInicial = {tema: "Todos", mias:true}
+  const  { user }  = useContext(UserContext);
   const constIncremento = 10
   const constLimite = 10
   const filtroInicial = {tema: "Todos"}
@@ -91,7 +93,7 @@ const Comunidad = ({user}) => {
     return (
 
         <Divido onScroll={handleScroll} >
-            <Filtro user={user} refrescarExp={getExperiencias} handleFiltro={handleFiltro} handleCargar={handleCargar}/>
+            <Filtro user={user.name} refrescarExp={getExperiencias} handleFiltro={handleFiltro} handleCargar={handleCargar}/>
             <StackGrid columnWidth={300}>
               {experiencias.map((exp) => {
                       return(
@@ -103,7 +105,7 @@ const Comunidad = ({user}) => {
                       show={modalIDEShow}
                       onHide={()=>setModalIDEShow(false)}
                       canal={canal}
-                      user={user}
+                      user={user.name}
                       />
         </Divido>
             )

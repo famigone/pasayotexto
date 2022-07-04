@@ -1,6 +1,10 @@
 import React, { Component, useState, useEffect } from 'react'
 import { Navigate, BrowserRouter, Route, Routes, Outlet, Link, useNavigate, useLocation } from 'react-router-dom'
+import { createContext, useContext, useMemo } from "react";
+//import { useLocalStorage } from "./useLocalStorage";
 
+import  UserContext   from '../components/UserContext';
+import  UserProvider  from '../components/UserProvider';
 import  CanalIDE  from '../components/CanalIDE'
 import  NavBara  from '../components/NavBara'
 import  BarraEstado  from '../components/BarraEstado'
@@ -14,70 +18,63 @@ import axios from 'axios'
 import api from '../api'
 
 const App = () => {
-    const [user, setUser] = useState(null)
+    const { user } = useContext(UserContext);
+    //const [user, setUser] = useState(null)
+    //console.log("usuarioOriginal: "+user)
     const actualizarUsuario = (usuario) => {
-      setUser(usuario)
+      //setUser(usuario)
     //  console.log("actualizó el usuario " + user)
     }
     return (
           <BrowserRouter>
-            <BarraEstado user={user}/>
+           <UserProvider>
+            <BarraEstado/>
             <Routes>
-
-                <Route path="comunidad" element={<RequireAuth1 user={user}/>}>
-                  <Route path="" element={<Comunidad user={user}/>} />
-                </Route>
+              <Route
+                path="comunidad"
+                element={
+                      <RequireAuth>
+                          <Comunidad />
+                      </RequireAuth>
+                  }
+              />
                 <Route
-                  path="canal/:id/:canal"
+                  path="canal/:id/:canal/:useroriginal"
                   element={
                         <RequireAuth>
-                            <CanalIDE />
+                            <CanalIDE/>
                         </RequireAuth>
                     }
                 />
-                <Route path="login" element={<Login actualizarUsuario={actualizarUsuario}/>} />
+              //<Route path="canalsecret/:id/:canal" element={<CanalIDE />} />
+                <Route path="login" element={<Login/>} />
                 <Route path="register" element={<Register/>} />
             </Routes>
+          </UserProvider>
           </BrowserRouter>
     )
 }
 
 
-function RequireAuth1({user}) {
-    if (user) {
-      return <Outlet />
-    }else{
-      return <Navigate to="/login" replace/>
-    }
-}
 
 
 function RequireAuth({ children }: { children: JSX.Element }) {
-  let auth = useAuth();
   let location = useLocation();
+  const { user } = useContext(UserContext);
   //console.log("location "+location)
-  if (auth) {
+  if (!user.auth) {
+    console.log("no autenticado "+location)
     // Redirect them to the /login page, but save the current location they were
     // trying to go to when they were redirected. This allows us to send them
     // along to that page after they login, which is a nicer user experience
     // than dropping them off on the home page.
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
-
+  console.log("sisisisi autenticado "+children)
   return children;
 }
 
-const useAuth = async() => {
-  try {
-  // const response = await get("/api/experiencias", {params:filtro});
-    const response = await api.getHome()
-    //setUser(user);
-    console.log("en router auth es: "+ response.data.user )
-    return response.data.user;
-  } catch(error) {
-    console.log('error 666 ', error);
-  }
-}
+
 
 
 

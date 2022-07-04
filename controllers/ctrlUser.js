@@ -1,8 +1,15 @@
 const User = require('../models/user');
 const LocalStrategy = require('passport-local').Strategy
-const passport = require('../passport');
+//import { parseError, sessionizeUser } from "../util/helpers";
+//const passport = require('../passport');
+
+
+
 postRegister = (req, res) => {
+
     console.log(req.body);
+
+
 
     const { username, password } = req.body
     // ADD VALIDATION
@@ -19,6 +26,8 @@ postRegister = (req, res) => {
                 username: username,
                 password: password
             })
+            const sessionUser = sessionizeUser(newUser);
+            req.session.user = sessionUser;
             newUser.save((err, savedUser) => {
                 if (err) return res.json(err)
                 res.json(savedUser)
@@ -33,11 +42,20 @@ getLogin1 = (req, res, next)=> {
   }
 
 getLogin =  (req, res, next) => {
+  const parseError = err => {
+    return JSON.stringify(err, Object.getOwnPropertyNames(err));
+  };
+
+   const sessionizeUser = user => {
+    return { userId: user.id, username: user.username };
+  }
+
   const { username, password } = req.body
   let error=""
   let pincho= false;
   req.session.success = true;
-  User.findOne({ username: username }, (err, user) => {
+
+  const userId = User.findOne({ username: username }, (err, user) => {
     if (err) {
       req.session.success = false;
       error = err
@@ -51,14 +69,17 @@ getLogin =  (req, res, next) => {
       error = 'Incorrect password'
     }
   })
-  var userInfo = {
-      username: username,
-  };
-  //console.log("username "+username)
-  req.session.user = username
-  //req.session.userid=username;
+  console.log("error: "+error)
+  const sessionUser = sessionizeUser({userId, username});
+  req.session.user = sessionUser;
+  console.log(req.session)
+  res.send(sessionUser);
 
-  res.send(userInfo);
+  //var userInfo = {username: username};
+  //console.log("username "+username)
+  //req.session.user = username
+  //req.session.userid=username;
+  //res.send(userInfo);
 }
 
 
@@ -73,16 +94,22 @@ postLogout = (req, res) => {
     }
 }
 
+getHome1 = ({ session: { user }}, res) => {
+  console.log("buzina user: "+user)
+  res.send({ user });
+};
+
 getHome = (req, res, next) => {
 
     console.log("La req.user en el getHome: " + req.user)
     console.log("La req.session en el getHome: " + req.session.user)
-    console.log("La req.session.passport.user en el getHome: " + req.session.passport)
-    if (req.session.user) {
+
+    if (req.session) {
         res.json({ user: req.session.user })
     } else {
         res.json({ user: null })
     }
+    next()
 }
 
 

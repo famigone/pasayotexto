@@ -7,13 +7,15 @@ import TablaExp from './TablaExp'
 import CodeMirror2 from './CodeMirror2'
 import { useParams } from 'react-router';
 import api from '../api'
-
+import { createContext, useContext, useMemo } from "react";
+import  UserProvider  from '../components/UserProvider';
+import  UserContext  from '../components/UserContext';
 
 
 const CanalIDE = (props) => {
-    const { id, canal } = useParams();
+    const { id, canal, useroriginal } = useParams();
     const [exp, setExp] = useState("")
-
+    const  { user }  = useContext(UserContext);
     const getExperiencia = async() => {
       try {
       // const response = await get("/api/experiencias", {params:filtro});
@@ -52,7 +54,7 @@ const CanalIDE = (props) => {
           <Modal.Body>
             <TablaExp experiencia={exp}/>
 
-            <CodeMirror2  experiencia={exp} canal={canal} />
+            <CodeMirror2 experiencia={exp} canal={canal} useroriginal={useroriginal} user={user.name}/>
 
           </Modal.Body>
 

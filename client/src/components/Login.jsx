@@ -1,4 +1,7 @@
 import React, { Component, useState } from 'react'
+import  UserContext   from './UserContext';
+import { createContext, useContext, useMemo } from "react";
+import  UserProvider  from './UserProvider';
 import {
   Routes,
   Route,
@@ -14,17 +17,15 @@ import logo from '../img/login.png'
 import pasayo from '../img/pasayotexto.png'
 import axios from 'axios'
 import api from '../api'
-const Login = ({actualizarUsuario}) => {
-
+const Login = () => {
+  const  { login }  = useContext(UserContext);
   const [user, setUser] = useState("")
   const [pass, setPass] = useState("")
   //const [from, setFrom] = useState("/experiencias")
   const [irHome, setIrHome] = useState(false)
   const [loggedIn, setLoggedIn] = useState(false)
   const [username, setUsername] = useState("")
-
   const handleUser = (event) => setUser(event.target.value)
-
   const handlePass = (event) => setPass(event.target.value)
   let navigate = useNavigate();
   let location = useLocation();
@@ -41,9 +42,10 @@ const Login = ({actualizarUsuario}) => {
        const response = await api.postLogout(usuario)
        console.log("response: "+response)
        if (response.status === 200) {
-            console.log("VA A LLAMAR A ACTUALIZAR USUARIO")
-            setLoggedIn(false)
-            actualizarUsuario(usuario.username)
+            //console.log("VA A LLAMAR A ACTUALIZAR USUARIO")
+            login(user)
+            setLoggedIn(true)
+            //actualizarUsuario(usuario.username)
        }
      } catch(error) {
        console.log('error', error);
@@ -61,9 +63,10 @@ const Login = ({actualizarUsuario}) => {
       const response = await api.postLogin(usuario)
       //console.log("response: " + response.status)
       if (response.status === 200) {
-          // console.log("entroooo al 200: "+response.data.username)
+           console.log("entroooo al 200: "+response.data.username)
            setLoggedIn(true)
-           actualizarUsuario(response.data.username)
+           login(usuario.username)
+           //actualizarUsuario(response.data.username)
            console.log("nos vamos a: "+from)
            navigate(from, { replace: true });
 
