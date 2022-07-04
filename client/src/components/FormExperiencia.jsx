@@ -75,6 +75,18 @@ function handleSubmit(event) {
       La narrativa es el marco de sentido para la experiencia. Trata de que sea un relato breve, claro y simple.
     </Form.Text>
     <br/><br/>
+    <Form.Label>Plantilla</Form.Label>
+    <Form.Control as="textarea"
+                  name="plantilla"
+                  rows={3}
+                  placeholder="Ingresa una plantilla para esta experiencia"
+                  value={experiencia.plantilla}
+                  onChange={handleChange}
+                  />
+    <Form.Text className="text-muted">
+      La plantilla debe tomar la forma de comentarios que estructuren la solución.
+    </Form.Text>
+    <br/><br/>
     <Form.Label>Objetivo didáctico</Form.Label>
     <Form.Control as="textarea"
                   name="objetivo"

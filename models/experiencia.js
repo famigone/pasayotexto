@@ -25,7 +25,15 @@ const Experiencia = new Schema(
       user:{
         type:String,
         required:true
-      }
+      },
+      plantilla: {
+        type: String,
+        required: false
+      },
+      solucion: {
+        type: String,
+        required: false
+      },
     },
     { timestamps: true },
 )

@@ -26,13 +26,13 @@ const ENDPOINT= "http://localhost:3333"
 let socket;
 
 const CodeMirror2 = ({...props}) => {
-
-  const [codigo, setCodigo] = useState('');
+  console.log("pinche plantilla " + props.plantilla )
+  const [codigo, setCodigo] = useState(props.plantilla);
   let arregloInicial = []
   if (props.useroriginal) arregloInicial = [props.user, props.useroriginal]
   else  arregloInicial = [props.user]
   const [subscriptores, setSubscriptores] = useState(arregloInicial);
-  //const link= "https://pasayotexto.fi.uncoma.edu.ar/canal/"+props.experiencia+"/"+props.canal
+  //const link= "https://pasayotexto.fi.uncoma.edu.ar/canal/"+props.experiencia+"/"+props.canal+"/"+props.user
 
   const link= "http://localhost:8000/canal/"+props.experiencia+"/"+props.canal+"/"+props.user
   //const linkSecret= "http://localhost:8000/canalsecret/"+props.experiencia+"/"+props.canal
@@ -113,52 +113,45 @@ const CodeMirror2 = ({...props}) => {
 //  const runCopySecret = () => {
 //    navigator.clipboard.writeText(linkSecret)
 //  }
-const listarSubscriptores = () => {
-  subscriptores.map((unUser) => {
-    return (
-      <ListGroup.Item variant="secondary" key={unUser}>{unUser}</ListGroup.Item>
-    )
-  })
+
+const conectades=()=>{
+  return(
+  <ListGroup horizontal>
+  {  subscriptores.map((unUser) => {
+      return (
+        <ListGroup.Item variant="warning"><Badge bg="danger">{unUser}</Badge></ListGroup.Item>
+      )
+    })}
+
+  </ListGroup>)
 }
 
     return (
       <div>
+          <hr/>
+          <CodeMirror
+            value={codigo}
+            options={options}
+            onBeforeChange={(editor, data, code) => {
+                  setCodigo(code);
+                  updateCodeInState(code);
+            }}
+          />
+            <div className="d-grid gap-4">
+                <ButtonGroup>
+                  <Button className="btn btn-warning" onClick={props.onHide}>
+                    <i className="bi bi-dash-circle-fill"></i>
+                  </Button>
+                  <Button className="btn btn-warning" onClick={runCode}>
+                    <i className="bi bi-play-fill"></i>
+                  </Button>
+                  <Button className="btn btn-warning" onClick={runCopy} >
+                    <i className="bi bi-share"></i>
+                  </Button>
 
-
-        <hr/>
-        <CodeMirror
-          value={codigo}
-          options={options}
-          onBeforeChange={(editor, data, code) => {
-                setCodigo(code);
-                updateCodeInState(code);
-          }}
-
-        />
-
-      <div className="d-grid gap-4">
-          <ButtonGroup>
-            <Button className="btn btn-warning" onClick={props.onHide}>
-              <i className="bi bi-dash-circle-fill"></i>
-            </Button>
-            <Button className="btn btn-warning" onClick={runCode}>
-              <i className="bi bi-play-fill"></i>
-            </Button>
-            <Button className="btn btn-warning" onClick={runCopy} >
-              <i className="bi bi-share"></i>
-            </Button>
-
-          </ButtonGroup>
-      </div>
-          <ListGroup horizontal>
-          {  subscriptores.map((unUser) => {
-              return (
-                <ListGroup.Item variant="warning"><Badge bg="danger">{unUser}</Badge></ListGroup.Item>
-              )
-            })}
-
-          </ListGroup>
-
+                </ButtonGroup>
+            </div>
+            {conectades()}
       </div>
     )
 

@@ -29,7 +29,7 @@ const Login = () => {
   const handlePass = (event) => setPass(event.target.value)
   let navigate = useNavigate();
   let location = useLocation();
-  let from = location.state?.from?.pathname || "/";
+  let from = location.state?.from?.pathname || "/comunidad";
 
   async function logout(event) {
     try{

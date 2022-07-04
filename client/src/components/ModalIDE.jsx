@@ -37,6 +37,7 @@ const ModalIDE = (props) => {
                       experiencia={props.experiencia._id}
                       canal={props.canal}
                       user={props.user}
+                      plantilla = {props.experiencia.plantilla}
           />
 
         </Modal.Body>
