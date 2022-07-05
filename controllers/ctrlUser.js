@@ -26,8 +26,8 @@ postRegister = (req, res) => {
                 username: username,
                 password: password
             })
-            const sessionUser = sessionizeUser(newUser);
-            req.session.user = sessionUser;
+
+            req.session.user = newUser;
             newUser.save((err, savedUser) => {
                 if (err) return res.json(err)
                 res.json(savedUser)
