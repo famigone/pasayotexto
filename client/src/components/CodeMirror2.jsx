@@ -20,9 +20,9 @@ const io = require('socket.io-client')
 
 
 
-const ENDPOINT= "http://localhost:3333"
+//const ENDPOINT= "http://localhost:3333"
 //DESCOMENTAR EN PROD
-//const ENDPOINT= "https://pasayotextoback.fi.uncoma.edu.ar"
+const ENDPOINT= "https://pasayotextoback.fi.uncoma.edu.ar"
 let socket;
 
 const CodeMirror2 = ({...props}) => {
@@ -34,8 +34,8 @@ const CodeMirror2 = ({...props}) => {
   const [subscriptores, setSubscriptores] = useState(arregloInicial);
   const link= "https://pasayotexto.fi.uncoma.edu.ar/canal/"+props.experiencia+"/"+props.canal+"/"+props.user
 
-  //const link= "http://localhost:8000/canal/"+props.experiencia+"/"+props.canal+"/"+props.user
-  //const linkSecret= "http://localhost:8000/canalsecret/"+props.experiencia+"/"+props.canal
+//  const link= "http://localhost:8000/canal/"+props.experiencia+"/"+props.canal+"/"+props.user
+
   const options = {
     lineNumbers: true,
     mode: 'javascript',
