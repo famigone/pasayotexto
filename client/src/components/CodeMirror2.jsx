@@ -32,9 +32,9 @@ const CodeMirror2 = ({...props}) => {
   if (props.useroriginal) arregloInicial = [props.user, props.useroriginal]
   else  arregloInicial = [props.user]
   const [subscriptores, setSubscriptores] = useState(arregloInicial);
-  //const link= "https://pasayotexto.fi.uncoma.edu.ar/canal/"+props.experiencia+"/"+props.canal+"/"+props.user
+  const link= "https://pasayotexto.fi.uncoma.edu.ar/canal/"+props.experiencia+"/"+props.canal+"/"+props.user
 
-  const link= "http://localhost:8000/canal/"+props.experiencia+"/"+props.canal+"/"+props.user
+  //const link= "http://localhost:8000/canal/"+props.experiencia+"/"+props.canal+"/"+props.user
   //const linkSecret= "http://localhost:8000/canalsecret/"+props.experiencia+"/"+props.canal
   const options = {
     lineNumbers: true,
