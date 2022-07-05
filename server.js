@@ -37,19 +37,21 @@ app.use(express.json())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser());
-//app.use(cors({
-//  origin: "http://localhost:8000" ,
-//  credentials: true
-//}))
+
 //--se cambian 4 cosas
 //0-cambiar acá la url del socket y en CodeMirror2
 //1- en client/api/index
 //2- saca la línea proxy de client/package.jason y
 //3- se descomenta acá abajo
 app.use(cors({
-  origin: "https://pasayotexto.fi.uncoma.edu.ar" ,
+  origin: true ,
   credentials: true
 }))
+//app.use(cors({
+//  origin: "http://localhost:8000" ,
+//  credentials: true
+//}))
+
 
 //app.use(passport.initialize())
 //app.use(passport.session()) // calls serializeUser and deserializeUser
@@ -88,19 +90,12 @@ io.on('connection', (socket) => {
   //este evento es el que captura el coding
   socket.on('canalIn', ({ experiencia, canal, user }, callback) => {
     socket.join(canal);
-  //  console.log('user en canalIn: ' + user);
     if (user) socket.broadcast.to(canal).emit('nuevoSubcriptor', user);
   });
 
   socket.on('codeoEvent', function(data) {
-    //console.log('emitiendo al canal: ' + data.canal+ ' el code '  + data.newCode);
     socket.broadcast.to(data.canal).emit('codeoEmit', data);
-    //const sids = io.of("/").adapter.sids;
-  //  const sids = io.sockets.adapter.sids;
 
-//    sids.forEach(function(sid) {
-//      console.log('sid: ' + sid.);
-//    });
 
   })
 }
