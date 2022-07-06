@@ -34,7 +34,7 @@ const ModalIDE = (props) => {
         <Modal.Body>
           <TablaExp experiencia={props.experiencia}/>
           <CodeMirror2 onHide={props.onHide}
-                      experiencia={props.experiencia._id}
+                      experiencia={props.experiencia}
                       canal={props.canal}
                       user={props.user}
                       plantilla = {props.experiencia.plantilla}

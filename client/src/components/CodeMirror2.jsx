@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {ButtonGroup, Badge, ListGroup, Button, Modal, Table } from 'react-bootstrap';
+import LogoPasayo from './LogoPasayo'
+//import ModalError from './ModalError'
 //import Codemirror from 'react-codemirror';
 //import 'codemirror/lib/codemirror.css';
 //import 'codemirror/theme/monokai.css';
@@ -20,22 +22,25 @@ const io = require('socket.io-client')
 
 
 
-//const ENDPOINT= "http://localhost:3333"
+const ENDPOINT= "http://localhost:3333"
 //DESCOMENTAR EN PROD
-const ENDPOINT= "https://pasayotextoback.fi.uncoma.edu.ar"
+//const ENDPOINT= "https://pasayotextoback.fi.uncoma.edu.ar"
 let socket;
 
 const CodeMirror2 = ({...props}) => {
-  console.log("pinche plantilla " + props.plantilla )
+//  console.log("pinche plantilla " + props.plantilla )
   const [codigo, setCodigo] = useState(props.plantilla);
+  const [modalerror, setModalerror] = useState(false);
+  const [msgError, setMsgError] = useState("");
   let arregloInicial = []
   if (props.useroriginal) arregloInicial = [props.user, props.useroriginal]
   else  arregloInicial = [props.user]
   const [subscriptores, setSubscriptores] = useState(arregloInicial);
-  const link= "https://pasayotexto.fi.uncoma.edu.ar/canal/"+props.experiencia+"/"+props.canal+"/"+props.user
+//  const link= "https://pasayotexto.fi.uncoma.edu.ar/canal/"+props.experiencia+"/"+props.canal+"/"+props.user
 
-//  const link= "http://localhost:8000/canal/"+props.experiencia+"/"+props.canal+"/"+props.user
+  const link= "http://localhost:8000/canal/"+props.experiencia+"/"+props.canal+"/"+props.user
 
+  const handleClose = () => setModalerror(false);
   const options = {
     lineNumbers: true,
     mode: 'javascript',
@@ -49,7 +54,7 @@ const CodeMirror2 = ({...props}) => {
       let experiencia= props.experiencia
       let canal = props.canal
       let user = props.user
-      console.log("va a hacer canalIn en client con "+user)
+    //  console.log("va a hacer canalIn en client con "+user)
       socket.emit("canalIn", { experiencia, canal, user }, (error) => {
         if (error) {
           alert(error);
@@ -62,7 +67,7 @@ const CodeMirror2 = ({...props}) => {
   useEffect(function() {
 
       socket.on('codeoEmit', (payload) =>  {
-        console.log("payload..."+payload)
+      //  console.log("payload..."+payload)
         setCodigo(payload.newCode)
       })
       return () => {  socket.disconnect({user:props.user});}
@@ -72,7 +77,7 @@ const CodeMirror2 = ({...props}) => {
       //aquí nos llega el usuario nuevo que se suscribió al canal
       //lo agregamos al array de subscriptores
       socket.on('nuevoSubcriptor', (payload) =>  {
-        console.log("payload..."+payload)
+        //console.log("payload..."+payload)
         setSubscriptores(current => [...current, payload]);
       })
       return () => {  socket.disconnect();}
@@ -91,8 +96,16 @@ const CodeMirror2 = ({...props}) => {
   }
 
 
-
-
+const manejadorPasayo = (error) => {
+  let hint;
+  switch (error) {
+    case "Unexpected identifier" :
+      hint = "Parece que hay un error de sintaxis en tu código. Verificá que no hayan declaraciones de variables mal definidas o asignaciones a variables mal escritas."
+      break;
+    default: hint=error;
+  }
+  return hint;
+}
 
     const runCode = () => {
          //console.log(javascriptCode)
@@ -103,10 +116,24 @@ const CodeMirror2 = ({...props}) => {
            //setmsgEjecutado(false)
            //setTimeout(apagarMsg, 5000)
          } catch (e) {
-           alert(e);
+           console.log("modalerror ",modalerror)
+           console.log("msgError ",msgError)
+           setMsgError(manejadorPasayo(e.message))
+           setModalerror(true)
          }
        }
 
+         const runSave = () => {
+              //console.log(javascriptCode)
+              // Generate JavaScript code and run it.
+              try {
+                eval(codigo);
+                //setmsgEjecutado(false)
+                //setTimeout(apagarMsg, 5000)
+              } catch (e) {
+                alert(e);
+              }
+            }
     const runCopy = () => {
       navigator.clipboard.writeText(link)
   }
@@ -116,14 +143,105 @@ const CodeMirror2 = ({...props}) => {
 
 const conectades=()=>{
   return(
+
   <ListGroup horizontal>
   {  subscriptores.map((unUser) => {
       return (
-        <ListGroup.Item variant="warning"><Badge bg="danger">{unUser}</Badge></ListGroup.Item>
+        <ListGroup.Item variant="warning">
+          <Badge bg="danger">
+            {unUser}
+          </Badge>
+        </ListGroup.Item>
       )
     })}
 
   </ListGroup>)
+}
+
+
+const ModalError = (mostrar, msg) => {
+
+  const [show, setShow] = useState(mostrar);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+    return (
+
+        <Modal
+
+          backdrop="static"
+          size="sm-down"
+          centered
+          size="lg"
+          show={modalerror}
+          centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>
+                <LogoPasayo/>
+                Ups!
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {msgError}
+          </Modal.Body>
+          <Modal.Footer>
+                   <Button variant="secondary" onClick={()=>setModalerror(false)}>
+                     Ok
+                   </Button>
+
+                 </Modal.Footer>
+        </Modal>
+
+    );
+  }
+
+const botonera = () => {
+//  console.log("props.user "+props.user)
+//  console.log("props.experiencia.user ",props.experiencia.user ) //undefined
+  if (props.user !== props.experiencia.user)
+    return botoneraSimple()
+  else
+    return botoneraOwner()
+}
+
+const botoneraSimple = () => {
+  return (
+    <div className="d-grid gap-3">
+        <ButtonGroup>
+          <Button className="btn btn-warning" onClick={props.onHide}>
+            <i className="bi bi-dash-circle-fill"></i>
+          </Button>
+          <Button className="btn btn-warning" onClick={runCode}>
+            <i className="bi bi-play-fill"></i>
+          </Button>
+          <Button className="btn btn-warning" onClick={runCopy} >
+            <i className="bi bi-share-fill"></i>
+          </Button>
+        </ButtonGroup>
+    </div>
+  )
+}
+
+const botoneraOwner = () => {
+  return (
+    <div className="d-grid gap-4">
+        <ButtonGroup>
+          <Button className="btn btn-warning" onClick={props.onHide}>
+            <i className="bi bi-dash-circle-fill"></i>
+          </Button>
+          <Button className="btn btn-warning" onClick={runCode}>
+            <i className="bi bi-play-fill"></i>
+          </Button>
+          <Button className="btn btn-warning" onClick={runCopy} >
+            <i className="bi bi-share-fill"></i>
+          </Button>
+          <Button className="btn btn-warning" onClick={runSave} >
+            <i className="bi bi-save-fill"></i>
+          </Button>
+        </ButtonGroup>
+    </div>
+  )
 }
 
     return (
@@ -137,21 +255,11 @@ const conectades=()=>{
                   updateCodeInState(code);
             }}
           />
-            <div className="d-grid gap-4">
-                <ButtonGroup>
-                  <Button className="btn btn-warning" onClick={props.onHide}>
-                    <i className="bi bi-dash-circle-fill"></i>
-                  </Button>
-                  <Button className="btn btn-warning" onClick={runCode}>
-                    <i className="bi bi-play-fill"></i>
-                  </Button>
-                  <Button className="btn btn-warning" onClick={runCopy} >
-                    <i className="bi bi-share"></i>
-                  </Button>
+          <ModalError show={modalerror} msg={msgError}/>
 
-                </ButtonGroup>
-            </div>
-            {conectades()}
+          {botonera()}
+
+          {conectades()}
       </div>
     )
 
