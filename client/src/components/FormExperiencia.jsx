@@ -12,6 +12,7 @@ function FormExperiencia(props) {
                          objetivo:'',
                          tema: '',
                          activo:1,
+                         solucion: '//Parece que aún no se ha indicado la solución a esta narrativa',
                          user: props.user
                       }
   const [experiencia, setExperiencia] = useState(initialState)

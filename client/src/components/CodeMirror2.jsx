@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {ButtonGroup, Badge, ListGroup, Button, Modal, Table } from 'react-bootstrap';
+import {ButtonGroup, Alert, Badge, ListGroup, Button, Modal, Table } from 'react-bootstrap';
 import LogoPasayo from './LogoPasayo'
 //import ModalError from './ModalError'
 //import Codemirror from 'react-codemirror';
@@ -32,6 +32,9 @@ const CodeMirror2 = ({...props}) => {
   const [codigo, setCodigo] = useState(props.plantilla);
   const [modalerror, setModalerror] = useState(false);
   const [msgError, setMsgError] = useState("");
+  const [mostrarBtnLink, setMostrarBtnLink] = useState(false);
+  const [mostrarBtnPlay, setMostrarBtnPlay] = useState(false);
+  const [mostrarBtnSave, setMostrarBtnSave] = useState(false);
   let arregloInicial = []
   if (props.useroriginal) arregloInicial = [props.user, props.useroriginal]
   else  arregloInicial = [props.user]
@@ -95,6 +98,25 @@ const CodeMirror2 = ({...props}) => {
     //socket.disconnect();
   }
 
+  function handleSaveSolucion(event) {
+        event.preventDefault();
+        async function postExperiencia() {
+          try {
+            //const response = await post('/experiencia', experiencia);
+            //console.log("iiiiiiiddddd ",props.experiencia)
+            const response = await api.updateExperienciaById(props.experiencia._id, {'solucion': codigo})
+            setMostrarBtnSave(true)
+            setTimeout(apagar, 3000)
+            console.log(response)
+
+            //props.history.push(`/articles/${response.data._id}`);
+          } catch(error) {
+            console.log('error', error);
+          }
+        }
+        postExperiencia();
+      }
+
 
 const manejadorPasayo = (error) => {
   let hint;
@@ -113,6 +135,8 @@ const manejadorPasayo = (error) => {
 
          try {
            eval(codigo);
+           setMostrarBtnPlay(true)
+           setTimeout(apagar, 2000)
            //setmsgEjecutado(false)
            //setTimeout(apagarMsg, 5000)
          } catch (e) {
@@ -123,19 +147,12 @@ const manejadorPasayo = (error) => {
          }
        }
 
-         const runSave = () => {
-              //console.log(javascriptCode)
-              // Generate JavaScript code and run it.
-              try {
-                eval(codigo);
-                //setmsgEjecutado(false)
-                //setTimeout(apagarMsg, 5000)
-              } catch (e) {
-                alert(e);
-              }
-            }
-    const runCopy = () => {
+
+
+const runCopy = () => {
       navigator.clipboard.writeText(link)
+      setMostrarBtnLink(true)
+      setTimeout(apagar, 2000)
   }
 //  const runCopySecret = () => {
 //    navigator.clipboard.writeText(linkSecret)
@@ -223,6 +240,40 @@ const botoneraSimple = () => {
   )
 }
 
+const apagar = () => {
+
+  setMostrarBtnLink(false);
+  setMostrarBtnPlay(false);
+  setMostrarBtnSave(false);
+
+
+}
+
+const msgCopy = () => {
+  return (
+
+      <Alert key={"warning"} variant={"warning"} dismissible show={mostrarBtnLink}>
+       <i class="bi bi-bookmark-plus-fill"></i> Tu link se copió en el portapapeles. Podes hacer Click derecho y seleccionar la opción PEGAR
+     </Alert>
+  )
+}
+const msgPlay = () => {
+  return (
+
+      <Alert key={"warning1"} variant={"warning"} dismissible show={mostrarBtnPlay}>
+         <i class="bi bi-lightning-charge-fill"></i> Tu código fue ejecutado.
+     </Alert>
+  )
+}
+const msgSave = () => {
+  return (
+
+      <Alert key={"warning2"} variant={"warning"} dismissible show={mostrarBtnSave}>
+       <i class="bi bi-box2-heart"></i> Tu código fue guardado como la solución oficial de este desafío PASAYO.
+     </Alert>
+  )
+}
+
 const botoneraOwner = () => {
   return (
     <div className="d-grid gap-4">
@@ -236,7 +287,7 @@ const botoneraOwner = () => {
           <Button className="btn btn-warning" onClick={runCopy} >
             <i className="bi bi-share-fill"></i>
           </Button>
-          <Button className="btn btn-warning" onClick={runSave} >
+          <Button className="btn btn-warning" onClick={handleSaveSolucion} >
             <i className="bi bi-save-fill"></i>
           </Button>
         </ButtonGroup>
@@ -245,7 +296,10 @@ const botoneraOwner = () => {
 }
 
     return (
-      <div>
+          <div>
+            {msgSave()}
+            {msgCopy()}
+            {msgPlay()}
           <hr/>
           <CodeMirror
             value={codigo}
@@ -258,7 +312,7 @@ const botoneraOwner = () => {
           <ModalError show={modalerror} msg={msgError}/>
 
           {botonera()}
-
+          <br/>
           {conectades()}
       </div>
     )

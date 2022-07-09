@@ -53,10 +53,7 @@ updateExperiencia = async (req, res) => {
                 message: 'experiencia not found!',
             })
         }
-        experiencia.xml = body.xml
-        experiencia.narrativa = body.narrativa
-        experiencia.categoria = body.categoria
-        experiencia.objetivo = body.objetivo
+        experiencia.solucion = body.solucion
         experiencia
             .save()
             .then(() => {
