@@ -75,7 +75,7 @@ getAllColaborativas = (req, res) => {
 
   const filtro = req.query
   let filtroFinal = {}
-  if (filtro.tema !=="Todos") filtroFinal = filtro;
+  if (filtro.tema !=="TODOS") filtroFinal = filtro;
 
   const limite = filtro.limite
   console.log(filtro.limite)

@@ -106,10 +106,10 @@ function handleSubmit(event) {
               value={experiencia.tema}
     >
         <option>Indicá el tema de tu experiencia</option>
-        <option value = "Secuencias"> Secuencias </option>
-        <option value = "Modularidad"> Modularidad </option>
-        <option value = "Alternativas"> Alternativas </option>
-        <option value = "Repetitivas"> Repetitivas </option>
+        <option value = "SECUENCIAS"> Secuencias </option>
+        <option value = "MODULARIDAD"> Modularidad </option>
+        <option value = "ALTERNATIVAS"> Alternativas </option>
+        <option value = "REPETITIVAS"> Repetitivas </option>
     </Form.Select>
   </Form.Group>
 <hr/>

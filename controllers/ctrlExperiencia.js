@@ -18,7 +18,6 @@ createExperiencia = (req, res) => {
     if (!experiencia) {
         return res.status(400).json({ success: false, error: err })
     }
-
     experiencia
         .save()
         .then(() => {
@@ -89,7 +88,7 @@ deleteExperiencia = async (req, res) => {
 }
 
 getExperienciaById =  (req, res) => {
-     console.log(req.params.id)
+    // console.log(req.params.id)
      Experiencia.findOne({ _id: req.params.id }, (err, experiencia) => {
         if (err) {
             return res.status(400).json({ success: false, error: err })
@@ -107,13 +106,21 @@ getExperienciaById =  (req, res) => {
 
 
 getAllExperiencias = (req, res, next) => {
-//  res.set('Access-Control-Allow-Origin', 'https://pasayotexto.fi.uncoma.edu.ar');
-  const filtro = req.query
-  let filtroFinal = {}
-  if (filtro.tema !=="Todos") filtroFinal = filtro;
 
+  const filtro = req.query
+
+  //!tema y !autor
+  let filtroFinal = {}
+
+  //tema
+  if (filtro.tema && filtro.tema != "TODOS") filtroFinal.tema = filtro.tema
+  //autor
+  if (filtro.user) filtroFinal.user = filtro.user
+  //titulo
+  if (filtro.titulo) filtroFinal.titulo =  { $regex: '.*' + filtro.titulo + '.*' }
+  filtroFinal.activo = true;
   const limite = filtro.limite
-  console.log(filtro.limite)
+  //console.log("FiltroFInal ",filtroFinal)
   Experiencia.find(filtroFinal, (err, experiencias)  => {
     if (err) {
         return res.status(400).json({ success: false, error: err })

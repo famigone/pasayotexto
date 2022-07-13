@@ -43,7 +43,7 @@ const Card = ({experiencia, handleClickExp, canal}) => {
       // const response = await get("/api/experiencias", {params:filtro});
         const response = await api.getExperienciaById(experiencia._id)
         setCodigo(response.data.data.solucion);
-        console.log("el codiguete es ",codigo);
+        //console.log("el codiguete es ",codigo);
       } catch(error) {
         console.log('error', error);
       }
@@ -116,7 +116,7 @@ const Card = ({experiencia, handleClickExp, canal}) => {
                   <ul className="list-group list-group-flush">
                         <li className="list-group-item"><b>Objetivo Didáctico:</b> {experiencia.objetivo}</li>
                         <li className="list-group-item"><b>Tema:</b> {experiencia.tema}</li>
-                        <li className="list-group-item"><b>Tópico:</b> <span className="badge bg-success">cumpleaños</span></li>
+                        
                   </ul>
 
                        <ButtonGroup >

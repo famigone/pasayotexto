@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import styled from 'styled-components'
-import { ToggleButtonGroup, ButtonGroup, ToggleButton, Button, Modal } from 'react-bootstrap';
+import { Form, ToggleButtonGroup, ButtonGroup, ToggleButton, Button, Modal } from 'react-bootstrap';
 import ModalExperiencia from './ModalExperiencia'
 import Logo from './Logo'
 import Links from './Links'
@@ -22,41 +22,32 @@ const Nav = styled.nav.attrs({
 const Filtro = ({user, refrescarExp, handleFiltro, handleCargar}) => {
 
    const [modalShow, setModalShow] = useState(false);
-   const [filtro, setFiltro] = useState({tema:"Todos"})
-   const [radioTemaValue, setRadioTemaValue] = useState('TODOS')
-   const [radioAutorValue, setRadioAutorValue] = useState('MIAS')
+   const [radioTemaValue, setRadioTemaValue] = useState()
+   const [radioAutorValue, setRadioAutorValue] = useState()
+   const [filtroTitulo, setFiltroTitulo] = useState("")
    const radioTema = [
-     { name: 'TODOS', value: 'Todos' },
-     { name: 'SECUENCIAL', value: 'Secuencias' },
-     { name: 'MODULARIDAD', value: 'Modularidad' },
-     { name: 'ALTERNATIVAS', value: 'Alternativas' },
-     { name: 'REPETITIVAS', value: 'Repetitivas' }
+     { name: 'TODOS', value: 'TODOS' },
+     { name: 'SECUENCIAS', value: 'SECUENCIAS' },
+     { name: 'MODULARIDAD', value: 'MODULARIDAD' },
+     { name: 'ALTERNATIVAS', value: 'ALTERNATIVAS' },
+     { name: 'REPETITIVAS', value: 'REPETITIVAS' }
    ];
    const radioAutor = [
      { name: 'MIAS', value: 'MIAS' },
      { name: 'TODAS', value: 'TODAS' },
    ];
 
-
-   const handleChangeTema = (valTema) => {
-     setRadioTemaValue(valTema)
-     //const filtro= {tema:valTema, autor: radioAutorValue}
-     const filtro= {tema:valTema}
-     handleFiltro(filtro)
-  }
-
-  const handleChangeAutor = (valAutor) => {
-    setRadioAutorValue(valAutor)
-    //const filtro= {tema:radioTemaValue, autor: valAutor}
-    const filtro= {tema:radioTemaValue}
-    handleFiltro(filtro)
- }
+const handleFiltroTitulo = (event) => setFiltroTitulo(event.target.value)
 
    const refrescar = () => {
-     setModalShow(false)
-     refrescarExp(filtro)
+     let filtroFinal = {}
+     if (radioTemaValue ) filtroFinal.tema = radioTemaValue
+     if (radioAutorValue == 'MIAS') filtroFinal.user = user
+     if (filtroTitulo) filtroFinal.titulo = filtroTitulo
+     handleFiltro(filtroFinal)
    }
-
+//console.log("fffff",radioTemaValue)
+//console.log("xxxxx",radioAutorValue)
    return (
             <div>
             <Container>
@@ -81,11 +72,11 @@ const Filtro = ({user, refrescarExp, handleFiltro, handleCargar}) => {
                                   key={id}
                                   id={`radio-${id}`}
                                   type="radio"
-                                  variant="warning"
+                                  variant="outline-warning"
                                   name="radio"
                                   value={radio.value}
-                                  checked={radioTemaValue === radio.value}
-                                  onChange={(e) => handleChangeTema(e.currentTarget.value)}
+                                  checked={radioTemaValue == radio.value}
+                                  onChange={(e) => setRadioTemaValue(e.currentTarget.value)}
                                 >
                                   {radio.name}
                                 </ToggleButton>
@@ -96,27 +87,35 @@ const Filtro = ({user, refrescarExp, handleFiltro, handleCargar}) => {
                             </li>
                             <ButtonGroup >
                               {radioAutor.map((radiox, idx) => (
-                                <ToggleButton
-                                  key={idx}
-                                  id={`radioAutor-${idx}`}
-                                  type="radio"
-                                  variant="warning"
-                                  name="radioAutor"
-                                  value={radiox.value}
-                                  checked={radioAutorValue === radiox.value}
-                                  onChange={(e) => handleChangeAutor(e.currentTarget.value)}
-                                >
-                                  {radiox.name}
-                                </ToggleButton>
-                              ))}
+                                  <ToggleButton
+                                    key={idx+10}
+                                    id={`radio-${idx+10}`}
+                                    type="radio"
+                                    variant="outline-warning"
+                                    name="radiox"
+                                    value={radiox.value}
+                                    checked={radioAutorValue === radiox.name}
+                                    onChange={(e) => setRadioAutorValue(e.currentTarget.value)}
+                                  >
+                                    {radiox.name}
+                                  </ToggleButton>
+                                ))}
                             </ButtonGroup>
                             <li className="nav-item">
                                       <a className="nav-link active" aria-current="page" href="#"></a>
                             </li>
                           </ul>
                            <form className="d-flex">
-                            <input className="form-control me-2" type="search" placeholder="Tópico" aria-label="Search"/>
-                            <button className="btn btn-outline-warning" type="submit">Filtrar</button>
+                             <input className="form-control me-2"
+                                    type="search"
+                                    placeholder="Título"
+                                    aria-label="Search"
+                                    value= {filtroTitulo}
+                                    onChange = {handleFiltroTitulo}
+                                    />
+                              <button className="btn btn-warning" onClick={()=>refrescar()}>
+                                <i className="bi bi-filter-circle-fill"></i>
+                              </button>
                           </form>
 
                         </div>

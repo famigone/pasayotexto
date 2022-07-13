@@ -15,7 +15,7 @@ const Comunidad = () => {
   const  { user }  = useContext(UserContext);
   const constIncremento = 10
   const constLimite = 10
-  const filtroInicial = {tema: "Todos"}
+  const filtroInicial = {tema: "TODOS"}
   const [experiencias, setExperiencias] = useState([])
   const [filtro, setFiltro] = useState(filtroInicial)
   const [limite, setLimite] = useState(constLimite)
@@ -36,9 +36,10 @@ const Comunidad = () => {
   const getExperiencias = async(filtro) => {
     try {
     // const response = await get("/api/experiencias", {params:filtro});
-      if (!filtro) setFiltro(filtroInicial)
-      const unFiltro = {tema: filtro.tema, limite:limite}
-      const response = await api.getAllExperiencias(unFiltro)
+      //if (!filtro) setFiltro(filtroInicial)
+      //const unFiltro = {tema: filtro.tema, user:filtro.autor, limite:limite}
+      //const unFiltro = {tema: filtro.tema,  limite:limite}
+      const response = await api.getAllExperiencias(filtro)
       setExperiencias(response.data.data);
       //console.log(experiencias);
     } catch(error) {
@@ -53,9 +54,9 @@ const Comunidad = () => {
 
 
   const handleFiltro = (newFiltro) => {
+      console.log(newFiltro);
       setFiltro(newFiltro)
       getExperiencias(newFiltro);
-      //console.log(newFiltro);
     }
 
   const handleClickExp = (exp, canal) => {
