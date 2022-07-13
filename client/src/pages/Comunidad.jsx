@@ -41,7 +41,7 @@ const Comunidad = () => {
       //const unFiltro = {tema: filtro.tema,  limite:limite}
       const response = await api.getAllExperiencias(filtro)
       setExperiencias(response.data.data);
-      //console.log(experiencias);
+    //  console.log(experiencias);
     } catch(error) {
       console.log('error', error);
     }

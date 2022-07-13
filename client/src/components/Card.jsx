@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import Image from './Image'
+import logo from '../img/PASAYOTEXTO_white.png'
 import styled from 'styled-components'
 import LogoPasayo from './LogoPasayo'
 import TablaExp from './TablaExp'
@@ -32,6 +33,27 @@ const UnBadge = styled.div.attrs({
 const Card = ({experiencia, handleClickExp, canal}) => {
   const [mostrar, setMostrar] = useState(false);
   const [codigo, setCodigo] = useState(experiencia.solucion);
+  const [mostrarModalDelete, setMostrarModalDelete] = useState(false);
+
+  const  { user }  = useContext(UserContext);
+const mostrarModal = () => {
+  return (
+    <Modal show={mostrarModalDelete} onHide={setMostrarModalDelete}>
+        <Modal.Header closeButton>
+          <Modal.Title><LogoPasayo/>Atención!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Vas a eliminar definitivamente esta narrativa.</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setMostrarModalDelete(false)}>
+            Mejor no...
+          </Button>
+          <Button variant="warning" onClick={setMostrarModalDelete}>
+            Sí, eliminar!
+          </Button>
+        </Modal.Footer>
+      </Modal>
+  )
+}
   const options = {
     lineNumbers: true,
     mode: 'javascript',
@@ -54,6 +76,51 @@ const Card = ({experiencia, handleClickExp, canal}) => {
        getExperiencia();
 
      }, []);
+
+
+     const botonera = () => {
+     //  console.log("props.user "+props.user)
+    //  console.log("DUEÑEEEEE user ",user ) //undefined
+    //  console.log("DUEÑEEEEE experiencia.user ", experiencia.user ) //undefined
+       if (user.name !== experiencia.user)
+         return botoneraSimple()
+       else
+         return botoneraOwner()
+     }
+
+     const botoneraSimple = () => {
+       return (
+         <div className="d-grid gap-2">
+           <ButtonGroup >
+             <Button className="btn btn-warning" onClick={() => setMostrar(true)}>
+               <i className="bi bi-play-fill"></i>
+             </Button>
+             <Button className="btn btn-warning" onClick={() => handleClickExp(experiencia, canal)}>
+               <i className="bi bi-pin-map"></i>
+             </Button>
+           </ButtonGroup >
+         </div>
+       )
+     }
+     const botoneraOwner = () => {
+       return (
+
+           <div className="d-grid gap-3">
+             <ButtonGroup >
+               <Button className="btn btn-warning" onClick={() => setMostrar(true)}>
+                 <i className="bi bi-play-fill"></i>
+               </Button>
+               <Button className="btn btn-warning" onClick={() => handleClickExp(experiencia, canal)}>
+                 <i className="bi bi-pin-map"></i>
+               </Button>
+               <Button className="btn btn-warning" onClick={() => setMostrarModalDelete(true)}>
+                 <i className="bi bi-eye-slash-fill"></i>
+               </Button>
+             </ButtonGroup >
+           </div>
+
+       )
+     }
 
      const runCode = () => {
           try {
@@ -91,11 +158,9 @@ const Card = ({experiencia, handleClickExp, canal}) => {
                     />
                     <div className="d-grid gap-1">
                         <ButtonGroup>
-
                           <Button className="btn btn-warning" onClick={runCode}>
                             <i className="bi bi-play-fill"></i>
                           </Button>
-
                         </ButtonGroup>
                     </div>
                 </Modal.Body>
@@ -116,18 +181,11 @@ const Card = ({experiencia, handleClickExp, canal}) => {
                   <ul className="list-group list-group-flush">
                         <li className="list-group-item"><b>Objetivo Didáctico:</b> {experiencia.objetivo}</li>
                         <li className="list-group-item"><b>Tema:</b> {experiencia.tema}</li>
-                        
+
                   </ul>
 
-                       <ButtonGroup >
-                           <Button className="btn btn-warning" onClick={() => setMostrar(true)}>
-                             <i className="bi bi-play-fill"></i>
-                           </Button>
-                           <Button className="btn btn-warning" onClick={() => handleClickExp(experiencia, canal)}>
-                             <i className="bi bi-pin-map"></i>
-                           </Button>
-                         </ButtonGroup >
-
+                  {botonera()}
+                  {mostrarModal()}
 
 
 

@@ -35,6 +35,7 @@ const CodeMirror2 = ({...props}) => {
   const [mostrarBtnLink, setMostrarBtnLink] = useState(false);
   const [mostrarBtnPlay, setMostrarBtnPlay] = useState(false);
   const [mostrarBtnSave, setMostrarBtnSave] = useState(false);
+
   let arregloInicial = []
   if (props.useroriginal) arregloInicial = [props.user, props.useroriginal]
   else  arregloInicial = [props.user]
@@ -116,6 +117,29 @@ const CodeMirror2 = ({...props}) => {
         }
         postExperiencia();
       }
+
+
+const confirmDelete = () => {
+
+}
+function handleDelete(event) {
+            event.preventDefault();
+            async function postExperiencia() {
+              try {
+                //const response = await post('/experiencia', experiencia);
+                //console.log("iiiiiiiddddd ",props.experiencia)
+                const response = await api.updateExperienciaById(props.experiencia._id, {'solucion': codigo})
+                setMostrarBtnSave(true)
+                setTimeout(apagar, 3000)
+                console.log(response)
+
+                //props.history.push(`/articles/${response.data._id}`);
+              } catch(error) {
+                console.log('error', error);
+              }
+            }
+            postExperiencia();
+          }
 
 
 const manejadorPasayo = (error) => {
@@ -239,7 +263,26 @@ const botoneraSimple = () => {
     </div>
   )
 }
-
+const botoneraOwner = () => {
+  return (
+    <div className="d-grid gap-4">
+        <ButtonGroup>
+          <Button className="btn btn-warning" onClick={props.onHide}>
+            <i className="bi bi-dash-circle-fill"></i>
+          </Button>
+          <Button className="btn btn-warning" onClick={runCode}>
+            <i className="bi bi-play-fill"></i>
+          </Button>
+          <Button className="btn btn-warning" onClick={runCopy} >
+            <i className="bi bi-share-fill"></i>
+          </Button>
+          <Button className="btn btn-warning" onClick={handleSaveSolucion} >
+            <i className="bi bi-save-fill"></i>
+          </Button>
+        </ButtonGroup>
+    </div>
+  )
+}
 const apagar = () => {
 
   setMostrarBtnLink(false);
@@ -274,26 +317,7 @@ const msgSave = () => {
   )
 }
 
-const botoneraOwner = () => {
-  return (
-    <div className="d-grid gap-4">
-        <ButtonGroup>
-          <Button className="btn btn-warning" onClick={props.onHide}>
-            <i className="bi bi-dash-circle-fill"></i>
-          </Button>
-          <Button className="btn btn-warning" onClick={runCode}>
-            <i className="bi bi-play-fill"></i>
-          </Button>
-          <Button className="btn btn-warning" onClick={runCopy} >
-            <i className="bi bi-share-fill"></i>
-          </Button>
-          <Button className="btn btn-warning" onClick={handleSaveSolucion} >
-            <i className="bi bi-save-fill"></i>
-          </Button>
-        </ButtonGroup>
-    </div>
-  )
-}
+
 
     return (
           <div>
@@ -314,6 +338,7 @@ const botoneraOwner = () => {
           {botonera()}
           <br/>
           {conectades()}
+
       </div>
     )
 

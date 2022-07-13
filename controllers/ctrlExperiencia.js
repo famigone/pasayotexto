@@ -120,11 +120,12 @@ getAllExperiencias = (req, res, next) => {
   if (filtro.titulo) filtroFinal.titulo =  { $regex: '.*' + filtro.titulo + '.*' }
   filtroFinal.activo = true;
   const limite = filtro.limite
-  //console.log("FiltroFInal ",filtroFinal)
+  console.log("FiltroFInal ",filtroFinal)
   Experiencia.find(filtroFinal, (err, experiencias)  => {
     if (err) {
+        console.log("error ", err)
         return res.status(400).json({ success: false, error: err })
-    }
+    }    
     return res.status(200).json({ success: true, data: experiencias })
   }).sort({createdAt: -1}).limit(limite);
 
