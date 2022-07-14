@@ -8,6 +8,8 @@ import { Modal, ToggleButtonGroup, ButtonGroup, ToggleButton, Button } from 'rea
 import {Controlled as CodeMirror} from 'react-codemirror2';
 import  UserContext  from '../components/UserContext';
 import api from '../api'
+import axios from 'axios'
+
 
 require('codemirror/lib/codemirror.css');
 require('codemirror/theme/material.css');
@@ -30,7 +32,7 @@ const UnBadge = styled.div.attrs({
 
 `
 
-const Card = ({experiencia, handleClickExp, canal}) => {
+const Card = ({onDelete, experiencia, handleClickExp, canal}) => {
   const [mostrar, setMostrar] = useState(false);
   const [codigo, setCodigo] = useState(experiencia.solucion);
   const [mostrarModalDelete, setMostrarModalDelete] = useState(false);
@@ -47,13 +49,31 @@ const mostrarModal = () => {
           <Button variant="secondary" onClick={() => setMostrarModalDelete(false)}>
             Mejor no...
           </Button>
-          <Button variant="warning" onClick={setMostrarModalDelete}>
+          <Button variant="warning" onClick={handleDelete}>
             Sí, eliminar!
           </Button>
         </Modal.Footer>
       </Modal>
   )
 }
+
+
+function handleDelete(event) {
+      async function deleteExperiencia() {
+        try {
+            console.log("va  a borrar  ",experiencia._id)
+            const response = await api.deleteExperienciaById(experiencia._id)
+            setMostrarModalDelete(false)
+            //invoco método en padre Comunidad para que limpie los eliminados
+            onDelete()
+        } catch(error) {
+          console.log('error', error);
+        }
+      }
+      deleteExperiencia();
+    }
+
+
   const options = {
     lineNumbers: true,
     mode: 'javascript',
@@ -76,6 +96,7 @@ const mostrarModal = () => {
        getExperiencia();
 
      }, []);
+
 
 
      const botonera = () => {

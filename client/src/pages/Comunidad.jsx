@@ -33,6 +33,11 @@ const Comunidad = () => {
   overflow-y: auto;
   `
 
+  const onDelete = () => {
+    console.log("Invocó onDelete")
+    getExperiencias({})
+  }
+
   const getExperiencias = async(filtro) => {
     try {
     // const response = await get("/api/experiencias", {params:filtro});
@@ -98,7 +103,7 @@ const Comunidad = () => {
             <StackGrid columnWidth={300}>
               {experiencias.map((exp) => {
                       return(
-                        <Card key={exp._id} experiencia={exp} handleClickExp={handleClickExp} canal={Math.random().toString(36).slice(2)}/>
+                        <Card onDelete={onDelete} key={exp._id} experiencia={exp} handleClickExp={handleClickExp} canal={Math.random().toString(36).slice(2)}/>
                       )
                     })}
             </StackGrid>

@@ -72,18 +72,38 @@ updateExperiencia = async (req, res) => {
 }
 
 deleteExperiencia = async (req, res) => {
-    await Experiencia.findOneAndDelete({ _id: req.params.id }, (err, experiencia) => {
+    const body = req.body
+
+    if (!body) {
+        return res.status(400).json({
+            success: false,
+            error: 'You must provide a body to update',
+        })
+    }
+
+    Experiencia.findOne({ _id: req.params.id }, (err, experiencia) => {
         if (err) {
-            return res.status(400).json({ success: false, error: err })
+            return res.status(404).json({
+                err,
+                message: 'experiencia not found!',
+            })
         }
-
-        if (!experiencia) {
-            return res
-                .status(404)
-                .json({ success: false, error: "experiencia not found" })
-        }
-
-        return res.status(200).json({ success: true, data: experiencia })
+        experiencia.activo = false
+        experiencia
+            .save()
+            .then(() => {
+                return res.status(200).json({
+                    success: true,
+                    id: experiencia._id,
+                    message: 'experiencia deleted!',
+                })
+            })
+            .catch(error => {
+                return res.status(404).json({
+                    error,
+                    message: 'experiencia not updated!',
+                })
+            })
     })
 }
 
@@ -125,7 +145,7 @@ getAllExperiencias = (req, res, next) => {
     if (err) {
         console.log("error ", err)
         return res.status(400).json({ success: false, error: err })
-    }    
+    }
     return res.status(200).json({ success: true, data: experiencias })
   }).sort({createdAt: -1}).limit(limite);
 

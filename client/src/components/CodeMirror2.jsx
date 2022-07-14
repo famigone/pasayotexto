@@ -119,27 +119,7 @@ const CodeMirror2 = ({...props}) => {
       }
 
 
-const confirmDelete = () => {
 
-}
-function handleDelete(event) {
-            event.preventDefault();
-            async function postExperiencia() {
-              try {
-                //const response = await post('/experiencia', experiencia);
-                //console.log("iiiiiiiddddd ",props.experiencia)
-                const response = await api.updateExperienciaById(props.experiencia._id, {'solucion': codigo})
-                setMostrarBtnSave(true)
-                setTimeout(apagar, 3000)
-                console.log(response)
-
-                //props.history.push(`/articles/${response.data._id}`);
-              } catch(error) {
-                console.log('error', error);
-              }
-            }
-            postExperiencia();
-          }
 
 
 const manejadorPasayo = (error) => {
