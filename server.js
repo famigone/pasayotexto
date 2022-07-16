@@ -37,19 +37,19 @@ app.use(express.json())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser());
-app.use(cors({
-  origin: "http://localhost:8000",
-  credentials: true
-}))
+//app.use(cors({
+//  origin: "http://localhost:8000",
+//  credentials: true
+//}))
 //--se cambian 4 cosas
 //0-cambiar acá la url del socket y en CodeMirror2
 //1- en client/api/index
 //2- saca la línea proxy de client/package.jason y
 //3- se descomenta acá abajo
-//app.use(cors({
-//  origin: "https://pasayotexto.fi.uncoma.edu.ar" ,
-//  credentials: true
-//}))
+app.use(cors({
+  origin: "https://pasayotexto.fi.uncoma.edu.ar" ,
+  credentials: true
+}))
 
 //app.use(passport.initialize())
 //app.use(passport.session()) // calls serializeUser and deserializeUser
@@ -70,8 +70,8 @@ const server = app.listen(apiPort, () => console.log(`Server running on port ${a
 //oficial en fai
 const io = new Server(server, { cors: {
     //DECOMENTAR EN PROD
-    origin: "http://localhost:8000",
-  //  origin: "https://pasayotexto.fi.uncoma.edu.ar",
+  //  origin: "http://localhost:8000",
+    origin: "https://pasayotexto.fi.uncoma.edu.ar",
     credentials: true
   } })
 //oficial en fai
