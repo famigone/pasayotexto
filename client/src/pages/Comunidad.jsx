@@ -44,6 +44,7 @@ const Comunidad = () => {
       //if (!filtro) setFiltro(filtroInicial)
       //const unFiltro = {tema: filtro.tema, user:filtro.autor, limite:limite}
       //const unFiltro = {tema: filtro.tema,  limite:limite}
+      filtro.limite= limite
       const response = await api.getAllExperiencias(filtro)
       setExperiencias(response.data.data);
     //  console.log(experiencias);

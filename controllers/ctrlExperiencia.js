@@ -140,7 +140,7 @@ getAllExperiencias = (req, res, next) => {
   if (filtro.titulo) filtroFinal.titulo =  { $regex: '.*' + filtro.titulo + '.*' }
   filtroFinal.activo = true;
   const limite = filtro.limite
-  console.log("FiltroFInal ",filtroFinal)
+  console.log("filtroFinal ",filtroFinal)
   Experiencia.find(filtroFinal, (err, experiencias)  => {
     if (err) {
         console.log("error ", err)
