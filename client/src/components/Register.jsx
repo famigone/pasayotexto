@@ -17,6 +17,7 @@ const Register = () => {
   const [pass2, setPass2] = useState("")
   const [errorMail, setErrorMail] = useState(false)
   const [errorPass, setErrorPass] = useState(false)
+  const [errorRepetido, setErrorRepetido] = useState(false)
   const [errorBlanco, setErrorBlanco] = useState(false)
   const [irLogin, setIrLogin] = useState(false)
   const [mail, setMail] = useState("")
@@ -49,6 +50,7 @@ const Register = () => {
       async function postRegister() {
         try {
           //const response = await post('/experiencia', experiencia);
+          setErrorRepetido(false)
           const usuario =  {
               username: user,
               password: pass,
@@ -56,8 +58,10 @@ const Register = () => {
             }
           const response = await api.postRegister(usuario)
           console.log(response)
+          if (response.data.error) setErrorRepetido(true)
+          else setIrLogin(true)
           //seteo en true el estado de redirección
-          setIrLogin(true)
+
         } catch(error) {
           console.log('error', error);
         }
@@ -174,6 +178,9 @@ return(
            <i className="bi bi-robot"></i> Todos los campos son obligatorios...
         </p>
       </Alert>
+      <Alert variant="danger" show={errorRepetido}>
+         <i className="bi bi-robot"></i> Lo sentimos, pero ya existe ese nombre de usuari@
+       </Alert>
       <Alert variant="warning" show={irLogin}>
           <p>
              <i className="bi bi-robot"></i> EXCELENTE! ya tenes tu cuenta PASAYO creada. En 5 segundos te redirigiremos al login de PASAYO TEXTO.

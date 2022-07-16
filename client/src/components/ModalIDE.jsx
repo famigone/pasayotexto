@@ -38,6 +38,7 @@ const ModalIDE = (props) => {
                       canal={props.canal}
                       user={props.user}
                       plantilla = {props.experiencia.plantilla}
+                      guardarSesion ={true}
           />
 
         </Modal.Body>

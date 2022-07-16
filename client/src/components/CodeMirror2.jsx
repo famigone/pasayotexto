@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {ButtonGroup, Alert, Badge, ListGroup, Button, Modal, Table } from 'react-bootstrap';
+import {OverlayTrigger, Tooltip, ButtonGroup, Alert, Badge, ListGroup, Button, Modal, Table } from 'react-bootstrap';
 import LogoPasayo from './LogoPasayo'
 //import ModalError from './ModalError'
 //import Codemirror from 'react-codemirror';
@@ -30,19 +30,21 @@ let socket;
 const CodeMirror2 = ({...props}) => {
 //  console.log("pinche plantilla " + props.plantilla )
   const [codigo, setCodigo] = useState(props.plantilla);
+  const [codesesionid, setCodesesionid] = useState();
   const [modalerror, setModalerror] = useState(false);
   const [msgError, setMsgError] = useState("");
   const [mostrarBtnLink, setMostrarBtnLink] = useState(false);
   const [mostrarBtnPlay, setMostrarBtnPlay] = useState(false);
   const [mostrarBtnSave, setMostrarBtnSave] = useState(false);
+  const [mostrarBtnSaveSesion, setMostrarBtnSaveSesion] = useState(false);
 
   let arregloInicial = []
   if (props.useroriginal) arregloInicial = [props.user, props.useroriginal]
   else  arregloInicial = [props.user]
   const [subscriptores, setSubscriptores] = useState(arregloInicial);
-  const link= "https://pasayotexto.fi.uncoma.edu.ar/canal/"+props.experiencia+"/"+props.canal+"/"+props.user
+//  const link= "https://pasayotexto.fi.uncoma.edu.ar/canal/"+props.experiencia+"/"+props.canal+"/"+props.user
 
-//  const link= "http://localhost:8000/canal/"+props.experiencia+"/"+props.canal+"/"+props.user
+  const link= "http://localhost:8000/canal/"+props.experiencia+"/"+props.canal+"/"+props.user
 
   const handleClose = () => setModalerror(false);
   const options = {
@@ -87,6 +89,26 @@ const CodeMirror2 = ({...props}) => {
       return () => {  socket.disconnect();}
   }, []);
 
+
+  const getCodesesion = async() => {
+    try {
+    //  console.log("entro con ", props.user +" - "+ props.experiencia._id)
+      const filtro = {user: props.user, experienciaid: props.experiencia._id}
+      const response = await api.getCodesesionByUser(filtro)
+      setCodesesionid(response.data.data._id)
+      setCodigo(response.data.data.codigo)
+      //console.log("recuperó esto:", response.data.data.codigo);
+    } catch(error) {
+      console.log('error', error);
+    }
+  }
+
+  useEffect(function() {
+     //console.log("buscando sesion");
+     getCodesesion();
+
+   }, []);
+
   const updateCodeInState = (newText) => {
     setCodigo(prevText => newText)
     //console.log("conectando para actualizar..."+props.canal)
@@ -107,7 +129,7 @@ const CodeMirror2 = ({...props}) => {
             //console.log("iiiiiiiddddd ",props.experiencia)
             const response = await api.updateExperienciaById(props.experiencia._id, {'solucion': codigo})
             setMostrarBtnSave(true)
-            setTimeout(apagar, 3000)
+            setTimeout(apagar, 5000)
             console.log(response)
 
             //props.history.push(`/articles/${response.data._id}`);
@@ -118,6 +140,40 @@ const CodeMirror2 = ({...props}) => {
         postExperiencia();
       }
 
+      function handleSaveSesion(event) {
+            event.preventDefault();
+
+            async function postUpdateCodeSesion() {
+              try {
+
+                const response = await api.updateCodesesionById(codesesionid, {'codigo': codigo})
+                console.log(response)
+
+                //props.history.push(`/articles/${response.data._id}`);
+              } catch(error) {
+                console.log('error', error);
+              }
+            }
+
+            async function postCreateCodeSesion() {
+              try {
+                const oneCodesesion = {user: props.user, experienciaid: props.experiencia._id, codigo:codigo}
+                const response = await api.insertCodesesion(oneCodesesion)
+              } catch(error) {
+                console.log('error', error);
+              }
+            }
+
+            if (codesesionid)
+              //no existe => create
+              postUpdateCodeSesion();
+            else
+              //el codesesion existe => solo update
+              postCreateCodeSesion();
+
+            setMostrarBtnSaveSesion(true)
+            setTimeout(apagar, 5000)
+          }
 
 
 
@@ -220,6 +276,7 @@ const ModalError = (mostrar, msg) => {
 const botonera = () => {
 //  console.log("props.user "+props.user)
 //  console.log("props.experiencia.user ",props.experiencia.user ) //undefined
+  console.log("guardarSesion: ",props.guardarSesion)
   if (props.user !== props.experiencia.user)
     return botoneraSimple()
   else
@@ -230,35 +287,135 @@ const botoneraSimple = () => {
   return (
     <div className="d-grid gap-3">
         <ButtonGroup>
+          <OverlayTrigger
+             key={'top7'}
+             placement={'top'}
+             overlay={
+               <Tooltip id={"asd777fs"}>
+                 <strong>Salir</strong>.
+               </Tooltip>
+             }
+       >
           <Button className="btn btn-warning" onClick={props.onHide}>
             <i className="bi bi-dash-circle-fill"></i>
           </Button>
+          </OverlayTrigger>
+          <OverlayTrigger
+             key={'top6'}
+             placement={'top'}
+             overlay={
+               <Tooltip id={"asd6666fs"}>
+                 <strong>Ejecutar tu código</strong>.
+               </Tooltip>
+             }
+       >
+
           <Button className="btn btn-warning" onClick={runCode}>
             <i className="bi bi-play-fill"></i>
           </Button>
+        </OverlayTrigger>
+
+        <OverlayTrigger
+           key={'top5'}
+           placement={'top'}
+           overlay={
+             <Tooltip id={"55"}>
+               <strong>Compartir esta sesión</strong>.
+             </Tooltip>
+           }
+     >
           <Button className="btn btn-warning" onClick={runCopy} >
             <i className="bi bi-share-fill"></i>
           </Button>
+        </OverlayTrigger>
+        {(props.guardarSesion) &&
+        <OverlayTrigger
+           key={'top110'}
+           placement={'top'}
+           overlay={
+             <Tooltip id={"1111"}>
+               <strong>Guardar la sesión</strong>.
+             </Tooltip>
+           }
+     >
+        <Button className="btn btn-warning" onClick={handleSaveSesion} >
+          <i class="bi bi-save-fill"></i>
+        </Button>
+      </OverlayTrigger>}
         </ButtonGroup>
     </div>
   )
 }
 const botoneraOwner = () => {
   return (
-    <div className="d-grid gap-4">
+    <div className="d-grid gap-5">
         <ButtonGroup>
+          <OverlayTrigger
+             key={'top344'}
+             placement={'top'}
+             overlay={
+               <Tooltip id={"4444"}>
+                 <strong>Salir</strong>.
+               </Tooltip>
+             }
+       >
           <Button className="btn btn-warning" onClick={props.onHide}>
             <i className="bi bi-dash-circle-fill"></i>
           </Button>
+        </OverlayTrigger>
+          <OverlayTrigger
+             key={'top3'}
+             placement={'top'}
+             overlay={
+               <Tooltip id={"asdfs333"}>
+                 <strong>Ejecutar tu código</strong>.
+               </Tooltip>
+             }
+       >
           <Button className="btn btn-warning" onClick={runCode}>
             <i className="bi bi-play-fill"></i>
           </Button>
+        </OverlayTrigger>
+        <OverlayTrigger
+           key={'top22'}
+           placement={'top'}
+           overlay={
+             <Tooltip id={"2222"}>
+               <strong>Compartir esta sesión</strong>.
+             </Tooltip>
+           }
+     >
           <Button className="btn btn-warning" onClick={runCopy} >
             <i className="bi bi-share-fill"></i>
           </Button>
-          <Button className="btn btn-warning" onClick={handleSaveSolucion} >
-            <i className="bi bi-save-fill"></i>
+        </OverlayTrigger>
+        {(props.guardarSesion) &&
+        <OverlayTrigger
+           key={'top51222'}
+           placement={'top'}
+           overlay={
+             <Tooltip id={"5522"}>
+               <strong>Compartir esta sesión</strong>.
+             </Tooltip>
+           }
+     >
+          <Button className="btn btn-warning" onClick={runCopy} >
+            <i className="bi bi-share-fill"></i>
           </Button>
+        </OverlayTrigger>}
+        <OverlayTrigger
+           key={'top11'}
+           placement={'top'}
+           overlay={
+             <Tooltip id={"1111"}>
+               <strong>Guardar la sesión</strong>.
+             </Tooltip>
+           }
+     >
+        <Button className="btn btn-warning" onClick={handleSaveSesion} >
+          <i class="bi bi-save-fill"></i>
+        </Button>
+      </OverlayTrigger>
         </ButtonGroup>
     </div>
   )
@@ -268,6 +425,7 @@ const apagar = () => {
   setMostrarBtnLink(false);
   setMostrarBtnPlay(false);
   setMostrarBtnSave(false);
+  setMostrarBtnSaveSesion(false);
 
 
 }
@@ -276,7 +434,7 @@ const msgCopy = () => {
   return (
 
       <Alert key={"warning"} variant={"warning"} dismissible show={mostrarBtnLink}>
-       <i class="bi bi-bookmark-plus-fill"></i> Tu link se copió en el portapapeles. Podes hacer Click derecho y seleccionar la opción PEGAR
+       <i className="bi bi-bookmark-plus-fill"></i> Tu link se copió en el portapapeles. Podes hacer Click derecho y seleccionar la opción PEGAR
      </Alert>
   )
 }
@@ -284,7 +442,7 @@ const msgPlay = () => {
   return (
 
       <Alert key={"warning1"} variant={"warning"} dismissible show={mostrarBtnPlay}>
-         <i class="bi bi-lightning-charge-fill"></i> Tu código fue ejecutado.
+         <i className="bi bi-lightning-charge-fill"></i> Tu código fue ejecutado.
      </Alert>
   )
 }
@@ -292,11 +450,19 @@ const msgSave = () => {
   return (
 
       <Alert key={"warning2"} variant={"warning"} dismissible show={mostrarBtnSave}>
-       <i class="bi bi-box2-heart"></i> Tu código fue guardado como la solución oficial de este desafío PASAYO.
+       <i className="bi bi-box2-heart"></i> Tu código fue guardado como la solución correcta de este desafío PASAYO.
      </Alert>
   )
 }
 
+const msgSaveSesion = () => {
+  return (
+
+      <Alert key={"warning21"} variant={"warning"} dismissible show={mostrarBtnSaveSesion}>
+       <i className="bi bi-box2-heart"></i> Hemos guardado el código de tu sesión para que esté disponible la próxima vez que abras esta narrativa.
+     </Alert>
+  )
+}
 
 
     return (
@@ -304,6 +470,7 @@ const msgSave = () => {
             {msgSave()}
             {msgCopy()}
             {msgPlay()}
+            {msgSaveSesion()}
           <hr/>
           <CodeMirror
             value={codigo}

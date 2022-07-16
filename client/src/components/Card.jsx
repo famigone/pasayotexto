@@ -103,10 +103,10 @@ function handleDelete(event) {
      //  console.log("props.user "+props.user)
     //  console.log("DUEÑEEEEE user ",user ) //undefined
     //  console.log("DUEÑEEEEE experiencia.user ", experiencia.user ) //undefined
-       if (user.name !== experiencia.user)
-         return botoneraSimple()
-       else
+       if ((user.name == experiencia.user) || (user.name == "PASAYO"))
          return botoneraOwner()
+       else
+         return botoneraSimple()
      }
 
      const botoneraSimple = () => {

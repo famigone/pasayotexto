@@ -27,11 +27,12 @@ const CanalIDE = (props) => {
       }
     }
 
+
     useEffect(function() {
       // console.log(id);
        getExperiencia();
-
      }, []);
+
 
 
     return (
@@ -60,6 +61,7 @@ const CanalIDE = (props) => {
               canal={canal}
               useroriginal={useroriginal}
               user={user.name}
+              guardarSesion = {false}
 
               />
 
