@@ -44,7 +44,7 @@ const CodeMirror2 = ({...props}) => {
   const [subscriptores, setSubscriptores] = useState(arregloInicial);
   const link= "https://pasayotexto.fi.uncoma.edu.ar/canal/"+props.experiencia._id+"/"+props.canal+"/"+props.user
 
-//  const link= "http://localhost:8000/canal/"+props.experiencia._id+"/"+props.canal+"/"+props.user
+  //const link= "http://localhost:8000/canal/"+props.experiencia._id+"/"+props.canal+"/"+props.user
 
   const handleClose = () => setModalerror(false);
   const options = {
@@ -95,15 +95,19 @@ const CodeMirror2 = ({...props}) => {
       console.log("entro con ", props.user +" - "+ props.experiencia._id)
       //si entró por link, debo buscar el codesesion del que comparte (ni el actual ni el que creó la experiencia)
       let elUser = props.user;
+      let experienciaid= props.experiencia._id
       //este el que comparte
       //console.log("props.useroriginal",props.useroriginal )
       //este es el que habre el link
       //console.log("props.user", props.user )
-      console.log("props.experiencia._id", props.experiencia._id )
-      console.log("props.experiencia.id", props.experiencia )
+      console.log("elUser", elUser )
+      console.log("experienciaid", experienciaid )
       console.log("props", props )
-      if (!props.guardarSesion) elUser = props.useroriginal
-      const filtro = {user: elUser, experienciaid: props.experiencia}
+      if (!props.guardarSesion) {
+        elUser = props.useroriginal
+        experienciaid = props.experiencia
+      }
+      const filtro = {user: elUser, experienciaid: experienciaid}
       const response = await api.getCodesesionByUser(filtro)
       setCodesesionid(response.data.data._id)
       setCodigo(response.data.data.codigo)
@@ -400,6 +404,20 @@ const botoneraOwner = () => {
             <i className="bi bi-share-fill"></i>
           </Button>
         </OverlayTrigger>
+        {(props.guardarSesion) &&
+        <OverlayTrigger
+           key={'top51222222'}
+           placement={'top'}
+           overlay={
+             <Tooltip id={"51522"}>
+               <strong>Guardar como solución</strong>.
+             </Tooltip>
+           }
+     >
+     <Button className="btn btn-warning" onClick={handleSaveSolucion } >
+       <i class="bi bi-hand-thumbs-up"></i>
+     </Button>
+        </OverlayTrigger>}
         {(props.guardarSesion) &&
         <OverlayTrigger
            key={'top51222'}
