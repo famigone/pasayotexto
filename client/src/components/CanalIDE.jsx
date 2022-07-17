@@ -34,7 +34,7 @@ const CanalIDE = (props) => {
      }, []);
 
 
-
+    // console.log("la expe en canalIDE ",exp)
     return (
 
         <Modal
@@ -56,7 +56,7 @@ const CanalIDE = (props) => {
             <TablaExp experiencia={exp}/>
 
             <CodeMirror2
-              experiencia={exp}
+              experiencia={id}
               plantilla={exp.plantilla}
               canal={canal}
               useroriginal={useroriginal}

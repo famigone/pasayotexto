@@ -99,6 +99,7 @@ deleteExperiencia = async (req, res) => {
                 })
             })
             .catch(error => {
+              console.log("pinchoooooooo", error )
                 return res.status(404).json({
                     error,
                     message: 'experiencia not updated!',

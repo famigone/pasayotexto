@@ -42,9 +42,9 @@ const CodeMirror2 = ({...props}) => {
   if (props.useroriginal) arregloInicial = [props.user, props.useroriginal]
   else  arregloInicial = [props.user]
   const [subscriptores, setSubscriptores] = useState(arregloInicial);
-  const link= "https://pasayotexto.fi.uncoma.edu.ar/canal/"+props.experiencia+"/"+props.canal+"/"+props.user
+  const link= "https://pasayotexto.fi.uncoma.edu.ar/canal/"+props.experiencia._id+"/"+props.canal+"/"+props.user
 
-//  const link= "http://localhost:8000/canal/"+props.experiencia+"/"+props.canal+"/"+props.user
+//  const link= "http://localhost:8000/canal/"+props.experiencia._id+"/"+props.canal+"/"+props.user
 
   const handleClose = () => setModalerror(false);
   const options = {
@@ -92,12 +92,22 @@ const CodeMirror2 = ({...props}) => {
 
   const getCodesesion = async() => {
     try {
-    //  console.log("entro con ", props.user +" - "+ props.experiencia._id)
-      const filtro = {user: props.user, experienciaid: props.experiencia._id}
+      console.log("entro con ", props.user +" - "+ props.experiencia._id)
+      //si entró por link, debo buscar el codesesion del que comparte (ni el actual ni el que creó la experiencia)
+      let elUser = props.user;
+      //este el que comparte
+      //console.log("props.useroriginal",props.useroriginal )
+      //este es el que habre el link
+      //console.log("props.user", props.user )
+      console.log("props.experiencia._id", props.experiencia._id )
+      console.log("props.experiencia.id", props.experiencia )
+      console.log("props", props )
+      if (!props.guardarSesion) elUser = props.useroriginal
+      const filtro = {user: elUser, experienciaid: props.experiencia}
       const response = await api.getCodesesionByUser(filtro)
       setCodesesionid(response.data.data._id)
       setCodigo(response.data.data.codigo)
-      //console.log("recuperó esto:", response.data.data.codigo);
+      console.log("recuperó esto:", response.data.data.codigo);
     } catch(error) {
       console.log('error', error);
     }
@@ -287,6 +297,7 @@ const botoneraSimple = () => {
   return (
     <div className="d-grid gap-3">
         <ButtonGroup>
+            {(props.guardarSesion) &&
           <OverlayTrigger
              key={'top7'}
              placement={'top'}
@@ -299,7 +310,7 @@ const botoneraSimple = () => {
           <Button className="btn btn-warning" onClick={props.onHide}>
             <i className="bi bi-dash-circle-fill"></i>
           </Button>
-          </OverlayTrigger>
+        </OverlayTrigger>}
           <OverlayTrigger
              key={'top6'}
              placement={'top'}
@@ -314,7 +325,7 @@ const botoneraSimple = () => {
             <i className="bi bi-play-fill"></i>
           </Button>
         </OverlayTrigger>
-
+        {(props.guardarSesion) &&
         <OverlayTrigger
            key={'top5'}
            placement={'top'}
@@ -327,7 +338,7 @@ const botoneraSimple = () => {
           <Button className="btn btn-warning" onClick={runCopy} >
             <i className="bi bi-share-fill"></i>
           </Button>
-        </OverlayTrigger>
+        </OverlayTrigger>}
         {(props.guardarSesion) &&
         <OverlayTrigger
            key={'top110'}
@@ -395,27 +406,15 @@ const botoneraOwner = () => {
            placement={'top'}
            overlay={
              <Tooltip id={"5522"}>
-               <strong>Compartir esta sesión</strong>.
+               <strong>Guardar esta sesión</strong>.
              </Tooltip>
            }
      >
-          <Button className="btn btn-warning" onClick={runCopy} >
-            <i className="bi bi-share-fill"></i>
-          </Button>
+     <Button className="btn btn-warning" onClick={handleSaveSesion} >
+       <i class="bi bi-save-fill"></i>
+     </Button>
         </OverlayTrigger>}
-        <OverlayTrigger
-           key={'top11'}
-           placement={'top'}
-           overlay={
-             <Tooltip id={"1111"}>
-               <strong>Guardar la sesión</strong>.
-             </Tooltip>
-           }
-     >
-        <Button className="btn btn-warning" onClick={handleSaveSesion} >
-          <i class="bi bi-save-fill"></i>
-        </Button>
-      </OverlayTrigger>
+
         </ButtonGroup>
     </div>
   )
