@@ -6,6 +6,7 @@ import logo from '../img/pasayotexto_small.png'
 import pasayo from '../img/login.png'
 import axios from 'axios'
 import api from '../api'
+import AuthService from "../services/auth.service";
 
 
 
@@ -47,25 +48,7 @@ const Register = () => {
       setMail2(event.target.value)
 
 
-      async function postRegister() {
-        try {
-          //const response = await post('/experiencia', experiencia);
-          setErrorRepetido(false)
-          const usuario =  {
-              username: user,
-              password: pass,
-              mail: mail
-            }
-          const response = await api.postRegister(usuario)
-          console.log(response)
-          if (response.data.error) setErrorRepetido(true)
-          else setIrLogin(true)
-          //seteo en true el estado de redirección
 
-        } catch(error) {
-          console.log('error', error);
-        }
-      }
   const validarMail = () => {return (mail==mail2)}
 
   const validarPass = () => {return (pass==pass2)}
@@ -88,8 +71,11 @@ const Register = () => {
       if (!validarMail()) setErrorMail(true)
       else setErrorMail(false)
       // si todo ok hacemos submit y redirección a login
-      if (validarPass() && validarMail())
-        postRegister()
+      if (validarPass() && validarMail()) {
+        setErrorRepetido(false)
+        if (!AuthService.postRegister(user, pass, mail)) setErrorRepetido(true)
+        else setIrLogin(true)
+      }
 }
 
 return(

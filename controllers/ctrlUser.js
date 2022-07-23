@@ -1,17 +1,13 @@
 const User = require('../models/user');
 const LocalStrategy = require('passport-local').Strategy
-//import { parseError, sessionizeUser } from "../util/helpers";
-//const passport = require('../passport');
-
+const config = require("../config/auth.config");
+var jwt = require("jsonwebtoken");
 
 
 postRegister = (req, res) => {
 
     console.log(req.body);
-
-
-
-    const { username, password } = req.body
+    const { username, password, mail } = req.body
     // ADD VALIDATION
     User.findOne({ username: username }, (err, user) => {
         if (err) {
@@ -22,12 +18,14 @@ postRegister = (req, res) => {
             })
         }
         else {
+
             const newUser = new User({
                 username: username,
-                password: password
+                password: password,
+                mail: mail
             })
 
-            req.session.user = newUser;
+            //req.session.user = newUser;
             newUser.save((err, savedUser) => {
                 if (err) return res.json(err)
                 res.json(savedUser)
@@ -42,48 +40,45 @@ getLogin1 = (req, res, next)=> {
   }
 
 getLogin =  (req, res, next) => {
-  const parseError = err => {
-    return JSON.stringify(err, Object.getOwnPropertyNames(err));
-  };
 
-   const sessionizeUser = user => {
-    return { userId: user.id, username: user.username };
-  }
+
 
   const { username, password } = req.body
   let error=""
   let pincho= false;
-  req.session.success = true;
+  //req.session.success = true;
 
   const userId = User.findOne({ username: username }, (err, user) => {
     if (err) {
-      req.session.success = false;
-      error = err
+      console.log(err)
+      return res.status(404).send({ message: err });
     }
     if (!user) {
-      req.session.success = false;
-      error= 'Incorrect username'
+       return res.status(404).send({ message: "User Not found." });
     }
     if (!user.checkPassword(password)) {
-      req.session.success = false;
-      error = 'Incorrect password'
+      return res.status(401).send({
+          accessToken: null,
+          message: "Invalid Password!"
+        });
     }
+    console.log("userId ",user.id)
+    console.log("config.secret ",config.secret)
+    var token = jwt.sign({ id: user.id }, config.secret, {
+        expiresIn: 86400 // 24 hours
+      });
+      res.status(200).send({
+           id: user.id,
+           username: username,
+           accessToken: token
+         });
   })
-  console.log("error: "+error)
-  const sessionUser = sessionizeUser({userId, username});
-  req.session.user = sessionUser;
-  console.log(req.session)
-  res.send(sessionUser);
 
-  //var userInfo = {username: username};
-  //console.log("username "+username)
-  //req.session.user = username
-  //req.session.userid=username;
-  //res.send(userInfo);
+  //const sessionUser = sessionizeUser({userId, username});
+  //req.session.user = sessionUser;
+
+
 }
-
-
-
 
 postLogout = (req, res) => {
     if (req.user) {

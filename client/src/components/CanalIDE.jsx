@@ -10,12 +10,12 @@ import api from '../api'
 import { createContext, useContext, useMemo } from "react";
 import  UserProvider  from '../components/UserProvider';
 import  UserContext  from '../components/UserContext';
-
+import AuthService from "../services/auth.service";
 
 const CanalIDE = (props) => {
     const { id, canal, useroriginal } = useParams();
     const [exp, setExp] = useState("")
-    const  { user }  = useContext(UserContext);
+    const user = AuthService.getCurrentUser().username;
     const getExperiencia = async() => {
       try {
       // const response = await get("/api/experiencias", {params:filtro});
@@ -60,7 +60,7 @@ const CanalIDE = (props) => {
               plantilla={exp.plantilla}
               canal={canal}
               useroriginal={useroriginal}
-              user={user.name}
+              user={user}
               guardarSesion = {false}
 
               />

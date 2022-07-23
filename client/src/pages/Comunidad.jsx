@@ -10,9 +10,17 @@ import api from '../api'
 import { createContext, useContext, useMemo } from "react";
 import  UserProvider  from '../components/UserProvider';
 import  UserContext  from '../components/UserContext';
+import AuthService from "../services/auth.service";
+import {
+  useNavigate,
+  useLocation,
+  Navigate,
+} from "react-router-dom";
+
 const Comunidad = () => {
   //const filtroInicial = {tema: "Todos", mias:true}
-  const  { user }  = useContext(UserContext);
+  //const  { user }  = useContext(UserContext);
+  const user = AuthService.getCurrentUser().username;
   const constIncremento = 10
   const constLimite = 10
   const filtroInicial = {tema: "TODOS"}
@@ -24,6 +32,9 @@ const Comunidad = () => {
   //el modalIDEShow con los datos de esa exp
   const [expActual, setExpActual] = useState("")
   const [modalIDEShow, setModalIDEShow] = useState(false);
+  let navigate = useNavigate();
+  let location = useLocation();
+  let from = location.state?.from?.pathname || "/login";
 
   const Divido = styled.nav.attrs({
       className: 'div',
@@ -47,9 +58,14 @@ const Comunidad = () => {
       filtro.limite= limite
       const response = await api.getAllExperiencias(filtro)
       setExperiencias(response.data.data);
-    //  console.log(experiencias);
+      //si response falla por 401 o 403 => redirigir al login
+      console.log("response  ",response.status)
+
     } catch(error) {
       console.log('error', error);
+      //if (response.status == 401 || response.res.status == 403)
+        //console.log("a loguearse caraju  ",response.status)
+        navigate(from, { replace: true });
     }
   }
 
@@ -112,7 +128,7 @@ const Comunidad = () => {
                       show={modalIDEShow}
                       onHide={()=>setModalIDEShow(false)}
                       canal={canal}
-                      user={user.name}
+                      user={user}
                       />
         </Divido>
             )

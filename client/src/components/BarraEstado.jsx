@@ -3,10 +3,10 @@ import axios from 'axios'
 import api from '../api'
 import  NavBara  from './NavBara'
 
-const BarraEstado = () => {
+const BarraEstado = ({currentUser, setCurrentUser}) => {
 
   return (
-    <NavBara/>
+    <NavBara currentUser={currentUser} setCurrentUser={setCurrentUser}/>
 )}
 
 export default BarraEstado

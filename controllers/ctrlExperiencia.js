@@ -127,7 +127,7 @@ getExperienciaById =  (req, res) => {
 
 
 getAllExperiencias = (req, res, next) => {
-
+  
   const filtro = req.query
 
   //!tema y !autor

@@ -1,5 +1,7 @@
 const express = require('express'); //import express
 const passport = require('../passport');
+const { authJwt } = require("../middlewares");
+const { verifySignUp } = require("../middlewares");
 // 1.
 const router  = express.Router();
 // 2.
@@ -8,8 +10,9 @@ const UserCtrl = require('../controllers/ctrlUser');
 const CodeCtrl = require('../controllers/ctrlCodesesion');
 ///////////////////////////////////////////////////////////////////////////
 //EXPERIENCIAS
-router.post('/experiencia', ExpCtrl.createExperiencia)
-router.get('/experiencias', ExpCtrl.getAllExperiencias)
+
+router.post('/experiencia', [authJwt.verifyToken], ExpCtrl.createExperiencia)
+router.get('/experiencias', [authJwt.verifyToken], ExpCtrl.getAllExperiencias)
 router.put('/experiencia/:id', ExpCtrl.updateExperiencia)
 router.delete('/experiencia/:id', ExpCtrl.deleteExperiencia)
 router.get('/experiencia/:id', ExpCtrl.getExperienciaById)

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import Logo from './Logo'
 import LogoC4 from './LogoC4'
-
+import AuthService from "../services/auth.service";
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Badge from 'react-bootstrap/Badge';
@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom'
 import { createContext, useContext, useMemo } from "react";
 import  UserProvider  from './UserProvider';
 import  UserContext  from './UserContext';
+
 const Container = styled.div.attrs({
     className: 'container',
 })``
@@ -20,10 +21,14 @@ const Container = styled.div.attrs({
 
 
 
-const NavBara = () => {
-    const  { user }  = useContext(UserContext);
+const NavBara = ({currentUser, setCurrentUser}) => {
+  console.log("reputa madre ",currentUser)
+    const user = currentUser
 
-console.log("pinche usuario: "+user.name)
+    function logOut() {
+     AuthService.logout();
+     setCurrentUser(undefined)
+   }
         return (
 <div>
           <Navbar  bg="warning"  expand="lg">
@@ -43,9 +48,13 @@ console.log("pinche usuario: "+user.name)
                       <Nav className="me-auto">
                          <Link to="/ejemplos" className="nav-link"><b>ACTIVIDADES </b></Link>
                          <Link to="/comunidad" className="nav-link"><b>EXPERIENCIAS</b></Link>
-                         {console.log("la verdad: "+user.name)}
-                         {user.auth && <Link to="/logout" className="nav-link"><b><Badge bg="danger">{user.name}</Badge></b></Link>}
-                         {!user.auth && <Link to="/login" className="nav-link"><b>ENTRAR</b></Link>}
+                         {currentUser &&
+                           <Link onClick={logOut} to="/login" className="nav-link">
+                             <b>
+                               <Badge bg="danger">{currentUser}</Badge>
+                             </b>
+                           </Link>}
+                         {!currentUser && <Link to="/login" className="nav-link"><b>ENTRAR</b></Link>}
                       </Nav>
               </Navbar.Collapse>
 

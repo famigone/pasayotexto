@@ -9,7 +9,7 @@ import {Controlled as CodeMirror} from 'react-codemirror2';
 import  UserContext  from '../components/UserContext';
 import api from '../api'
 import axios from 'axios'
-
+import AuthService from "../services/auth.service";
 
 require('codemirror/lib/codemirror.css');
 require('codemirror/theme/material.css');
@@ -37,7 +37,9 @@ const Card = ({onDelete, experiencia, handleClickExp, canal}) => {
   const [codigo, setCodigo] = useState(experiencia.solucion);
   const [mostrarModalDelete, setMostrarModalDelete] = useState(false);
 
-  const  { user }  = useContext(UserContext);
+
+  const user = AuthService.getCurrentUser().username;
+  console.log("serete ",user)
 const mostrarModal = () => {
   return (
     <Modal show={mostrarModalDelete} onHide={setMostrarModalDelete}>
@@ -103,7 +105,7 @@ function handleDelete(event) {
      //  console.log("props.user "+props.user)
     //  console.log("DUEÑEEEEE user ",user ) //undefined
     //  console.log("DUEÑEEEEE experiencia.user ", experiencia.user ) //undefined
-       if ((user.name == experiencia.user) || (user.name == "PASAYO"))
+       if ((user == experiencia.user) || (user == "PASAYO"))
          return botoneraOwner()
        else
          return botoneraSimple()

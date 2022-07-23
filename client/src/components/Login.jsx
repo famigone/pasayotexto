@@ -1,7 +1,10 @@
-import React, { Component, useState } from 'react'
+
+import React, { Component, useState, useEffect } from 'react'
 import  UserContext   from './UserContext';
 import { createContext, useContext, useMemo } from "react";
 import  UserProvider  from './UserProvider';
+
+import AuthService from "../services/auth.service";
 import {
   Routes,
   Route,
@@ -17,8 +20,8 @@ import logo from '../img/login.png'
 import pasayo from '../img/pasayotexto.png'
 import axios from 'axios'
 import api from '../api'
-const Login = () => {
-  const  { login }  = useContext(UserContext);
+const Login = ({setCurrentUser}) => {
+  //const  { login }  = useContext(UserContext);
   const [user, setUser] = useState("")
   const [pass, setPass] = useState("")
   //const [from, setFrom] = useState("/experiencias")
@@ -31,62 +34,19 @@ const Login = () => {
   let location = useLocation();
   let from = location.state?.from?.pathname || "/comunidad";
 
-  async function logout(event) {
-    try{
-       event.preventDefault()
-       console.log('logging out')
-       const usuario =  {
-           username: user,
-           password: pass,
-         }
-       const response = await api.postLogout(usuario)
-       console.log("response: "+response)
-       if (response.status === 200) {
-            //console.log("VA A LLAMAR A ACTUALIZAR USUARIO")
-            login(user)
-            setLoggedIn(true)
-            //actualizarUsuario(usuario.username)
-       }
-     } catch(error) {
-       console.log('error', error);
-     }
-     }
 
-  async function postLogin() {
-    try {
-      //const response = await post('/experiencia', experiencia);
-      const usuario =  {
-          username: user,
-          password: pass,
-        }
 
-      const response = await api.postLogin(usuario)
-      //console.log("response: " + response.status)
-      if (response.status === 200) {
-           console.log("entroooo al 200: "+response.data.username)
-           setLoggedIn(true)
-           login(usuario.username)
-           //actualizarUsuario(response.data.username)
-           console.log("nos vamos a: "+from)
-           navigate(from, { replace: true });
-
-      }else{console.log("algo salió mal ")}
-      //console.log(response)
-      //seteo en true el estado de redirección
-      //setIrHome(true)
-    } catch(error) {
-      console.log('error', error);
-    }
-  }
-
-  const handleSubmit = (event) => {
-
+  async function handleSubmit (event) {
         event.preventDefault()
-      //  console.log('handleSubmit')
-        postLogin()
+        const auth = await AuthService.postLogin(user, pass, from)
+        if (auth){
+          const miUsuario = AuthService.getCurrentUser().username
+          console.log("autorizado, navegando a comunidad",miUsuario)
+          setCurrentUser(miUsuario)
+          navigate(from, { replace: true });
+          window.location.reload();
+        }
     }
-
-
 
 
 

@@ -5,7 +5,7 @@ import LogoPasayo from './LogoPasayo'
 import TablaExp from './TablaExp'
 //import CodeMirror from './CodeMirror'
 import CodeMirror2 from './CodeMirror2'
-
+import AuthService from "../services/auth.service";
 
 const ModalIDE = (props) => {
 

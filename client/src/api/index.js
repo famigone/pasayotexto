@@ -1,10 +1,15 @@
+import authHeader from '../services/auth-header';
 import axios from 'axios'
 axios.defaults.withCredentials = true;
+//axios.defaults.headers.common = { headers: authHeader() }
 const api = axios.create({
-
-  baseURL: 'https://pasayotextoback.fi.uncoma.edu.ar/api',
-//  baseURL: 'http://localhost:3333/api',
+//  baseURL: 'https://pasayotextoback.fi.uncoma.edu.ar/api',
+  baseURL: 'http://localhost:3333/api',
+  headers: {
+        'x-access-token': authHeader()
+      }
 })
+
 
 export const insertExperiencia = payload => api.post('/experiencia', payload)
 export const getAllExperiencias = (filtro) => api.get('/experiencias', {params:filtro})

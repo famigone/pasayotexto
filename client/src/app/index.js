@@ -1,6 +1,7 @@
 import React, { Component, useState, useEffect } from 'react'
 import { Navigate, BrowserRouter, Route, Routes, Outlet, Link, useNavigate, useLocation } from 'react-router-dom'
 import { createContext, useContext, useMemo } from "react";
+import AuthService from "../services/auth.service";
 //import { useLocalStorage } from "./useLocalStorage";
 
 import  UserContext   from '../components/UserContext';
@@ -18,17 +19,25 @@ import axios from 'axios'
 import api from '../api'
 
 const App = () => {
-    const { user } = useContext(UserContext);
+    //const { user } = useContext(UserContext);
+    const [currentUser, setCurrentUser] = useState(undefined)
     //const [user, setUser] = useState(null)
     //console.log("usuarioOriginal: "+user)
-    const actualizarUsuario = (usuario) => {
-      //setUser(usuario)
-    //  console.log("actualizó el usuario " + user)
-    }
+
+    useEffect(function() {
+      const user = AuthService.getCurrentUser();
+      if (user) {
+      setCurrentUser(user.username)
+        console.log("seteo ",user.username)
+      }
+    }, []);
+
+
+//console.log("AuthService.getCurrentUser() ",AuthService.getCurrentUser())
     return (
           <BrowserRouter>
            <UserProvider>
-            <BarraEstado/>
+            <BarraEstado currentUser={currentUser} setCurrentUser={setCurrentUser} />
             <Routes>
               <Route
                 path="comunidad"
@@ -47,7 +56,7 @@ const App = () => {
                     }
                 />
               //<Route path="canalsecret/:id/:canal" element={<CanalIDE />} />
-                <Route path="login" element={<Login/>} />
+                <Route path="login" element={<Login setCurrentUser={setCurrentUser}/>} />
                 <Route path="register" element={<Register/>} />
             </Routes>
           </UserProvider>
@@ -60,17 +69,17 @@ const App = () => {
 
 function RequireAuth({ children }: { children: JSX.Element }) {
   let location = useLocation();
-  const { user } = useContext(UserContext);
-  //console.log("location "+location)
-  if (!user.auth) {
-    console.log("no autenticado "+location)
+  //const { user } = useContext(UserContext);
+  //console.log("location: ", location)
+  const user = AuthService.getCurrentUser();
+    if (!user) {
     // Redirect them to the /login page, but save the current location they were
     // trying to go to when they were redirected. This allows us to send them
     // along to that page after they login, which is a nicer user experience
     // than dropping them off on the home page.
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
-  console.log("sisisisi autenticado "+children)
+  //console.log("children ", children)
   return children;
 }
 
