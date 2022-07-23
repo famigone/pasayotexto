@@ -51,7 +51,6 @@ const CodeMirror2 = ({...props}) => {
     lineNumbers: true,
     mode: 'javascript',
     theme: 'material',
-
     }
 
   useEffect(function() {
