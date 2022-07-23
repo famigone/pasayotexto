@@ -22,7 +22,7 @@ const Container = styled.div.attrs({
 
 
 const NavBara = ({currentUser, setCurrentUser}) => {
-  console.log("reputa madre ",currentUser)
+  
     const user = currentUser
 
     function logOut() {

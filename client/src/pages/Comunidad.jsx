@@ -116,7 +116,10 @@ const Comunidad = () => {
     return (
 
         <Divido onScroll={handleScroll} >
-            <Filtro user={user.name} refrescarExp={getExperiencias} handleFiltro={handleFiltro} handleCargar={handleCargar}/>
+            <Filtro user={user}
+              refrescarExp={getExperiencias}
+              handleFiltro={handleFiltro}
+              handleCargar={handleCargar}/>
             <StackGrid columnWidth={300}>
               {experiencias.map((exp) => {
                       return(

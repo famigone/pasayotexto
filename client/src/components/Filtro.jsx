@@ -21,7 +21,7 @@ const Nav = styled.nav.attrs({
 
 const Filtro = ({user, refrescarExp, handleFiltro, handleCargar}) => {
 
-   const [modalShow, setModalShow] = useState(false);
+   const [modalShowNueva, setModalShowNueva] = useState(false);
    const [radioTemaValue, setRadioTemaValue] = useState()
    const [radioAutorValue, setRadioAutorValue] = useState()
    const [filtroTitulo, setFiltroTitulo] = useState("")
@@ -38,6 +38,11 @@ const Filtro = ({user, refrescarExp, handleFiltro, handleCargar}) => {
    ];
 
 const handleFiltroTitulo = (event) => setFiltroTitulo(event.target.value)
+const handleShowNueva = (event) => {
+    event.preventDefault()
+    setModalShowNueva(true);
+
+  }
 
    const refrescar = () => {
      let filtroFinal = {}
@@ -55,7 +60,7 @@ const handleFiltroTitulo = (event) => setFiltroTitulo(event.target.value)
                      <div className="container-fluid">
                         <a className="navbar-brand" href="#">
                         <ButtonGroup >
-                            <Button className="btn btn-warning" onClick={() => setModalShow(true)}>
+                            <Button className="btn btn-warning" onClick={handleShowNueva}>
                               <i className="bi bi-plus"></i>
                             </Button>
                             <Button className="btn btn-warning" onClick={() => handleCargar()}>
@@ -124,7 +129,7 @@ const handleFiltroTitulo = (event) => setFiltroTitulo(event.target.value)
 
             </Container>
              <br/>
-            <ModalExperiencia show={modalShow} onHide={refrescar} user={user}/>
+            <ModalExperiencia show={modalShowNueva} onHide={refrescar} user={user}/>
             </div>
 
             )

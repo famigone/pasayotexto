@@ -44,7 +44,7 @@ const CodeMirror2 = ({...props}) => {
   const [subscriptores, setSubscriptores] = useState(arregloInicial);
   const link= "https://pasayotexto.fi.uncoma.edu.ar/canal/"+props.experiencia._id+"/"+props.canal+"/"+props.user
 
-//  const link= "http://localhost:8000/canal/"+props.experiencia._id+"/"+props.canal+"/"+props.user
+  //const link= "http://localhost:8000/canal/"+props.experiencia._id+"/"+props.canal+"/"+props.user
 
   const handleClose = () => setModalerror(false);
   const options = {

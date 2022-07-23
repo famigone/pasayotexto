@@ -39,7 +39,7 @@ const Card = ({onDelete, experiencia, handleClickExp, canal}) => {
 
 
   const user = AuthService.getCurrentUser().username;
-  console.log("serete ",user)
+  
 const mostrarModal = () => {
   return (
     <Modal show={mostrarModalDelete} onHide={setMostrarModalDelete}>
