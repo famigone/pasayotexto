@@ -22,9 +22,9 @@ const io = require('socket.io-client')
 
 
 
-//const ENDPOINT= "http://localhost:3333"
+const ENDPOINT= "http://localhost:3333"
 //DESCOMENTAR EN PROD
-const ENDPOINT= "https://pasayotextoback.fi.uncoma.edu.ar"
+//const ENDPOINT= "https://pasayotextoback.fi.uncoma.edu.ar"
 let socket;
 
 const CodeMirror2 = ({...props}) => {
@@ -42,9 +42,9 @@ const CodeMirror2 = ({...props}) => {
   if (props.useroriginal) arregloInicial = [props.user, props.useroriginal]
   else  arregloInicial = [props.user]
   const [subscriptores, setSubscriptores] = useState(arregloInicial);
-  const link= "https://pasayotexto.fi.uncoma.edu.ar/canal/"+props.experiencia._id+"/"+props.canal+"/"+props.user
+  //const link= "https://pasayotexto.fi.uncoma.edu.ar/canal/"+props.experiencia._id+"/"+props.canal+"/"+props.user
 
-  //const link= "http://localhost:8000/canal/"+props.experiencia._id+"/"+props.canal+"/"+props.user
+  const link= "http://localhost:8000/canal/"+props.experiencia._id+"/"+props.canal+"/"+props.user
 
   const handleClose = () => setModalerror(false);
   const options = {
@@ -64,10 +64,13 @@ const CodeMirror2 = ({...props}) => {
         if (error) {
           alert(error);
         }
-      });
-
-
-  }, [ENDPOINT, props.canal]);
+      })
+      return () => {
+      //  console.log("va a emitir desconectameEste")
+      //  socket.emit("desconectameEste", { canal, user })
+        socket.disconnect()}
+  },
+  [ENDPOINT, props.canal]);
 
   useEffect(function() {
 
@@ -75,7 +78,12 @@ const CodeMirror2 = ({...props}) => {
       //  console.log("payload..."+payload)
         setCodigo(payload.newCode)
       })
-      return () => {  socket.disconnect({user:props.user});}
+      let canal = props.canal
+      let user = props.user
+      return () => {
+      //  console.log("va a emitir desconectameEste")
+      //  socket.emit("desconectameEste", { canal, user })
+        socket.disconnect()}
   }, []);
 
   useEffect(function() {
@@ -85,9 +93,18 @@ const CodeMirror2 = ({...props}) => {
         //console.log("payload..."+payload)
         setSubscriptores(current => [...current, payload]);
       })
-      return () => {  socket.disconnect();}
+
   }, []);
 
+  useEffect(function() {
+      //aquí nos llega el usuario que se desconectó
+      //lo quitamos del array de subscriptores
+      socket.on('desconectarSubcriptor', (user) =>  {
+        //console.log("payload..."+payload)
+        const nuevoSub = subscriptores.filter((item) => item !== user)
+        setSubscriptores(current => [...current, nuevoSub]);
+      })
+  }, []);
 
   const getCodesesion = async() => {
     try {
