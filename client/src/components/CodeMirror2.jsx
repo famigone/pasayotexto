@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {OverlayTrigger, Tooltip, ButtonGroup, Alert, Badge, ListGroup, Button, Modal, Table } from 'react-bootstrap';
 import LogoPasayo from './LogoPasayo'
+import manejadorPasayo from './ManejadorErrores'
 //import ModalError from './ModalError'
 //import Codemirror from 'react-codemirror';
 //import 'codemirror/lib/codemirror.css';
@@ -118,7 +119,7 @@ const CodeMirror2 = ({...props}) => {
       //console.log("props.user", props.user )
       console.log("elUser", elUser )
       console.log("experienciaid", experienciaid )
-      console.log("props", props )
+    //  console.log("props", props )
       if (!props.guardarSesion) {
         elUser = props.useroriginal
         experienciaid = props.experiencia
@@ -208,16 +209,6 @@ const CodeMirror2 = ({...props}) => {
 
 
 
-const manejadorPasayo = (error) => {
-  let hint;
-  switch (error) {
-    case "Unexpected identifier" :
-      hint = "Parece que hay un error de sintaxis en tu código. Verificá que no hayan declaraciones de variables mal definidas o asignaciones a variables mal escritas."
-      break;
-    default: hint=error;
-  }
-  return hint;
-}
 
     const runCode = () => {
          //console.log(javascriptCode)
@@ -230,8 +221,10 @@ const manejadorPasayo = (error) => {
            //setmsgEjecutado(false)
            //setTimeout(apagarMsg, 5000)
          } catch (e) {
-           console.log("modalerror ",modalerror)
-           console.log("msgError ",msgError)
+    //       console.log("modalerror ",modalerror)
+           //console.log("msgError ",msgError)
+           console.log("message ",e.message)
+           console.log("property ",e.property)
            setMsgError(manejadorPasayo(e.message))
            setModalerror(true)
          }
@@ -306,7 +299,7 @@ const ModalError = (mostrar, msg) => {
 const botonera = () => {
 //  console.log("props.user "+props.user)
 //  console.log("props.experiencia.user ",props.experiencia.user ) //undefined
-  console.log("guardarSesion: ",props.guardarSesion)
+  //console.log("guardarSesion: ",props.guardarSesion)
   if (props.user !== props.experiencia.user)
     return botoneraSimple()
   else
