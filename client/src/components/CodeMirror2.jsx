@@ -34,6 +34,7 @@ const CodeMirror2 = ({...props}) => {
   const [codesesionid, setCodesesionid] = useState();
   const [modalerror, setModalerror] = useState(false);
   const [msgError, setMsgError] = useState("");
+  const [msgErrorCrudo, setMsgErrorCrudo] = useState("");
   const [mostrarBtnLink, setMostrarBtnLink] = useState(false);
   const [mostrarBtnPlay, setMostrarBtnPlay] = useState(false);
   const [mostrarBtnSave, setMostrarBtnSave] = useState(false);
@@ -109,7 +110,7 @@ const CodeMirror2 = ({...props}) => {
 
   const getCodesesion = async() => {
     try {
-      console.log("entro con ", props.user +" - "+ props.experiencia._id)
+  //    console.log("entro con ", props.user +" - "+ props.experiencia._id)
       //si entró por link, debo buscar el codesesion del que comparte (ni el actual ni el que creó la experiencia)
       let elUser = props.user;
       let experienciaid= props.experiencia._id
@@ -128,7 +129,7 @@ const CodeMirror2 = ({...props}) => {
       const response = await api.getCodesesionByUser(filtro)
       setCodesesionid(response.data.data._id)
       setCodigo(response.data.data.codigo)
-      console.log("recuperó esto:", response.data.data.codigo);
+    //  console.log("recuperó esto:", response.data.data.codigo);
     } catch(error) {
       console.log('error', error);
     }
@@ -225,8 +226,9 @@ const CodeMirror2 = ({...props}) => {
            //console.log("msgError ",msgError)
            console.log("message ",e.message)
            console.log("property ",e.property)
-           setMsgError(manejadorPasayo(e.message))
+           setMsgError(manejadorPasayo(e))
            setModalerror(true)
+           setMsgErrorCrudo(e.message)
          }
        }
 
@@ -286,6 +288,9 @@ const ModalError = (mostrar, msg) => {
             {msgError}
           </Modal.Body>
           <Modal.Footer>
+          <Badge  bg="danger">
+                   {msgErrorCrudo}
+          </Badge>
                    <Button variant="secondary" onClick={()=>setModalerror(false)}>
                      Ok
                    </Button>
