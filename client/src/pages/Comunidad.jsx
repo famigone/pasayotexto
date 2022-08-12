@@ -21,7 +21,7 @@ import {
 const Comunidad = () => {
   //const filtroInicial = {tema: "Todos", mias:true}
   //const  { user }  = useContext(UserContext);
-  const user = AuthService.getCurrentUser().username;
+  
   const constIncremento = 10
   const constLimite = 10
   const filtroInicial = {tema: "TODOS"}
@@ -30,6 +30,7 @@ const Comunidad = () => {
   const [limite, setLimite] = useState(constLimite)
   const [canal, setCanal] = useState("")
   const [loading, setLoading] = useState(false)
+  const [user, setUser] = useState(AuthService.getCurrentUser().username)
   //expActual es la experiencia clickeada actualmente, al clickear debe levantar
   //el modalIDEShow con los datos de esa exp
   const [expActual, setExpActual] = useState("")
@@ -53,10 +54,6 @@ const Comunidad = () => {
 
   const getExperiencias = async(filtro) => {
     try {
-    // const response = await get("/api/experiencias", {params:filtro});
-      //if (!filtro) setFiltro(filtroInicial)
-      //const unFiltro = {tema: filtro.tema, user:filtro.autor, limite:limite}
-      //const unFiltro = {tema: filtro.tema,  limite:limite}
       setLoading(true)
       filtro.limite= limite
       const response = await api.getAllExperiencias(filtro)
@@ -66,6 +63,7 @@ const Comunidad = () => {
       console.log("response  ",response.status)
 
     } catch(error) {
+      setLoading(false)
       console.log('error', error);
       //if (response.status == 401 || response.res.status == 403)
         //console.log("a loguearse caraju  ",response.status)
@@ -77,6 +75,8 @@ const Comunidad = () => {
      getExperiencias(filtro);
      //console.log("limite ",limite)
    }, [limite]);
+
+  
 
 
   const handleFiltro = (newFiltro) => {
@@ -133,6 +133,7 @@ const Comunidad = () => {
             })}      
     </StackGrid>
     {loading && lanzarSpinner()}      
+    {!user && lanzarSpinner()}      
     <ModalIDE experiencia={expActual}
               show={modalIDEShow}
               onHide={()=>setModalIDEShow(false)}
