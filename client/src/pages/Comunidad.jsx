@@ -116,29 +116,32 @@ const Comunidad = () => {
           // getExperiencias(filtro)
        }
 
-const lasExperiencias = () => {return (
+     const lanzarSpinner = () => {
+      return <UnSpinnerCentrado/>
+     }
+  return (  
   <Divido onScroll={handleScroll} >
-            <Filtro user={user}
-              refrescarExp={getExperiencias}
-              handleFiltro={handleFiltro}
-              handleCargar={handleCargar}/>
-            <StackGrid columnWidth={300}>
-              {experiencias.map((exp) => {
-                      return(
-                        <Card onDelete={onDelete} key={exp._id} experiencia={exp} handleClickExp={handleClickExp} canal={Math.random().toString(36).slice(2)}/>
-                      )
-                    })}
-            </StackGrid>
-            <ModalIDE experiencia={expActual}
-                      show={modalIDEShow}
-                      onHide={()=>setModalIDEShow(false)}
-                      canal={canal}
-                      user={user}
-                      />
-        </Divido>
-)}
-  if (!loading)  return lasExperiencias
-  if (loading) return <UnSpinnerCentrado/>
+    <Filtro user={user}
+      refrescarExp={getExperiencias}
+      handleFiltro={handleFiltro}
+      handleCargar={handleCargar}/>
+    <StackGrid columnWidth={300}>
+      {(!loading) && experiencias.map((exp) => {
+              return(
+                <Card onDelete={onDelete} key={exp._id} experiencia={exp} handleClickExp={handleClickExp} canal={Math.random().toString(36).slice(2)}/>
+              )
+            })}      
+    </StackGrid>
+    {loading && lanzarSpinner()}      
+    <ModalIDE experiencia={expActual}
+              show={modalIDEShow}
+              onHide={()=>setModalIDEShow(false)}
+              canal={canal}
+              user={user}
+              />
+</Divido>
+
+  )
 }
 
 export default Comunidad;
