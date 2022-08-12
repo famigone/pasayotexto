@@ -11,6 +11,7 @@ import { createContext, useContext, useMemo } from "react";
 import  UserProvider  from '../components/UserProvider';
 import  UserContext  from '../components/UserContext';
 import AuthService from "../services/auth.service";
+import UnSpinnerCentrado from "../components/UnSpinnerCentrado"
 import {
   useNavigate,
   useLocation,
@@ -28,6 +29,7 @@ const Comunidad = () => {
   const [filtro, setFiltro] = useState(filtroInicial)
   const [limite, setLimite] = useState(constLimite)
   const [canal, setCanal] = useState("")
+  const [loading, setLoading] = useState(false)
   //expActual es la experiencia clickeada actualmente, al clickear debe levantar
   //el modalIDEShow con los datos de esa exp
   const [expActual, setExpActual] = useState("")
@@ -55,9 +57,11 @@ const Comunidad = () => {
       //if (!filtro) setFiltro(filtroInicial)
       //const unFiltro = {tema: filtro.tema, user:filtro.autor, limite:limite}
       //const unFiltro = {tema: filtro.tema,  limite:limite}
+      setLoading(true)
       filtro.limite= limite
       const response = await api.getAllExperiencias(filtro)
       setExperiencias(response.data.data);
+      setLoading(false)
       //si response falla por 401 o 403 => redirigir al login
       console.log("response  ",response.status)
 
@@ -112,10 +116,8 @@ const Comunidad = () => {
           // getExperiencias(filtro)
        }
 
-
-    return (
-
-        <Divido onScroll={handleScroll} >
+const lasExperiencias = () => {return (
+  <Divido onScroll={handleScroll} >
             <Filtro user={user}
               refrescarExp={getExperiencias}
               handleFiltro={handleFiltro}
@@ -134,7 +136,9 @@ const Comunidad = () => {
                       user={user}
                       />
         </Divido>
-            )
+)}
+  if (!loading)  return lasExperiencias
+  if (loading) return <UnSpinnerCentrado/>
 }
 
 export default Comunidad;
