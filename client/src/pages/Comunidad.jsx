@@ -69,7 +69,7 @@ const Comunidad = () => {
       console.log('error', error);
       //if (response.status == 401 || response.res.status == 403)
         //console.log("a loguearse caraju  ",response.status)
-        navigate(from, { replace: true });
+       // navigate(from, { replace: true });
     }
   }
 
