@@ -47,8 +47,7 @@ const Comunidad = () => {
   overflow-y: auto;
   `
 
-  const onDelete = () => {
-    console.log("Invocó onDelete")
+  const onDelete = () => {   
     getExperiencias({})
   }
 
@@ -71,15 +70,14 @@ const Comunidad = () => {
     }
   }
 
-  useEffect(function() {
-     getExperiencias(filtro);
+  useEffect(async() => {
+     setLoading(true)
+     await getExperiencias(filtro);
+     setLoading(false)
      //console.log("limite ",limite)
    }, [limite]);
 
-  
-   useEffect(function() {
-    setUser( AuthService.getCurrentUser().username)
-  }, []);
+
 
 
   
