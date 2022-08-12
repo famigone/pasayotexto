@@ -121,7 +121,7 @@ const Login = ({setCurrentUser}) => {
 if (loading) 
   return (<UnSpinnerCentrado/>)
 if (elUser) 
-  return (<Navigate to="/comunidad" replace={true} />)
+  return (<Navigate to={from} replace={true} />)
 if (!loading) 
   return (myLogin())
 }
