@@ -12,7 +12,7 @@ const CodeCtrl = require('../controllers/ctrlCodesesion');
 //EXPERIENCIAS
 
 router.post('/experiencia', [authJwt.verifyToken], ExpCtrl.createExperiencia)
-router.get('/experiencias', [authJwt.verifyToken], ExpCtrl.getAllExperiencias)
+router.get('/experiencias',  ExpCtrl.getAllExperiencias)
 router.put('/experiencia/:id', ExpCtrl.updateExperiencia)
 router.delete('/experiencia/:id', ExpCtrl.deleteExperiencia)
 router.get('/experiencia/:id', ExpCtrl.getExperienciaById)
