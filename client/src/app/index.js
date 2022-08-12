@@ -67,7 +67,7 @@ const App = () => {
 
 
 
-function RequireAuth({ children }: { children: JSX.Element }) {
+function RequireAuth({ children }) {
   let location = useLocation();
   //const { user } = useContext(UserContext);
   //console.log("location: ", location)

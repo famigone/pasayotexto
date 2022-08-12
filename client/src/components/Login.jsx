@@ -3,6 +3,7 @@ import React, { Component, useState, useEffect } from 'react'
 import  UserContext   from './UserContext';
 import { createContext, useContext, useMemo } from "react";
 import  UserProvider  from './UserProvider';
+import UnSpinnerCentrado from './UnSpinnerCentrado';
 
 import AuthService from "../services/auth.service";
 import {
@@ -20,6 +21,7 @@ import logo from '../img/login.png'
 import pasayo from '../img/pasayotexto.png'
 import axios from 'axios'
 import api from '../api'
+
 const Login = ({setCurrentUser}) => {
   //const  { login }  = useContext(UserContext);
   const [user, setUser] = useState("")
@@ -28,31 +30,16 @@ const Login = ({setCurrentUser}) => {
   const [irHome, setIrHome] = useState(false)
   const [loggedIn, setLoggedIn] = useState(false)
   const [username, setUsername] = useState("")
+  const [loading, setLoading] = useState(false)
   const handleUser = (event) => setUser(event.target.value)
   const handlePass = (event) => setPass(event.target.value)
   let navigate = useNavigate();
   let location = useLocation();
   let from = location.state?.from?.pathname || "/comunidad";
+  const elUser = AuthService.getCurrentUser();
 
-
-
-  async function handleSubmit (event) {
-        event.preventDefault()
-        const auth = await AuthService.postLogin(user, pass, from)
-        if (auth){
-          const miUsuario = AuthService.getCurrentUser().username
-          console.log("autorizado, navegando a comunidad",miUsuario)
-          setCurrentUser(miUsuario)
-          navigate(from, { replace: true });
-          window.location.reload();
-        }
-    }
-
-
-
-
-return(
-  <div className="row">
+  const myLogin = () => {return (
+    <div className="row">
       <div className="col">
 
       </div>
@@ -114,6 +101,29 @@ return(
 
   </div>
 </div>
-)}
+  )}
+
+
+  async function handleSubmit (event) {
+        setLoading(true)
+        event.preventDefault()
+        const auth = await AuthService.postLogin(user, pass, from)
+        if (auth){          
+          const miUsuario = AuthService.getCurrentUser().username
+          console.log("autorizado, navegando a comunidad",miUsuario)
+          setCurrentUser(miUsuario)
+          setLoading(false)
+          navigate(from, { replace: true });          
+        }
+    }
+
+
+if (loading) 
+  return (<UnSpinnerCentrado/>)
+if (elUser) 
+  return (<Navigate to="/comunidad" replace={true} />)
+if (!loading) 
+  return (myLogin())
+}
 
 export default Login

@@ -271,12 +271,10 @@ const ModalError = (mostrar, msg) => {
 
         <Modal
 
-          backdrop="static"
-          size="sm-down"
+          backdrop="static"          
           centered
           size="lg"
-          show={modalerror}
-          centered
+          show={modalerror}          
         >
           <Modal.Header closeButton>
             <Modal.Title>
