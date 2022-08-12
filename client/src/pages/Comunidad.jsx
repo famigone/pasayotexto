@@ -77,7 +77,12 @@ const Comunidad = () => {
    }, [limite]);
 
   
+   useEffect(function() {
+    setUser( AuthService.getCurrentUser().username)
+  }, []);
 
+
+  
 
   const handleFiltro = (newFiltro) => {
       console.log(newFiltro);
@@ -119,6 +124,8 @@ const Comunidad = () => {
      const lanzarSpinner = () => {
       return <UnSpinnerCentrado/>
      }
+
+  console.log("U S E R "+user)   
   return (  
   <Divido onScroll={handleScroll} >
     <Filtro user={user}
