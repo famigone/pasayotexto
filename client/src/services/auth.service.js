@@ -2,8 +2,14 @@ import axios from 'axios'
 import api from '../api'
 class AuthService {
 
-    getCurrentUser = () => {return JSON.parse(localStorage.getItem('user'));}
+    getCurrentUser = () => {
+      return JSON.parse(localStorage.getItem('user'));
+    }
 
+    getAuth = async () => {
+      const response = await api.getAuth()
+    }
+    
     async postRegister(user, pass, mail) {
       try {
         //const response = await post('/experiencia', experiencia);

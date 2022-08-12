@@ -26,6 +26,7 @@ router.post('/codesesion', CodeCtrl.createCodesesion)
 router.put('/codesesion/:id', CodeCtrl.updateCodesesion)
 ///////////////////////////////////////////////////////////////////////////
 //user
+
 router.get('/user/session', UserCtrl.getHome)
 router.post('/user/logout', UserCtrl.postLogout)
 router.post('/user/register', UserCtrl.postRegister)

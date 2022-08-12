@@ -20,9 +20,8 @@ const Container = styled.div.attrs({
 
 
 
-
 const NavBara = ({currentUser, setCurrentUser}) => {
-  
+
     const user = currentUser
 
     function logOut() {
