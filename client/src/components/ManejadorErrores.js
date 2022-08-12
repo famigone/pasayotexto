@@ -24,6 +24,7 @@ else if (error instanceof RangeError) {
 }
 else if (error instanceof ReferenceError) {
   let existe = error.message.includes("is not defined");
+  
   if (existe) {
     let espacio = error.message.indexOf(" ")
     let laVariable = error.message.substring(0,espacio)
