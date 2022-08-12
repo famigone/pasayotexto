@@ -1,7 +1,7 @@
 import authHeader from '../services/auth-header';
 import axios from 'axios'
 axios.defaults.withCredentials = true;
-//axios.defaults.headers.common = { headers: authHeader() }
+axios.defaults.headers.common = { headers: authHeader() }
 const api = axios.create({
   baseURL: 'https://pasayotextoback.fi.uncoma.edu.ar/api',
 //  baseURL: 'http://localhost:3333/api',

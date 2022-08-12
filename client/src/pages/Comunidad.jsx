@@ -70,10 +70,8 @@ const Comunidad = () => {
     }
   }
 
-  useEffect(async() => {
-     setLoading(true)
-     await getExperiencias(filtro);
-     setLoading(false)
+  useEffect(async() => {     
+     await getExperiencias(filtro);     
      //console.log("limite ",limite)
    }, [limite]);
 
