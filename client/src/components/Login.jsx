@@ -24,6 +24,8 @@ const Login = ({setCurrentUser}) => {
   //const  { login }  = useContext(UserContext);
   const [user, setUser] = useState("")
   const [pass, setPass] = useState("")
+  const [loaded, setLoaded] = useState(false)
+
   //const [from, setFrom] = useState("/experiencias")
   const [irHome, setIrHome] = useState(false)
   const [loggedIn, setLoggedIn] = useState(false)
@@ -38,8 +40,10 @@ const Login = ({setCurrentUser}) => {
 
   async function handleSubmit (event) {
         event.preventDefault()
+        setLoaded(true)
         const auth = await AuthService.postLogin(user, pass, from)
         if (auth){
+          setLoaded(false)
           const miUsuario = AuthService.getCurrentUser().username
           console.log("autorizado, navegando a comunidad",miUsuario)
           setCurrentUser(miUsuario)
