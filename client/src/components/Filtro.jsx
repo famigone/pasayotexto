@@ -61,10 +61,10 @@ const handleShowNueva = (event) => {
                         <a className="navbar-brand" href="#">
                         <ButtonGroup >
                             <Button className="btn btn-warning" onClick={handleShowNueva}>
-                              <i className="bi bi-plus"></i>
+                            <i className="bi bi-bookmark-plus-fill"></i> CREAR
                             </Button>
                             <Button className="btn btn-warning" onClick={() => handleCargar()}>
-                              <i className="bi bi-arrow-repeat"></i>
+                              <i className="bi bi-arrow-repeat"></i> VER MÁS
                             </Button>
                           </ButtonGroup >
                         </a>

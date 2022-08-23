@@ -9,7 +9,8 @@ import  UserProvider  from '../components/UserProvider';
 import  CanalIDE  from '../components/CanalIDE'
 import  NavBara  from '../components/NavBara'
 import  BarraEstado  from '../components/BarraEstado'
-import { Comunidad } from '../pages'
+import  Comunidad  from '../pages/Comunidad'
+import  Comunidad1  from '../pages/Comunidad1'
 import  Login  from '../components/Login'
 import  Register  from '../components/Register'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -43,7 +44,7 @@ const App = () => {
                 path="comunidad"
                 element={
                       <RequireAuth>
-                          <Comunidad />
+                          <Comunidad1 />
                       </RequireAuth>
                   }
               />

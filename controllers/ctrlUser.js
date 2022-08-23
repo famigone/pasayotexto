@@ -114,5 +114,6 @@ module.exports = {
     getRegister,
     postLogout,
     postRegister,
-    getHome,
+    getHome
+
 }

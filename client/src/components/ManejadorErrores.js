@@ -12,7 +12,7 @@ const manejadorPasayo1 = (error) => {
 
 const manejadorPasayo = (error) => {
 let hint= error.message;
-
+console.log("entro al manejador")
 if (error instanceof SyntaxError) {
         hint = "Parece que hay un error de sintaxis en tu código. Por ejemplo, podrías verificar que no falten o sobren llaves ni paréntesis."
   }
@@ -24,6 +24,7 @@ else if (error instanceof RangeError) {
 }
 else if (error instanceof ReferenceError) {
   let existe = error.message.includes("is not defined");
+  console.log("entro a ReferenceError")
   if (existe) {
     let espacio = error.message.indexOf(" ")
     let laVariable = error.message.substring(0,espacio)

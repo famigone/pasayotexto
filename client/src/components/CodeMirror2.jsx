@@ -23,9 +23,9 @@ const io = require('socket.io-client')
 
 
 
-const ENDPOINT= "http://localhost:3333"
+//const ENDPOINT= "http://localhost:3333"
 //DESCOMENTAR EN PROD
-//const ENDPOINT= "https://pasayotextoback.fi.uncoma.edu.ar"
+const ENDPOINT= "https://pasayotextoback.fi.uncoma.edu.ar"
 let socket;
 
 const CodeMirror2 = ({...props}) => {
@@ -44,9 +44,9 @@ const CodeMirror2 = ({...props}) => {
   if (props.useroriginal) arregloInicial = [props.user, props.useroriginal]
   else  arregloInicial = [props.user]
   const [subscriptores, setSubscriptores] = useState(arregloInicial);
-  //const link= "https://pasayotexto.fi.uncoma.edu.ar/canal/"+props.experiencia._id+"/"+props.canal+"/"+props.user
+  const link= "https://pasayotexto.fi.uncoma.edu.ar/canal/"+props.experiencia._id+"/"+props.canal+"/"+props.user
 
-  const link= "http://localhost:8000/canal/"+props.experiencia._id+"/"+props.canal+"/"+props.user
+  //const link= "http://localhost:8000/canal/"+props.experiencia._id+"/"+props.canal+"/"+props.user
 
   const handleClose = () => setModalerror(false);
   const options = {
@@ -274,8 +274,7 @@ const ModalError = (mostrar, msg) => {
           backdrop="static"          
           centered
           size="lg"
-          show={modalerror}
-          centered
+          show={modalerror}          
         >
           <Modal.Header closeButton>
             <Modal.Title>

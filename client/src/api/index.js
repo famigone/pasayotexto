@@ -1,7 +1,7 @@
 import authHeader from '../services/auth-header';
 import axios from 'axios'
 axios.defaults.withCredentials = true;
-//axios.defaults.headers.common = { headers: authHeader() }
+axios.defaults.headers.common = { headers: authHeader() }
 const api = axios.create({
 //  baseURL: 'https://pasayotextoback.fi.uncoma.edu.ar/api',
   baseURL: 'http://localhost:3333/api',
@@ -21,6 +21,7 @@ export const insertCodesesion = payload => api.post('/codesesion/', payload)
 export const updateCodesesionById = (id, payload) => api.put('/codesesion/'+id, payload)
 export const postLogin = payload => api.post('/user/login', payload)
 export const getLogin = () => api.get('/user/')
+export const getAuth = () => api.get('/user/auth')
 export const getHome = () => api.get('/user/session')
 export const postLogout = payload => api.post('/user/logout', payload)
 export const postRegister = payload => api.post('/user/register', payload)
@@ -39,7 +40,8 @@ const apis = {
     postLogin,
     getLogin,
     getHome,
-    getCodesesionByUser
+    getCodesesionByUser,
+    getAuth
 }
 
 export default apis
