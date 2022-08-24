@@ -4,6 +4,9 @@ import ModalIDE from "../components/ModalIDE"
 import Card from '../components/Card'
 import Filtro from '../components/Filtro'
 import styled from 'styled-components'
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { get } from 'axios';
 import api from '../api'
@@ -100,7 +103,9 @@ const Comunidad1 = () => {
     
       {(!loading) && list.map((exp) => {
               return(
+                
                 <Card onDelete={onDelete} key={exp._id} experiencia={exp} handleClickExp={handleClickExp} canal={Math.random().toString(36).slice(2)}/>                
+                
               )              
             })}                     
     
