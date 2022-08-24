@@ -44,7 +44,7 @@ const App = () => {
                 path="comunidad"
                 element={
                       <RequireAuth>
-                          <Comunidad1 />
+                          <Comunidad />
                       </RequireAuth>
                   }
               />

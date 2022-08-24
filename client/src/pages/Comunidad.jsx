@@ -43,7 +43,7 @@ const Comunidad = () => {
       className: 'div',
   })`
 
-  height: 545px;
+  
   overflow-y: auto;
   `
 
@@ -123,7 +123,8 @@ const Comunidad = () => {
 
   console.log("U S E R "+user)   
   return (  
-  <div>
+
+    <Divido >
     <Filtro user={user}
       refrescarExp={getExperiencias}
       handleFiltro={handleFiltro}
@@ -143,8 +144,8 @@ const Comunidad = () => {
               canal={canal}
               user={user}
               />
-</div>
 
+</Divido>
   )
 }
 
