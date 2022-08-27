@@ -23,8 +23,8 @@ const Comunidad = () => {
   //const  { user }  = useContext(UserContext);
   
   const constIncremento = 10
-  const constLimite = 10
-  const filtroInicial = {tema: "TODOS"}
+  const constLimite = 20
+  const filtroInicial = {tema: "TODOS", autor:"TODAS"}
   const [experiencias, setExperiencias] = useState([])
   const [filtro, setFiltro] = useState(filtroInicial)
   const [limite, setLimite] = useState(constLimite)
@@ -59,7 +59,7 @@ const Comunidad = () => {
       setExperiencias(response.data.data);
       setLoading(false)
       //si response falla por 401 o 403 => redirigir al login
-      console.log("response  ",response.status)
+      //console.log("response  ",response.status)
 
     } catch(error) {
       setLoading(false)
@@ -84,6 +84,7 @@ const Comunidad = () => {
       console.log(newFiltro);
       setFiltro(newFiltro)
       getExperiencias(newFiltro);
+      
     }
 
   const handleClickExp = (exp, canal) => {
@@ -121,14 +122,16 @@ const Comunidad = () => {
       return <UnSpinnerCentrado/>
      }
 
-  console.log("U S E R "+user)   
+  //console.log("U S E R "+user)   
   return (  
 
     <Divido >
     <Filtro user={user}
       refrescarExp={getExperiencias}
       handleFiltro={handleFiltro}
-      handleCargar={handleCargar}/>
+      handleCargar={handleCargar}
+      filtro = {filtro}
+      />
     <StackGrid columnWidth={300}>
       {(!loading) && experiencias.map((exp) => {
               return(
