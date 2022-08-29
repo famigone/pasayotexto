@@ -16,7 +16,7 @@ import {
   Outlet,
 } from "react-router-dom";
 import styled from 'styled-components'
-import { Button, Card, Form, Modal, Container } from 'react-bootstrap';
+import { Button, Alert, Card, Form, Modal, Container } from 'react-bootstrap';
 import logo from '../img/login.png'
 import pasayo from '../img/pasayotexto.png'
 import axios from 'axios'
@@ -31,6 +31,8 @@ const Login = ({setCurrentUser}) => {
   const [loggedIn, setLoggedIn] = useState(false)
   const [username, setUsername] = useState("")
   const [loading, setLoading] = useState(false)
+  const [msg, setMsg] = useState("")
+  const [showmsg, setShowmsg] = useState(false)
   const handleUser = (event) => setUser(event.target.value)
   const handlePass = (event) => setPass(event.target.value)
   let navigate = useNavigate();
@@ -77,13 +79,17 @@ const Login = ({setCurrentUser}) => {
                     onChange={handlePass}
                     />
     </Form.Group>
+    <Alert  variant={"warning"} show={showmsg}>
+          Lo sentimos: Usuario o contraseña incorrecta...
+    </Alert>
+
     <div className="d-grid gap-2">
       <Button variant="warning"
               type="submit"
 
               >
       <i className="bi bi-chat-heart"></i> Entrar
-      </Button>
+      </Button>      
     </div>
     <br/>
     <div className="d-grid gap-2">
@@ -114,6 +120,9 @@ const Login = ({setCurrentUser}) => {
           setCurrentUser(miUsuario)
           setLoading(false)
           navigate(from, { replace: true });          
+        }else{
+           setLoading(false)
+           setShowmsg(true) 
         }
     }
 

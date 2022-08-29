@@ -19,12 +19,12 @@ const Nav = styled.nav.attrs({
 
 
 
-const Filtro = ({user, refrescarExp, handleFiltro, handleCargar}) => {
+const Filtro = ({user, refrescarExp, handleFiltro, handleCargar, filtro}) => {
 
    const [modalShowNueva, setModalShowNueva] = useState(false);
-   const [radioTemaValue, setRadioTemaValue] = useState()
-   const [radioAutorValue, setRadioAutorValue] = useState()
-   const [filtroTitulo, setFiltroTitulo] = useState("")
+   const [radioTemaValue, setRadioTemaValue] = useState(filtro.tema)
+   const [radioAutorValue, setRadioAutorValue] = useState(filtro.autor)
+   const [filtroTitulo, setFiltroTitulo] = useState(filtro.titulo)
    const radioTema = [
      { name: 'TODOS', value: 'TODOS' },
      { name: 'SECUENCIAS', value: 'SECUENCIAS' },
@@ -45,16 +45,26 @@ const handleShowNueva = (event) => {
   }
 
    const refrescar = () => {
+     
      let filtroFinal = {}
-     if (radioTemaValue ) filtroFinal.tema = radioTemaValue
-     if (radioAutorValue == 'MIAS') filtroFinal.user = user
-     if (filtroTitulo) filtroFinal.titulo = filtroTitulo
+     if (radioTemaValue ) {
+          filtroFinal.tema = radioTemaValue          
+        }
+     if (radioAutorValue == 'MIAS') {
+          filtroFinal.user = user
+          filtroFinal.autor = "MIAS"
+      }else{filtroFinal.autor = "TODAS"}
+     if (filtroTitulo) {
+          filtroFinal.titulo = filtroTitulo          
+        }
      handleFiltro(filtroFinal)
    }
 //console.log("fffff",radioTemaValue)
 //console.log("xxxxx",radioAutorValue)
    return (
             <div>
+            
+
             <Container>
                 <Nav>
                      <div className="container-fluid">

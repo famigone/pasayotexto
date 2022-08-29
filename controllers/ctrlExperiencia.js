@@ -18,6 +18,7 @@ createExperiencia = (req, res) => {
     if (!experiencia) {
         return res.status(400).json({ success: false, error: err })
     }
+    experiencia.titulo = experiencia.titulo.toUpperCase()
     experiencia
         .save()
         .then(() => {
@@ -138,7 +139,7 @@ getAllExperiencias = (req, res, next) => {
   //autor
   if (filtro.user) filtroFinal.user = filtro.user
   //titulo
-  if (filtro.titulo) filtroFinal.titulo =  { $regex: '.*' + filtro.titulo + '.*' }
+  if (filtro.titulo) filtroFinal.titulo =  { $regex: '.*' + filtro.titulo.toUpperCase() + '.*' }
   filtroFinal.activo = true;
   const limite = filtro.limite
   console.log("filtroFinal ",filtroFinal)
