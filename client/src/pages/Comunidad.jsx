@@ -23,7 +23,7 @@ const Comunidad = () => {
   //const  { user }  = useContext(UserContext);
   
   const constIncremento = 10
-  const constLimite = 10
+  const constLimite = 20
   const filtroInicial = {tema: "TODOS"}
   const [experiencias, setExperiencias] = useState([])
   const [filtro, setFiltro] = useState(filtroInicial)

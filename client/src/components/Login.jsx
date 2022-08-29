@@ -26,8 +26,6 @@ const Login = ({setCurrentUser}) => {
   //const  { login }  = useContext(UserContext);
   const [user, setUser] = useState("")
   const [pass, setPass] = useState("")
-  const [loaded, setLoaded] = useState(false)
-
   //const [from, setFrom] = useState("/experiencias")
   const [irHome, setIrHome] = useState(false)
   const [loggedIn, setLoggedIn] = useState(false)
@@ -40,32 +38,8 @@ const Login = ({setCurrentUser}) => {
   let from = location.state?.from?.pathname || "/comunidad";
   const elUser = AuthService.getCurrentUser();
 
-<<<<<<< HEAD
-
-
-  async function handleSubmit (event) {
-        event.preventDefault()
-        setLoaded(true)
-        const auth = await AuthService.postLogin(user, pass, from)
-        if (auth){
-          setLoaded(false)
-          const miUsuario = AuthService.getCurrentUser().username
-          console.log("autorizado, navegando a comunidad",miUsuario)
-          setCurrentUser(miUsuario)
-          navigate(from, { replace: true });
-          window.location.reload();
-        }
-    }
-
-
-
-
-return(
-  <div className="row">
-=======
   const myLogin = () => {return (
     <div className="row">
->>>>>>> 046786a6c1ad7640cf2b9f068de488c4b031ff11
       <div className="col">
 
       </div>
