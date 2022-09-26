@@ -52,7 +52,12 @@ function handleSubmit(event) {
     }
 
 
-
+    const selectableOptions = [
+      { value: 'Adam', label: 'Adam Geoffrey' },
+      { value: 'Jane', label: 'Jane Hibbard' },
+      { value: 'Anabelle', label: 'Anabelle Einstein' },
+      { value: 'Zeus', label: 'Zeus McQueen' }
+    ]
 
 
   return (
@@ -64,6 +69,11 @@ function handleSubmit(event) {
                   placeholder="Seleccioná un Trayecto"
                   value={experiencia.titulo}
                   onChange={handleChange}/>
+     <Select
+        className="input-cont"
+        placeholder= "Select an individual"
+        options={selectableOptions}
+      />                
     <br/>
     
     <Container>
