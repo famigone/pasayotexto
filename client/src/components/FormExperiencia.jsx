@@ -4,8 +4,9 @@ import { post } from 'axios';
 import api from '../api'
 import ModalTrayecto from "./ModalTrayecto";
 import AuthService from "../services/auth.service";
-
-
+import Select from 'react-select'
+import AsyncSelect from 'react-select/async';
+import Async, { useAsync } from 'react-select/async';
 function FormExperiencia(props) {
 
   const initialState = { titulo: '',
@@ -66,18 +67,16 @@ function handleSubmit(event) {
     <br/>
     
     <Container>
-      <Row>
-        <Col sm={2}>
-          <Button variant="outline-warning"   size="sm" onClick={()=>setModalTrayecto(true)} >
-            Crear Trayecto
-          </Button>
-        </Col>
-        <Col sm={10}>
+      
           <Alert variant={"warning"} >
-            Los <b>Trayectos</b> agrupan Narrativas didácticamente relacionadas. Podes agrupar esta narrativa en un <b>Trayecto</b> ya existente o bien podes crear uno nuevo.
+          
+            <p><i className="bi bi-info-circle-fill"></i>  Los <b>Trayectos</b> agrupan Experiencias didácticamente relacionadas. Podes agrupar esta Experiencia en un <b>Trayecto</b> ya existente o bien podes crear uno nuevo.</p>
+            <hr/>
+            <Button variant="secondary"   size="sm" onClick={()=>setModalTrayecto(true)} >
+            <i className="bi bi-cloud-plus-fill"></i> Crear Trayecto
+          </Button>
           </Alert>
-        </Col>
-      </Row>    
+      
     </Container>
     
     <Form.Label>Ingresá un Título</Form.Label>

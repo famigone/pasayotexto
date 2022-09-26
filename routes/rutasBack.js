@@ -8,6 +8,15 @@ const router  = express.Router();
 const ExpCtrl = require('../controllers/ctrlExperiencia');
 const UserCtrl = require('../controllers/ctrlUser');
 const CodeCtrl = require('../controllers/ctrlCodesesion');
+const TrayectoCtrl = require('../controllers/ctrlTrayecto');
+///////////////////////////////////////////////////////////////////////////
+//TRAYECTOS
+router.post('/trayecto', TrayectoCtrl.createTrayecto)
+router.get('/trayectos',  TrayectoCtrl.getAllTrayectos)
+router.put('/trayecto/:id', TrayectoCtrl.updateTrayecto)
+router.delete('/trayecto/:id', TrayectoCtrl.deleteTrayecto)
+router.get('/trayecto/:id', TrayectoCtrl.getTrayectoById)
+///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 //EXPERIENCIAS
 

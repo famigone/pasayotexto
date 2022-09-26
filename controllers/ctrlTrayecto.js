@@ -5,7 +5,7 @@ const Trayecto = require('../models/trayecto');
 
 createTrayecto = (req, res) => {
     const body = req.body
-
+    console.log("entró en trayecto")
     if (!body) {
         return res.status(400).json({
             success: false,
