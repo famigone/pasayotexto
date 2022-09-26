@@ -128,6 +128,13 @@ const handleShowNueva = (event) => {
                                     value= {filtroTitulo}
                                     onChange = {handleFiltroTitulo}
                                     />
+                              <input className="form-control me-2"
+                                    type="search"
+                                    placeholder="Trayecto"
+                                    aria-label="Search"
+                                    value= {filtroTitulo}
+                                    onChange = {handleFiltroTitulo}
+                                    />      
                               <button className="btn btn-warning" onClick={()=>refrescar()}>
                                 <i className="bi bi-filter-circle-fill"></i>
                               </button>

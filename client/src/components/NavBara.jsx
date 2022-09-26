@@ -45,7 +45,7 @@ const NavBara = ({currentUser, setCurrentUser}) => {
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                       <Nav className="me-auto">
-                         <Link to="/ejemplos" className="nav-link"><b>ACTIVIDADES </b></Link>
+                         <Link to="/ejemplos" className="nav-link"><b>TRAYECTOS </b></Link>
                          <Link to="/comunidad" className="nav-link"><b>EXPERIENCIAS</b></Link>
                          {currentUser &&
                            <Link onClick={logOut} to="/login" className="nav-link">
