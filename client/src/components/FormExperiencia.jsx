@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import {Span, ButtonGroup,Container, Button, Form, Dropdown } from 'react-bootstrap';
+import {Span,Row,Modal, Col, Alert, ButtonGroup,Container, Button, Form, Dropdown } from 'react-bootstrap';
 import { post } from 'axios';
 import api from '../api'
-
+import ModalTrayecto from "./ModalTrayecto";
+import AuthService from "../services/auth.service";
 
 
 function FormExperiencia(props) {
@@ -16,12 +17,14 @@ function FormExperiencia(props) {
                          user: props.user
                       }
   const [experiencia, setExperiencia] = useState(initialState)
-
-
+  const [modalTrayecto, setModalTrayecto] = useState(false);
+  const [user, setUser] = useState(AuthService.getCurrentUser().username)
 function handleChange(event) {
     setExperiencia({...experiencia, [event.target.name]: event.target.value})
 
 }
+
+const cerrar = () => {}
 
 const handleSubmitDEPRECATED   = async () => {
         const payload = experiencia
@@ -55,6 +58,28 @@ function handleSubmit(event) {
 <Container>
 <Form >
   <Form.Group className="mb-3" controlId="formBasicEmail">
+  <Form.Label>¿Esta Experiencia pertenece a un Trayecto?</Form.Label>
+    <Form.Control name="titulo"
+                  placeholder="Seleccioná un Trayecto"
+                  value={experiencia.titulo}
+                  onChange={handleChange}/>
+    <br/>
+    
+    <Container>
+      <Row>
+        <Col sm={2}>
+          <Button variant="outline-warning"   size="sm" onClick={()=>setModalTrayecto(true)} >
+            Crear Trayecto
+          </Button>
+        </Col>
+        <Col sm={10}>
+          <Alert variant={"warning"} >
+            Los <b>Trayectos</b> agrupan Narrativas didácticamente relacionadas. Podes agrupar esta narrativa en un <b>Trayecto</b> ya existente o bien podes crear uno nuevo.
+          </Alert>
+        </Col>
+      </Row>    
+    </Container>
+    
     <Form.Label>Ingresá un Título</Form.Label>
     <Form.Control name="titulo"
                   placeholder="Título"
@@ -122,6 +147,7 @@ function handleSubmit(event) {
     Mejor no
   </Button>
 </ButtonGroup>
+<ModalTrayecto show={modalTrayecto} onHide={()=>setModalTrayecto(false)} user={user}/>
 </div>
 </Form>
 </Container>
