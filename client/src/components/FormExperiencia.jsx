@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {Span,Row,Modal, Col, Alert, ButtonGroup,Container, Button, Form, Dropdown } from 'react-bootstrap';
 import { post } from 'axios';
 import api from '../api'
@@ -20,10 +20,37 @@ function FormExperiencia(props) {
   const [experiencia, setExperiencia] = useState(initialState)
   const [modalTrayecto, setModalTrayecto] = useState(false);
   const [user, setUser] = useState(AuthService.getCurrentUser().username)
+  const [options, setOptions] = useState([""]);
+  const [filtoTrayecto, setFiltoTrayecto] = useState([""]);
 function handleChange(event) {
     setExperiencia({...experiencia, [event.target.name]: event.target.value})
 
 }
+
+
+useEffect(() => {
+  const getData = async () => {
+    const arr = [];
+    
+/*     await axios.get(url).then((res) => {
+      let result = res.data.items;
+      result.map((user) => {
+        return arr.push({value: user.login, label: user.login});
+      });
+      setOptions(arr)
+    }); */
+
+    const response = await api.getAllTrayectos(filtoTrayecto)
+    let result = response.map((trayecto) => {
+      return arr.push({value: trayecto._id, label: trayecto.titulo});
+    });
+    setOptions(result);
+
+  };
+  getData();
+}, []);
+
+
 
 const cerrar = () => {}
 
