@@ -12,7 +12,7 @@ const api = axios.create({
 
 //trayectos
 export const insertTrayecto = payload => api.post('/trayecto', payload)
-export const getAllTrayectos = (filtro) => api.get('/trayecto', {params:filtro})
+export const getAllTrayectos = (filtro) => api.get('/trayectos', {params:filtro})
 export const updateTrayectoById = (id, payload) => api.put('/trayecto/'+id, payload)
 export const deleteTrayectoById = id => api.delete('/trayecto/'+id)
 export const getTrayectoById = id => api.get('/trayecto/'+id)
@@ -38,6 +38,7 @@ const apis = {
     insertTrayecto,
     insertExperiencia,
     insertCodesesion,
+    getAllTrayectos,
     updateCodesesionById,
     getAllExperiencias,
     updateExperienciaById,

@@ -35,6 +35,11 @@ const Experiencia = new Schema(
         type: String,
         required: false
       },
+      trayectoid: {
+        type: Schema.Types.ObjectId,
+        ref: "Trayecto",
+        required: false
+      }
     },
     { timestamps: true },
 )

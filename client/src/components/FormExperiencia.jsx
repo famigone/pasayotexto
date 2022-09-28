@@ -21,6 +21,7 @@ function FormExperiencia(props) {
   const [modalTrayecto, setModalTrayecto] = useState(false);
   const [user, setUser] = useState(AuthService.getCurrentUser().username)
   const [options, setOptions] = useState([""]);
+  const [trayectoid, setTrayectoid] = useState([""]);
   const [filtoTrayecto, setFiltoTrayecto] = useState([""]);
 function handleChange(event) {
     setExperiencia({...experiencia, [event.target.name]: event.target.value})
@@ -30,30 +31,22 @@ function handleChange(event) {
 
 useEffect(() => {
   const getData = async () => {
-    const arr = [];
     
-/*     await axios.get(url).then((res) => {
-      let result = res.data.items;
-      result.map((user) => {
-        return arr.push({value: user.login, label: user.login});
-      });
-      setOptions(arr)
-    }); */
-
+    const arr = [];
     const response = await api.getAllTrayectos(filtoTrayecto)
-    let result = response.map((trayecto) => {
+//    console.log("response.data.data "+response.data.data[0].titulo)
+    let result = response.data.data.map((trayecto) => {
       return arr.push({value: trayecto._id, label: trayecto.titulo});
     });
-    setOptions(result);
-
+    setOptions(arr);
   };
   getData();
-}, []);
+}, [filtoTrayecto]);
 
 
 
 const cerrar = () => {}
-
+const handleSelect = (event) => {setTrayectoid(event.target.value)}
 const handleSubmitDEPRECATED   = async () => {
         const payload = experiencia
         await api.insertExperiencia(payload).then(res => {
@@ -79,12 +72,6 @@ function handleSubmit(event) {
     }
 
 
-    const selectableOptions = [
-      { value: 'Adam', label: 'Adam Geoffrey' },
-      { value: 'Jane', label: 'Jane Hibbard' },
-      { value: 'Anabelle', label: 'Anabelle Einstein' },
-      { value: 'Zeus', label: 'Zeus McQueen' }
-    ]
 
 
   return (
@@ -92,14 +79,13 @@ function handleSubmit(event) {
 <Form >
   <Form.Group className="mb-3" controlId="formBasicEmail">
   <Form.Label>¿Esta Experiencia pertenece a un Trayecto?</Form.Label>
-    <Form.Control name="titulo"
-                  placeholder="Seleccioná un Trayecto"
-                  value={experiencia.titulo}
-                  onChange={handleChange}/>
+   
      <Select
+        name="trayectoid"
         className="input-cont"
-        placeholder= "Select an individual"
-        options={selectableOptions}
+        placeholder= "Seleccioná un trayecto"
+        options={options}
+        onChange={handleSelect}
       />                
     <br/>
     
