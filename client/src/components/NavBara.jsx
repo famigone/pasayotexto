@@ -35,8 +35,8 @@ const NavBara = ({currentUser, setCurrentUser}) => {
               <Navbar.Brand>
                 <img
                     src={logo}
-                    width="20%"
-                    height="20%"
+                    width="15%"
+                    height="15%"
                     className="d-inline-block align-top"
                     alt="PASAYOTEXTO LOGO"
                     background-color= "#EEEEEE"
@@ -45,13 +45,13 @@ const NavBara = ({currentUser, setCurrentUser}) => {
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                       <Nav className="me-auto">
-                         <Link to="/ejemplos" className="nav-link"><b>TRAYECTOS </b></Link>
-                         <Link to="/comunidad" className="nav-link"><b>EXPERIENCIAS</b></Link>
+                      
+                         
                          {currentUser &&
                            <Link onClick={logOut} to="/login" className="nav-link">
-                             <b>
-                               <Badge bg="danger">{currentUser}</Badge>
-                             </b>
+                             <h5>                              
+                               <Badge bg="danger"><i class="bi bi-person-workspace"></i> {currentUser}</Badge>
+                             </h5>
                            </Link>}
                          {!currentUser && <Link to="/login" className="nav-link"><b>ENTRAR</b></Link>}
                       </Nav>
@@ -63,7 +63,7 @@ const NavBara = ({currentUser, setCurrentUser}) => {
 
             </Container>
     </Navbar>
-<br/>
+
 </div>
 
 

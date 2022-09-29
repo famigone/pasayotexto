@@ -1,10 +1,12 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from 'styled-components'
 import { Form, ToggleButtonGroup, ButtonGroup, ToggleButton, Button, Modal } from 'react-bootstrap';
 import ModalExperiencia from './ModalExperiencia'
 import Logo from './Logo'
 import Links from './Links'
+import Select from 'react-select'
+import api from '../api'
 
 const Container = styled.div.attrs({
     className: 'container',
@@ -25,6 +27,9 @@ const Filtro = ({user, refrescarExp, handleFiltro, handleCargar, filtro}) => {
    const [radioTemaValue, setRadioTemaValue] = useState(filtro.tema)
    const [radioAutorValue, setRadioAutorValue] = useState(filtro.autor)
    const [filtroTitulo, setFiltroTitulo] = useState(filtro.titulo)
+   const [options, setOptions] = useState([""]);
+   const [trayectoid, setTrayectoid] = useState([""]);
+   const [filtoTrayecto, setFiltoTrayecto] = useState([""]);
    const radioTema = [
      { name: 'TODOS', value: 'TODOS' },
      { name: 'SECUENCIAS', value: 'SECUENCIAS' },
@@ -36,7 +41,7 @@ const Filtro = ({user, refrescarExp, handleFiltro, handleCargar, filtro}) => {
      { name: 'MIAS', value: 'MIAS' },
      { name: 'TODAS', value: 'TODAS' },
    ];
-
+  
 const handleFiltroTitulo = (event) => setFiltroTitulo(event.target.value)
 const handleShowNueva = (event) => {
     event.preventDefault()
@@ -59,16 +64,34 @@ const handleShowNueva = (event) => {
         }
      handleFiltro(filtroFinal)
    }
+
+   useEffect(() => {
+    const getData = async () => {
+      
+      const arr = [];
+      const response = await api.getAllTrayectos(filtoTrayecto)
+  //    console.log("response.data.data "+response.data.data[0].titulo)
+      let result = response.data.data.map((trayecto) => {
+        return arr.push({value: trayecto._id, label: trayecto.titulo});
+      });
+      setOptions(arr);
+    };
+    getData();
+  }, []);
+
+  const handleSelect = value => setTrayectoid(value)
+  
 //console.log("fffff",radioTemaValue)
 //console.log("xxxxx",radioAutorValue)
    return (
             <div>
             
 
-            <Container>
+            
                 <Nav>
                      <div className="container-fluid">
                         <a className="navbar-brand" href="#">
+                        
                         <ButtonGroup >
                             <Button className="btn btn-warning" onClick={handleShowNueva}>
                             <i className="bi bi-bookmark-plus-fill"></i> CREAR
@@ -76,6 +99,7 @@ const handleShowNueva = (event) => {
                             <Button className="btn btn-warning" onClick={() => handleCargar()}>
                               <i className="bi bi-arrow-repeat"></i> VER MÁS
                             </Button>
+                            
                           </ButtonGroup >
                         </a>
                         <div className="collapse navbar-collapse" id="navbarSupportedContent">
@@ -97,9 +121,11 @@ const handleShowNueva = (event) => {
                                 </ToggleButton>
                               ))}
                             </ButtonGroup>
+                            
                             <li className="nav-item">
                                       <a className="nav-link active" aria-current="page" href="#"></a>
                             </li>
+   
                             <ButtonGroup >
                               {radioAutor.map((radiox, idx) => (
                                   <ToggleButton
@@ -119,22 +145,23 @@ const handleShowNueva = (event) => {
                             <li className="nav-item">
                                       <a className="nav-link active" aria-current="page" href="#"></a>
                             </li>
+                            <button className="btn btn-outline-warning" onClick={()=>refrescar()}>
+                          <i class="bi bi-filter"></i> Trayecto
+                              </button>
+                            <li className="nav-item">
+                                      <a className="nav-link active" aria-current="page" href="#"></a>
+                            </li>
                           </ul>
+                         
                            <form className="d-flex">
-                             <input className="form-control me-2"
+                              <input className="form-control me-2"
                                     type="search"
                                     placeholder="Título"
                                     aria-label="Search"
                                     value= {filtroTitulo}
                                     onChange = {handleFiltroTitulo}
                                     />
-                              <input className="form-control me-2"
-                                    type="search"
-                                    placeholder="Trayecto"
-                                    aria-label="Search"
-                                    value= {filtroTitulo}
-                                    onChange = {handleFiltroTitulo}
-                                    />      
+                          
                               <button className="btn btn-warning" onClick={()=>refrescar()}>
                                 <i className="bi bi-filter-circle-fill"></i>
                               </button>
@@ -144,7 +171,7 @@ const handleShowNueva = (event) => {
                       </div>
                 </Nav>
 
-            </Container>
+
              <br/>
             <ModalExperiencia show={modalShowNueva} onHide={refrescar} user={user}/>
             </div>
@@ -153,3 +180,4 @@ const handleShowNueva = (event) => {
 }
 
 export default Filtro
+

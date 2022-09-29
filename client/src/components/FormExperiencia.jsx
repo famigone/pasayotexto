@@ -41,12 +41,14 @@ useEffect(() => {
     setOptions(arr);
   };
   getData();
-}, [filtoTrayecto]);
+}, [modalTrayecto]);
 
 
 
 const cerrar = () => {}
-const handleSelect = (event) => {setTrayectoid(event.target.value)}
+
+const handleSelect = value => setTrayectoid(value)
+
 const handleSubmitDEPRECATED   = async () => {
         const payload = experiencia
         await api.insertExperiencia(payload).then(res => {
@@ -78,14 +80,15 @@ function handleSubmit(event) {
 <Container>
 <Form >
   <Form.Group className="mb-3" controlId="formBasicEmail">
-  <Form.Label>¿Esta Experiencia pertenece a un Trayecto?</Form.Label>
+  <Form.Label>Si esta Experiencia pertenece a un Trayecto, por favor, seleccionalo</Form.Label>
    
      <Select
+        
         name="trayectoid"
         className="input-cont"
         placeholder= "Seleccioná un trayecto"
         options={options}
-        onChange={handleSelect}
+        onInputChange={handleSelect}
       />                
     <br/>
     
