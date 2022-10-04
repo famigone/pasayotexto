@@ -47,7 +47,11 @@ useEffect(() => {
 
 const cerrar = () => {}
 
-const handleSelect = value => setTrayectoid(value)
+const handleSelect = (newValue) => {
+  console.log("newValue "+newValue.value)
+  setTrayectoid(newValue.value)
+  return newValue.value
+}
 
 const handleSubmitDEPRECATED   = async () => {
         const payload = experiencia
@@ -88,7 +92,11 @@ function handleSubmit(event) {
         className="input-cont"
         placeholder= "Seleccioná un trayecto"
         options={options}
-        onInputChange={handleSelect}
+        //onInputChange={handleSelect}
+        onChange={handleSelect}
+        isSearchable={true}
+        isClearable={true}
+        isLoading={true}
       />                
     <br/>
     

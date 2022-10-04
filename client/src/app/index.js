@@ -48,6 +48,14 @@ const App = () => {
                       </RequireAuth>
                   }
               />
+              <Route
+                path="/"
+                element={
+                      <RequireAuth>
+                          <Comunidad />
+                      </RequireAuth>
+                  }
+              />
                 <Route
                   path="canal/:id/:canal/:useroriginal"
                   element={

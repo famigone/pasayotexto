@@ -7,6 +7,7 @@ import Logo from './Logo'
 import Links from './Links'
 import Select from 'react-select'
 import api from '../api'
+import ModalSelectTrayecto from "./ModalSelectTrayecto";
 
 const Container = styled.div.attrs({
     className: 'container',
@@ -24,12 +25,17 @@ const Nav = styled.nav.attrs({
 const Filtro = ({user, refrescarExp, handleFiltro, handleCargar, filtro}) => {
 
    const [modalShowNueva, setModalShowNueva] = useState(false);
+   const [modalTrayecto, setModalTrayecto] = useState(false);
+   const [botonTrayecto, setBotonTrayecto] = useState("btn btn-outline-warning");   
    const [radioTemaValue, setRadioTemaValue] = useState(filtro.tema)
    const [radioAutorValue, setRadioAutorValue] = useState(filtro.autor)
    const [filtroTitulo, setFiltroTitulo] = useState(filtro.titulo)
    const [options, setOptions] = useState([""]);
    const [trayectoid, setTrayectoid] = useState([""]);
    const [filtoTrayecto, setFiltoTrayecto] = useState([""]);
+   const [temaDisabled, setTemaDisabled] = useState(false);
+   const [autorDisabled, setAutorDisabled] = useState(false);
+   
    const radioTema = [
      { name: 'TODOS', value: 'TODOS' },
      { name: 'SECUENCIAS', value: 'SECUENCIAS' },
@@ -43,12 +49,32 @@ const Filtro = ({user, refrescarExp, handleFiltro, handleCargar, filtro}) => {
    ];
   
 const handleFiltroTitulo = (event) => setFiltroTitulo(event.target.value)
+
 const handleShowNueva = (event) => {
     event.preventDefault()
     setModalShowNueva(true);
 
   }
 
+  const aplicarFiltroTrayecto = (trayectoIdx) => {
+    setModalTrayecto(false)
+    setAutorDisabled(true)
+    setTemaDisabled(true)
+    console.log("adentro con: "+trayectoIdx)
+    setFiltoTrayecto(trayectoIdx)
+    setBotonTrayecto("btn btn-warning")
+  }
+
+  const limpiarx = () => {
+    setAutorDisabled(false)
+    setTemaDisabled(false)
+    setBotonTrayecto("btn btn-outline-warning")
+    console.log("limpiooo")
+    setModalTrayecto(false)
+    setFiltoTrayecto("")
+    
+  }
+  
    const refrescar = () => {
      
      let filtroFinal = {}
@@ -108,6 +134,7 @@ const handleShowNueva = (event) => {
                             <ButtonGroup >
                               {radioTema.map((radio, id) => (
                                 <ToggleButton
+                                  disabled = {temaDisabled}
                                   key={id}
                                   id={`radio-${id}`}
                                   type="radio"
@@ -129,6 +156,7 @@ const handleShowNueva = (event) => {
                             <ButtonGroup >
                               {radioAutor.map((radiox, idx) => (
                                   <ToggleButton
+                                    disabled ={autorDisabled}
                                     key={idx+10}
                                     id={`radio-${idx+10}`}
                                     type="radio"
@@ -145,7 +173,7 @@ const handleShowNueva = (event) => {
                             <li className="nav-item">
                                       <a className="nav-link active" aria-current="page" href="#"></a>
                             </li>
-                            <button className="btn btn-outline-warning" onClick={()=>refrescar()}>
+                            <button className={botonTrayecto} onClick={()=>setModalTrayecto(true)}>
                           <i class="bi bi-filter"></i> Trayecto
                               </button>
                             <li className="nav-item">
@@ -173,7 +201,18 @@ const handleShowNueva = (event) => {
 
 
              <br/>
-            <ModalExperiencia show={modalShowNueva} onHide={refrescar} user={user}/>
+             
+            <ModalExperiencia 
+                show={modalShowNueva} 
+                onHide={refrescar} 
+                user={user}/>
+
+            <ModalSelectTrayecto 
+                show={modalTrayecto} 
+                seleccionar = {aplicarFiltroTrayecto} 
+                limpiar = {limpiarx} 
+                onHide={()=>setModalTrayecto(false)} 
+                user={user}/>
             </div>
 
             )
