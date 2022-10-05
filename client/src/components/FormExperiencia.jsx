@@ -14,6 +14,7 @@ function FormExperiencia(props) {
                          objetivo:'',
                          tema: '',
                          activo:1,
+                         trayectoid: undefined,
                          solucion: '//Parece que aún no se ha indicado la solución a esta narrativa',
                          user: props.user
                       }
@@ -25,9 +26,14 @@ function FormExperiencia(props) {
   const [filtoTrayecto, setFiltoTrayecto] = useState([""]);
 
 function handleChange(event) {
-    setExperiencia({...experiencia, [event.target.name]: event.target.value})    
+    setExperiencia({...experiencia, [event.target.name]: event.target.value})
+    //console.log(experiencia)    
 }
 
+const handleSelect = (event) => {
+  setExperiencia({...experiencia, trayectoid: event.value})
+  console.log(event.value)    
+}
 
 useEffect(() => {
   const getData = async () => {
@@ -47,11 +53,7 @@ useEffect(() => {
 
 const cerrar = () => {}
 
-const handleSelect = (newValue) => {
-  console.log("newValue "+newValue.value)
-  setTrayectoid(newValue.value)
-  return newValue.value
-}
+
 
 const handleSubmitDEPRECATED   = async () => {
         const payload = experiencia

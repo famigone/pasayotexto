@@ -65,20 +65,22 @@ const handleShowNueva = (event) => {
     console.log("limpiooo")
     setModalTrayecto(false)
     setFiltoTrayecto("")
-    
+    refrescar()
   }
 
-  const aplicarFiltroTrayecto = (trayectoIdx) => {
+  const aplicarFiltroTrayecto =  (trayectoIdx) => {
+    
+    let filtroFinal = {}
+    filtroFinal.trayectoid = trayectoIdx
+    console.log("filtra tray: "+trayectoIdx+" "+filtroFinal)
+    handleFiltro(filtroFinal)
     setModalTrayecto(false)
     setAutorDisabled(true)
     setTemaDisabled(true)
     
     setFiltoTrayecto(trayectoIdx)
     setBotonTrayecto("btn btn-warning")
-    let filtroFinal = {}
-    filtroFinal.trayectoid = trayectoIdx
-    console.log("filtra tray: "+trayectoIdx+" "+filtroFinal)
-    handleFiltro(filtroFinal)
+    
   }
 
    const refrescar = () => {
@@ -181,7 +183,7 @@ const handleShowNueva = (event) => {
                                       <a className="nav-link active" aria-current="page" href="#"></a>
                             </li>
                             <button className={botonTrayecto} onClick={()=>setModalTrayecto(true)}>
-                          <i class="bi bi-filter"></i> Trayecto
+                          <i className="bi bi-filter"></i> Trayecto
                               </button>
                             <li className="nav-item">
                                       <a className="nav-link active" aria-current="page" href="#"></a>
