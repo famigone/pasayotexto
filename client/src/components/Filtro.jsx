@@ -31,8 +31,8 @@ const Filtro = ({user, refrescarExp, handleFiltro, handleCargar, filtro}) => {
    const [radioAutorValue, setRadioAutorValue] = useState(filtro.autor)
    const [filtroTitulo, setFiltroTitulo] = useState(filtro.titulo)
    const [options, setOptions] = useState([""]);
-   const [trayectoid, setTrayectoid] = useState([""]);
-   const [filtoTrayecto, setFiltoTrayecto] = useState([""]);
+   const [trayectoid, setTrayectoid] = useState(undefined);
+   const [filtoTrayecto, setFiltoTrayecto] = useState(undefined);
    const [temaDisabled, setTemaDisabled] = useState(false);
    const [autorDisabled, setAutorDisabled] = useState(false);
    
@@ -56,14 +56,7 @@ const handleShowNueva = (event) => {
 
   }
 
-  const aplicarFiltroTrayecto = (trayectoIdx) => {
-    setModalTrayecto(false)
-    setAutorDisabled(true)
-    setTemaDisabled(true)
-    console.log("adentro con: "+trayectoIdx)
-    setFiltoTrayecto(trayectoIdx)
-    setBotonTrayecto("btn btn-warning")
-  }
+
 
   const limpiarx = () => {
     setAutorDisabled(false)
@@ -74,20 +67,34 @@ const handleShowNueva = (event) => {
     setFiltoTrayecto("")
     
   }
-  
+
+  const aplicarFiltroTrayecto = (trayectoIdx) => {
+    setModalTrayecto(false)
+    setAutorDisabled(true)
+    setTemaDisabled(true)
+    
+    setFiltoTrayecto(trayectoIdx)
+    setBotonTrayecto("btn btn-warning")
+    let filtroFinal = {}
+    filtroFinal.trayectoid = trayectoIdx
+    console.log("filtra tray: "+trayectoIdx+" "+filtroFinal)
+    handleFiltro(filtroFinal)
+  }
+
    const refrescar = () => {
      
-     let filtroFinal = {}
-     if (radioTemaValue ) {
-          filtroFinal.tema = radioTemaValue          
-        }
-     if (radioAutorValue == 'MIAS') {
-          filtroFinal.user = user
-          filtroFinal.autor = "MIAS"
-      }else{filtroFinal.autor = "TODAS"}
-     if (filtroTitulo) {
-          filtroFinal.titulo = filtroTitulo          
-        }
+    let filtroFinal = {}
+        if (radioTemaValue ) {
+              filtroFinal.tema = radioTemaValue          
+            }
+        if (radioAutorValue == 'MIAS') {
+              filtroFinal.user = user
+              filtroFinal.autor = "MIAS"
+          }else{filtroFinal.autor = "TODAS"}
+        if (filtroTitulo) {
+              filtroFinal.titulo = filtroTitulo          
+            }
+            
      handleFiltro(filtroFinal)
    }
 

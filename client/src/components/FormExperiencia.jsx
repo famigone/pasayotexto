@@ -23,9 +23,9 @@ function FormExperiencia(props) {
   const [options, setOptions] = useState([""]);
   const [trayectoid, setTrayectoid] = useState([""]);
   const [filtoTrayecto, setFiltoTrayecto] = useState([""]);
-function handleChange(event) {
-    setExperiencia({...experiencia, [event.target.name]: event.target.value})
 
+function handleChange(event) {
+    setExperiencia({...experiencia, [event.target.name]: event.target.value})    
 }
 
 

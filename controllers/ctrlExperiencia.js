@@ -133,7 +133,8 @@ getAllExperiencias = (req, res, next) => {
 
   //!tema y !autor
   let filtroFinal = {}
-
+  //trayecto
+  if (filtro.trayectoid) filtroFinal.trayectoid =  filtro.trayectoid 
   //tema
   if (filtro.tema && filtro.tema != "TODOS") filtroFinal.tema = filtro.tema
   //autor

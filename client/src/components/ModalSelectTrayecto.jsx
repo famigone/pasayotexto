@@ -67,7 +67,9 @@ const seleccionarx = () => props.seleccionar(trayectoid)
         placeholder= "Seleccioná un trayecto"
         options={options}
         onChange={handleSelect}
-        
+        isSearchable={true}
+        isClearable={true}
+        isLoading={true}
       />     
         </Modal.Body>
         <Modal.Footer>
