@@ -39,9 +39,14 @@ const Experiencia = new Schema(
         type: Schema.Types.ObjectId,
         ref: "Trayecto",
         required: false
-      }
+      },
     },
     { timestamps: true },
 )
+
+Experiencia.virtual("trayectoNombre").get(function() {
+  return "asdfasdfas";
+}); 
+
 
 module.exports = mongoose.model('experiencia', Experiencia)

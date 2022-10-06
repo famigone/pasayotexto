@@ -4,7 +4,7 @@ import logo from '../img/PASAYOTEXTO_white.png'
 import styled from 'styled-components'
 import LogoPasayo from './LogoPasayo'
 import TablaExp from './TablaExp'
-import { Modal, ToggleButtonGroup, ButtonGroup, ToggleButton, Button } from 'react-bootstrap';
+import {Alert, ListGroup, Modal, ToggleButtonGroup, ButtonGroup, ToggleButton, Button } from 'react-bootstrap';
 import {Controlled as CodeMirror} from 'react-codemirror2';
 import  UserContext  from '../components/UserContext';
 import api from '../api'
@@ -196,15 +196,14 @@ function handleDelete(event) {
 
                   <div className="card-header"><b>{experiencia.titulo}</b></div>
                   <div className="card-body">
-                    <h5 className="card-title"></h5>
-
-                    <p className="card-text">{experiencia.narrativa}</p>
-
+                    <h5 className="card-title"></h5>                    
+                    <p className="card-text">{experiencia.narrativa}</p>                    
                   </div>
+                  
                   <ul className="list-group list-group-flush">
                         <li className="list-group-item"><b>Objetivo Didáctico:</b> {experiencia.objetivo}</li>
-                        <li className="list-group-item"><b>Tema:</b> {experiencia.tema}</li>
-
+                        <li className="list-group-item"><b>Tema:</b> {experiencia.tema}</li>                        
+                        <li className="list-group-item"><b>Trayecto: </b>{experiencia.trayectoid &&  experiencia.trayectoNombre}</li>
                   </ul>
 
                   {botonera()}

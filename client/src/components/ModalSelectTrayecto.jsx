@@ -15,7 +15,7 @@ const ModalSelectTrayecto = (props) => {
   const [options, setOptions] = useState([""]);
   const [trayectoid, setTrayectoid] = useState([""]);
   const [filtoTrayecto, setFiltoTrayecto] = useState([""]);
-
+  const [cargandoTrayecto, setCargandoTrayecto] = useState(true);
 
 
 
@@ -36,6 +36,7 @@ const seleccionarx = () => props.seleccionar(trayectoid)
         return arr.push({value: trayecto._id, label: trayecto.titulo});
       });
       setOptions(arr);
+      setCargandoTrayecto(false)
     };
     getData();
   }, []);
@@ -69,7 +70,7 @@ const seleccionarx = () => props.seleccionar(trayectoid)
         onChange={handleSelect}
         isSearchable={true}
         isClearable={true}
-        isLoading={true}
+        isLoading={cargandoTrayecto}
       />     
         </Modal.Body>
         <Modal.Footer>

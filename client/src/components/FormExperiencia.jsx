@@ -24,6 +24,7 @@ function FormExperiencia(props) {
   const [options, setOptions] = useState([""]);
   const [trayectoid, setTrayectoid] = useState([""]);
   const [filtoTrayecto, setFiltoTrayecto] = useState([""]);
+  const [cargandoTrayecto, setCargandoTrayecto] = useState(true);
 
 function handleChange(event) {
     setExperiencia({...experiencia, [event.target.name]: event.target.value})
@@ -45,6 +46,7 @@ useEffect(() => {
       return arr.push({value: trayecto._id, label: trayecto.titulo});
     });
     setOptions(arr);
+    setCargandoTrayecto(false)
   };
   getData();
 }, [modalTrayecto]);
@@ -98,7 +100,7 @@ function handleSubmit(event) {
         onChange={handleSelect}
         isSearchable={true}
         isClearable={true}
-        isLoading={true}
+        isLoading={cargandoTrayecto}
       />                
     <br/>
     
