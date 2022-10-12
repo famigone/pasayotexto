@@ -1,5 +1,5 @@
 const Experiencia = require('../models/experiencia');
-
+const Trayecto = require('../models/trayecto');
 
 
 
@@ -109,7 +109,7 @@ deleteExperiencia = async (req, res) => {
     })
 }
 
-getExperienciaById =  (req, res) => {
+getExperienciaById_deprecated =  (req, res) => {
     // console.log(req.params.id)
      Experiencia.findOne({ _id: req.params.id }, (err, experiencia) => {
         if (err) {
@@ -125,7 +125,21 @@ getExperienciaById =  (req, res) => {
     })
 }
 
+getExperienciaById = async (req, res, next) => {
+    
+    const exp = await Experiencia.findById(req.params.id).populate('trayecto');
+    if (exp.trayecto) console.log("puto trayecto "+exp)
+    if (!exp) {
+        return next(new AppError('No tour found with that id', 404));
+    }
 
+    res.status(200).json({
+        status: 'success',
+        data: {
+            exp
+        }
+    });
+}
 
 getAllExperiencias = (req, res, next) => {
   

@@ -36,7 +36,7 @@ const Card = ({onDelete, experiencia, handleClickExp, canal}) => {
   const [mostrar, setMostrar] = useState(false);
   const [codigo, setCodigo] = useState(experiencia.solucion);
   const [mostrarModalDelete, setMostrarModalDelete] = useState(false);
-
+  //const [trayectoTitulo, setTrayectoTitulo] = useState("-");
 
   const user = AuthService.getCurrentUser().username;
   
@@ -87,17 +87,22 @@ function handleDelete(event) {
       // const response = await get("/api/experiencias", {params:filtro});
         const response = await api.getExperienciaById(experiencia._id)
         setCodigo(response.data.data.solucion);
-        //console.log("el codiguete es ",codigo);
+        console.log("retorno ",response.data.data.titulo);
       } catch(error) {
         console.log('error', error);
       }
     }
+
+
+
 
     useEffect(function() {
       // console.log(id);
        getExperiencia();
 
      }, []);
+
+    
 
 
 
@@ -153,6 +158,9 @@ function handleDelete(event) {
           }
         }
 
+    
+ if (experiencia.trayecto) console.log("tryesssssto "+experiencia.trayecto)
+
     return (
             <UnaCard >
               <Modal
@@ -203,7 +211,7 @@ function handleDelete(event) {
                   <ul className="list-group list-group-flush">
                         <li className="list-group-item"><b>Objetivo Didáctico:</b> {experiencia.objetivo}</li>
                         <li className="list-group-item"><b>Tema:</b> {experiencia.tema}</li>                        
-                        <li className="list-group-item"><b>Trayecto: </b>{experiencia.trayectoid &&  experiencia.trayectoNombre}</li>
+                        <li className="list-group-item"><b>Trayecto: </b>{experiencia.trayecto }</li>
                   </ul>
 
                   {botonera()}

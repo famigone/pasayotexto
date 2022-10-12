@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const Trayecto = require('./trayecto');
 
 const Experiencia = new Schema(
     {
@@ -44,9 +45,12 @@ const Experiencia = new Schema(
     { timestamps: true },
 )
 
-Experiencia.virtual("trayectoNombre").get(function() {
-  return "asdfasdfas";
-}); 
 
+Experiencia.virtual('trayecto', {
+  ref: 'trayecto',
+  localField: 'trayectoid',
+  foreignField: '_id',
+  justOne: true
+});
 
 module.exports = mongoose.model('experiencia', Experiencia)
