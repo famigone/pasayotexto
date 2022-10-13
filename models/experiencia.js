@@ -38,7 +38,7 @@ const Experiencia = new Schema(
       },
       trayectoid: {
         type: Schema.Types.ObjectId,
-        ref: "Trayecto",
+        ref: "trayecto",
         required: false
       },
     },
@@ -46,11 +46,5 @@ const Experiencia = new Schema(
 )
 
 
-Experiencia.virtual('trayecto', {
-  ref: 'trayecto',
-  localField: 'trayectoid',
-  foreignField: '_id',
-  justOne: true
-});
 
 module.exports = mongoose.model('experiencia', Experiencia)

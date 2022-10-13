@@ -36,7 +36,7 @@ const Card = ({onDelete, experiencia, handleClickExp, canal}) => {
   const [mostrar, setMostrar] = useState(false);
   const [codigo, setCodigo] = useState(experiencia.solucion);
   const [mostrarModalDelete, setMostrarModalDelete] = useState(false);
-  //const [trayectoTitulo, setTrayectoTitulo] = useState("-");
+  const [trayecto, setTrayecto] = useState("-");
 
   const user = AuthService.getCurrentUser().username;
   
@@ -86,8 +86,16 @@ function handleDelete(event) {
       try {
       // const response = await get("/api/experiencias", {params:filtro});
         const response = await api.getExperienciaById(experiencia._id)
+        //const responseTrayecto = await api.getExperienciaTrayectoById(experiencia._id)        
         setCodigo(response.data.data.solucion);
-        console.log("retorno ",response.data.data.titulo);
+     
+        if (response.data.data.trayectoid) {
+          setTrayecto(response.data.data.trayectoid.titulo);
+          
+        }
+        //console.log("retorno ",responseTrayecto.data.data.trayecto.titulo);
+        
+        
       } catch(error) {
         console.log('error', error);
       }
@@ -211,7 +219,7 @@ function handleDelete(event) {
                   <ul className="list-group list-group-flush">
                         <li className="list-group-item"><b>Objetivo Didáctico:</b> {experiencia.objetivo}</li>
                         <li className="list-group-item"><b>Tema:</b> {experiencia.tema}</li>                        
-                        <li className="list-group-item"><b>Trayecto: </b>{experiencia.trayecto }</li>
+                        <li className="list-group-item"><b>Trayecto: </b>{trayecto}</li>
                   </ul>
 
                   {botonera()}

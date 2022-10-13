@@ -23,6 +23,7 @@ export const getAllExperiencias = (filtro) => api.get('/experiencias', {params:f
 export const updateExperienciaById = (id, payload) => api.put('/experiencia/'+id, payload)
 export const deleteExperienciaById = id => api.delete('/experiencia/'+id)
 export const getExperienciaById = id => api.get('/experiencia/'+id)
+export const getExperienciaTrayectoById = id => api.get('/experiencia/trayecto/'+id)
 export const getCodesesionByUser = (filtro) => api.get('/codesesion/', {params:filtro})
 export const insertCodesesion = payload => api.post('/codesesion/', payload)
 export const updateCodesesionById = (id, payload) => api.put('/codesesion/'+id, payload)
@@ -44,6 +45,7 @@ const apis = {
     updateExperienciaById,
     deleteExperienciaById,
     getExperienciaById,
+    getExperienciaTrayectoById,
     postRegister,
     postLogout,
     postLogin,

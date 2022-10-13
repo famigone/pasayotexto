@@ -21,10 +21,13 @@ router.get('/trayecto/:id', TrayectoCtrl.getTrayectoById)
 //EXPERIENCIAS
 
 router.post('/experiencia', ExpCtrl.createExperiencia)
+router.get('/experiencia/trayecto/:id', ExpCtrl.getExperienciaTrayectoById)
 router.get('/experiencias',  ExpCtrl.getAllExperiencias)
 router.put('/experiencia/:id', ExpCtrl.updateExperiencia)
 router.delete('/experiencia/:id', ExpCtrl.deleteExperiencia)
 router.get('/experiencia/:id', ExpCtrl.getExperienciaById)
+
+
 ///////////////////////////////////////////////////////////////////////////
 //codesesion
 //router.post('/codesesion', ExpCtrl.createCodesesion)

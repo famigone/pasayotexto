@@ -127,16 +127,28 @@ getExperienciaById_deprecated =  (req, res) => {
 
 getExperienciaById = async (req, res, next) => {
     
-    const exp = await Experiencia.findById(req.params.id).populate('trayecto');
-    if (exp.trayecto) console.log("puto trayecto "+exp)
+    const exp = await Experiencia.findById(req.params.id).populate("trayectoid");
+    
     if (!exp) {
-        return next(new AppError('No tour found with that id', 404));
+        return next(new AppError('No existe la experiencia', 404));
     }
+    
+    return res.status(200).json({ success: true, data: exp })
 
+}
+
+getExperienciaTrayectoById = async (req, res, next) => {
+    
+    const exp = await Experiencia.findById(req.params.id).populate('trayecto');    
+    if (!exp) {
+        return next(new AppError('No existe la experiencia', 404));
+    }
+    const trayecto = exp.trayecto
+    console.log(trayecto)
     res.status(200).json({
         status: 'success',
         data: {
-            exp
+           trayecto
         }
     });
 }
@@ -190,5 +202,6 @@ module.exports = {
     getAllExperiencias,
     getExperienciaById,
     getLogin,
-    getRegister
+    getRegister,
+    getExperienciaTrayectoById
 }
