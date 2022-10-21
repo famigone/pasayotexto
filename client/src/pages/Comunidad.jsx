@@ -81,7 +81,7 @@ const Comunidad = () => {
   
 
   const handleFiltro = (newFiltro) => {
-      console.log(newFiltro);
+     // console.log(newFiltro);
       setFiltro(newFiltro)
       getExperiencias(newFiltro);
       

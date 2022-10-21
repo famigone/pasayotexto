@@ -77,7 +77,6 @@ const handleShowNueva = (event) => {
     setModalTrayecto(false)
     setAutorDisabled(true)
     setTemaDisabled(true)
-    
     setFiltoTrayecto(trayectoIdx)
     setBotonTrayecto("btn btn-warning")
     
