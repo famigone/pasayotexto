@@ -106,7 +106,7 @@ getAllCodesesion = (req, res, next) => {
           return res.status(400).json({ success: false, error: err })
       }
       return res.status(200).json({ success: true, data: experiencias })
-    }).sort({createdAt: -1}).limit(limite);
+    }).sort({createdAt: -1}).limit(limite).populate('experienciaid');
   
   }
 

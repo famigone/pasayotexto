@@ -1,7 +1,7 @@
 import StackGrid from "react-stack-grid";
 import Experiencia from "./Experiencia"
 import ModalIDE from "../components/ModalIDE"
-import Card from '../components/Card'
+import CardSesion from '../components/CardSesion'
 import FiltroUser from '../components/FiltroUser'
 import styled from 'styled-components'
 import React, { useState, useEffect } from 'react';
@@ -118,10 +118,19 @@ const Sesiones = () => {
       />
     <StackGrid columnWidth={300}>
       {(!loading) && experiencias.map((exp) => {
-              if (exp.experienciaid)
+              
+              if (exp.experienciaid){
+              
               return(
-                <Card key={exp.experienciaid} experiencia={exp} handleClickExp={handleClickExp} canal={Math.random().toString(36).slice(2)}/>
+                <CardSesion 
+                  codigoSesion={exp.codigo} 
+                  userId={filtro} 
+                  key={exp._id} 
+                  experiencia={exp.experienciaid} 
+                  handleClickExp={handleClickExp} 
+                  canal={Math.random().toString(36).slice(2)}/>
               )
+              }
             })}      
     </StackGrid>
     {loading && lanzarSpinner()}      

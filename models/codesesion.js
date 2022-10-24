@@ -5,7 +5,7 @@ const Codesesion = new Schema(
     {
       experienciaid: {
        type: Schema.Types.ObjectId,
-       ref: 'Experiencia'
+       ref: 'experiencia'
      },
      user:{
        type:String,
