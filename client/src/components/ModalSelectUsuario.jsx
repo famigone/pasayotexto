@@ -11,35 +11,36 @@ import api from '../api'
 
 
 
-const ModalSelectTrayecto = (props) => {
+const ModalSelectUsuario = (props) => {
   const [options, setOptions] = useState([""]);
-  const [trayectoid, setTrayectoid] = useState([""]);
+  const [usuarioid, setUsuarioid] = useState(undefined);
   const [filtoTrayecto, setFiltoTrayecto] = useState([""]);
-  const [cargandoTrayecto, setCargandoTrayecto] = useState(true);
+  const [cargandoUsuarios, setCargandoUsuarios] = useState(true);
 
 
 
 const handleSelect = (newValue) => {
-  //console.log("newValue "+newValue.value)
-  setTrayectoid(newValue.value)
+  console.log("ACAAAAAAAAA "+newValue.label)  
+  setUsuarioid(newValue.label)
+  props.seleccionar(newValue.label)
   return newValue.value
 }
-const seleccionarx = () => props.seleccionar(trayectoid)
+const seleccionarx = () => props.seleccionar(usuarioid)
 
-  useEffect(() => {
-    const getData = async () => {
-      
-      const arr = [];
-      const response = await api.getAllTrayectos(filtoTrayecto)
-  //    console.log("response.data.data "+response.data.data[0].titulo)
-      let result = response.data.data.map((trayecto) => {
-        return arr.push({value: trayecto._id, label: trayecto.titulo});
-      });
-      setOptions(arr);
-      setCargandoTrayecto(false)
-    };
-    getData();
-  }, []);
+useEffect(() => {
+  const getData = async () => {
+    
+    const arr = [];
+    const response = await api.getAllUser()
+//    console.log("response.data.data "+response.data.data[0].titulo)
+    let result = response.data.data.map((user) => {
+      return arr.push({value: user._id, label: user.username});
+    });
+    setOptions(arr);
+    setCargandoUsuarios(false)
+  };
+  getData();
+}, []);
 
   return (
     <>
@@ -55,22 +56,21 @@ const seleccionarx = () => props.seleccionar(trayectoid)
         <Modal.Header closeButton>
           <Modal.Title>
               <LogoPasayo/>
-               Seleccioná un Trayecto
-
+               Seleccioná un Usuario para filtrar sus sesiones
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
          
      <Select
         
-        name="trayectoid"
+        name="userid"
         className="input-cont"
-        placeholder= "Seleccioná un trayecto"
+        placeholder= "Seleccioná un usuario"
         options={options}
         onChange={handleSelect}
         isSearchable={true}
         isClearable={true}
-        isLoading={cargandoTrayecto}
+        isLoading={cargandoUsuarios}
       />     
         </Modal.Body>
         <Modal.Footer>
@@ -79,11 +79,7 @@ const seleccionarx = () => props.seleccionar(trayectoid)
               onClick={seleccionarx}
               >Seleccionar
           </Button>
-          <Button 
-              variant="secondary" 
-              onClick={props.limpiar}
-              >Limpiar
-              </Button>
+
       </Modal.Footer>
       </Modal>
     </>
@@ -91,4 +87,4 @@ const seleccionarx = () => props.seleccionar(trayectoid)
 }
 
 
-export default ModalSelectTrayecto;
+export default ModalSelectUsuario;

@@ -130,7 +130,8 @@ getExperienciaById = async (req, res, next) => {
     const exp = await Experiencia.findById(req.params.id).populate("trayectoid");
     
     if (!exp) {
-        return next(new AppError('No existe la experiencia', 404));
+        //return next(new AppError('No existe la experiencia', 404));
+        return null
     }
     
     return res.status(200).json({ success: true, data: exp })
@@ -169,7 +170,7 @@ getAllExperiencias = (req, res, next) => {
   if (filtro.titulo) filtroFinal.titulo =  { $regex: '.*' + filtro.titulo.toUpperCase() + '.*' }
   filtroFinal.activo = true;
   const limite = filtro.limite
-  console.log("filtroFinal ",filtroFinal)
+  //console.log("filtroFinal ",filtroFinal)
   Experiencia.find(filtroFinal, (err, experiencias)  => {
     if (err) {
         console.log("error ", err)

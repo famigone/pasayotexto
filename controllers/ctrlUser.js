@@ -39,6 +39,23 @@ getLogin1 = (req, res, next)=> {
       next()
   }
 
+
+
+  getAllUser = (req, res, next) => {
+  
+    const filtro = req.query
+  
+    User.find((err, usuarios)  => {
+      if (err) {
+          console.log("error ", err)
+          return res.status(400).json({ success: false, error: err })
+      }
+      return res.status(200).json({ success: true, data: usuarios })
+    });
+  
+  }
+
+
 getLogin =  (req, res, next) => {
 
 
@@ -114,6 +131,7 @@ module.exports = {
     getRegister,
     postLogout,
     postRegister,
-    getHome
+    getHome,
+    getAllUser
 
 }

@@ -10,6 +10,7 @@ import  CanalIDE  from '../components/CanalIDE'
 import  NavBara  from '../components/NavBara'
 import  BarraEstado  from '../components/BarraEstado'
 import  Comunidad  from '../pages/Comunidad'
+import  Sesiones  from '../pages/Sesiones'
 import  Comunidad1  from '../pages/Comunidad1'
 import  Login  from '../components/Login'
 import  Register  from '../components/Register'
@@ -45,6 +46,14 @@ const App = () => {
                 element={
                       <RequireAuth>
                           <Comunidad />
+                      </RequireAuth>
+                  }
+              />
+              <Route
+                path="sesiones"
+                element={
+                      <RequireAuth>
+                          <Sesiones />
                       </RequireAuth>
                   }
               />

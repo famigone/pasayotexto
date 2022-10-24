@@ -29,17 +29,20 @@ router.get('/experiencia/:id', ExpCtrl.getExperienciaById)
 
 
 ///////////////////////////////////////////////////////////////////////////
-//codesesion
+//CODESESION
 //router.post('/codesesion', ExpCtrl.createCodesesion)
 //router.put('/codesesion/:id', ExpCtrl.updateCodesesion)
 //router.get('/codesesion/:id', ExpCtrl.getCodesesionById)
 router.get('/codesesion', CodeCtrl.getCodesesionByUser)
 router.post('/codesesion', CodeCtrl.createCodesesion)
 router.put('/codesesion/:id', CodeCtrl.updateCodesesion)
+router.get('/allcodesesion/', CodeCtrl.getAllCodesesion)
+
 ///////////////////////////////////////////////////////////////////////////
 //user
 
 router.get('/user/session', UserCtrl.getHome)
+router.get('/user/users', UserCtrl.getAllUser)
 router.post('/user/logout', UserCtrl.postLogout)
 router.post('/user/register', UserCtrl.postRegister)
 router.post(

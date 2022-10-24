@@ -24,11 +24,17 @@ export const updateExperienciaById = (id, payload) => api.put('/experiencia/'+id
 export const deleteExperienciaById = id => api.delete('/experiencia/'+id)
 export const getExperienciaById = id => api.get('/experiencia/'+id)
 export const getExperienciaTrayectoById = id => api.get('/experiencia/trayecto/'+id)
+
+//Codesesions
 export const getCodesesionByUser = (filtro) => api.get('/codesesion/', {params:filtro})
+export const getAllCodesesion = (filtro) => api.get('/allcodesesion/', {params:filtro})
 export const insertCodesesion = payload => api.post('/codesesion/', payload)
 export const updateCodesesionById = (id, payload) => api.put('/codesesion/'+id, payload)
+
+//user
 export const postLogin = payload => api.post('/user/login', payload)
 export const getLogin = () => api.get('/user/')
+export const getAllUser = () => api.get('/user/users')
 export const getAuth = () => api.get('/user/auth')
 export const getHome = () => api.get('/user/session')
 export const postLogout = payload => api.post('/user/logout', payload)
@@ -52,7 +58,9 @@ const apis = {
     getLogin,
     getHome,
     getCodesesionByUser,
-    getAuth
+    getAuth,
+    getAllUser,
+    getAllCodesesion,
 }
 
 export default apis

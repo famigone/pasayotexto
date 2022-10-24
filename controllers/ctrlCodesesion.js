@@ -85,8 +85,34 @@ createCodesesion = (req, res) => {
         })
 }
 
+
+getAllCodesesion = (req, res, next) => {
+  
+    const user = req.query.userId
+  
+    //!titulo y !autor
+    let filtroFinal = {}
+    //autor
+    filtroFinal.user = user
+    //titulo
+    //if (filtro.titulo) filtroFinal.titulo =  { $regex: '.*' + filtro.titulo.toUpperCase() + '.*' }
+    
+    const limite = 50
+    console.log("req.query ",req.query.userId)
+    console.log("filtro sesion ",filtroFinal)
+    Codesesion.find(filtroFinal, (err, experiencias)  => {
+      if (err) {
+          console.log("error ", err)
+          return res.status(400).json({ success: false, error: err })
+      }
+      return res.status(200).json({ success: true, data: experiencias })
+    }).sort({createdAt: -1}).limit(limite);
+  
+  }
+
 module.exports = {
 getCodesesionByUser,
 createCodesesion,
-updateCodesesion
+updateCodesesion,
+getAllCodesesion
 }

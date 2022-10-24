@@ -21,7 +21,24 @@ const Container = styled.div.attrs({
 
 
 const NavBara = ({currentUser, setCurrentUser}) => {
-
+  const botones = () => {
+    return (
+      <>
+      <Link to="/comunidad" className="nav-link">
+            Experiencias   
+        </Link>
+        <Link to="/sesiones" className="nav-link">
+        Sesiones   
+      </Link>
+     </> 
+    )
+  }
+  const soluciones = () => {
+    let rta = ""
+    if (currentUser == "PASAYO")
+      rta = botones()
+    return rta  
+  }
     const user = currentUser
 
     function logOut() {
@@ -42,11 +59,9 @@ const NavBara = ({currentUser, setCurrentUser}) => {
                     background-color= "#EEEEEE"
                   />
               </Navbar.Brand>
-              <Navbar.Toggle aria-controls="basic-navbar-nav" />
-              <Navbar.Collapse id="basic-navbar-nav">
-                      <Nav className="me-auto">
-                      
-                         
+              <Navbar.Toggle aria-controls="basic-navbar-nav" />                      
+                      <Nav className="me-auto">                                                                    
+                        {soluciones()}
                          {currentUser &&
                            <Link onClick={logOut} to="/login" className="nav-link">
                              <h5>                              
@@ -55,12 +70,10 @@ const NavBara = ({currentUser, setCurrentUser}) => {
                            </Link>}
                          {!currentUser && <Link to="/login" className="nav-link"><b>ENTRAR</b></Link>}
                       </Nav>
-              </Navbar.Collapse>
+              
 
               <Nav className="me-auto">
               </Nav>
-
-
             </Container>
     </Navbar>
 
