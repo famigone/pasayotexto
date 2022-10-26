@@ -123,7 +123,7 @@ const Sesiones = () => {
               
               return(
                 <CardSesion 
-                  codigoSesion={exp.codigo} 
+                  sesion={exp} 
                   userId={filtro} 
                   key={exp._id} 
                   experiencia={exp.experienciaid} 

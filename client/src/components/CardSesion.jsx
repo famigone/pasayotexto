@@ -38,7 +38,7 @@ const UnBadgeSesion = styled.div.attrs({
 
 
 `
-const CardSesion = ({codigoSesion, userId, onDelete, experiencia, handleClickExp, canal}) => {
+const CardSesion = ({sesion, userId, onDelete, experiencia, handleClickExp, canal}) => {
   const [mostrar, setMostrar] = useState(false);
   const [codigo, setCodigo] = useState(experiencia.solucion);
   const [mostrarModalDelete, setMostrarModalDelete] = useState(false);
@@ -127,7 +127,7 @@ const CardSesion = ({codigoSesion, userId, onDelete, experiencia, handleClickExp
      }
      const runCode1 = () => {
           try {
-            eval(codigoSesion);
+            eval(sesion.codigo);
           } catch (e) {
             alert(e)
           }
@@ -138,7 +138,7 @@ const CardSesion = ({codigoSesion, userId, onDelete, experiencia, handleClickExp
           // Generate JavaScript code and run it.
  
           try {
-            eval(codigoSesion);
+            eval(sesion.codigo);
             //setMostrarBtnPlay(true)
             //setTimeout(apagar, 2000)
             //setmsgEjecutado(false)
@@ -150,7 +150,10 @@ const CardSesion = ({codigoSesion, userId, onDelete, experiencia, handleClickExp
           }
         }
 
-
+const formatear=(fecha) => {
+  fecha = new Date(fecha).toLocaleDateString()
+return(fecha)
+}
  console.log("sesionó "+experiencia.titulo)
 
     return (
@@ -173,7 +176,7 @@ const CardSesion = ({codigoSesion, userId, onDelete, experiencia, handleClickExp
                 <Modal.Body>
                   <TablaExp experiencia={experiencia}/>
                     <CodeMirror
-                      value={codigoSesion}
+                      value={sesion.codigo}
                       options={options}
                       onBeforeChange={(editor, data, code) => {
                             setCodigo(code);
@@ -195,17 +198,13 @@ const CardSesion = ({codigoSesion, userId, onDelete, experiencia, handleClickExp
 
               </Modal>
                   <div className="card-header"><b>{experiencia.titulo}</b></div>
-                  <div className="card-body">
-                    <h5 className="card-title"></h5>                    
-                    <p className="card-text">{experiencia.narrativa}</p>                    
-                  </div>
                   
                   <ul className="list-group list-group-flush">
-                        <li className="list-group-item"><b>Objetivo Didáctico:</b> {experiencia.objetivo}</li>
-                        <li className="list-group-item"><b>Tema:</b> {experiencia.tema}</li>                        
+                        <li className="list-group-item"><b>Fecha: </b><UnBadgeSesion> {formatear(sesion.updatedAt)}</UnBadgeSesion></li>
+                        <li className="list-group-item"><b>Tema: </b> <UnBadgeSesion>{experiencia.tema}</UnBadgeSesion></li>                        
                         <li className="list-group-item"><b>Trayecto: </b>{trayecto}</li>
                   </ul>
-
+                  
                   <ModalError show={modalerror} msg={msgError}/>
                   
                   {botonera()}
@@ -217,7 +216,7 @@ const CardSesion = ({codigoSesion, userId, onDelete, experiencia, handleClickExp
 
                      <div className="d-flex justify-content-end">
                         <UnBadge>Sesion: {userId} </UnBadge>
-                        <UnBadgeSesion>Autor: {experiencia.user} </UnBadgeSesion>
+                        <UnBadgeSesion> {experiencia.user} </UnBadgeSesion>
                         
                      </div>
                    </div>

@@ -14,8 +14,8 @@ const Codesesion = new Schema(
      codigo: {
        type: String,
        required: false
-     },
-    }
+     },     
+    },    { timestamps: true }
 )
 
 module.exports = mongoose.model('codesesion', Codesesion)
