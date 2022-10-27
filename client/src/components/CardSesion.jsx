@@ -4,13 +4,14 @@ import logo from '../img/PASAYOTEXTO_white.png'
 import styled from 'styled-components'
 import LogoPasayo from './LogoPasayo'
 import TablaExp from './TablaExp'
-import {Alert, ListGroup, Modal, ToggleButtonGroup, ButtonGroup, ToggleButton, Button } from 'react-bootstrap';
+import {Alert, Row, Col, ListGroup, Modal, ToggleButtonGroup, ButtonGroup, ToggleButton, Button } from 'react-bootstrap';
 import {Controlled as CodeMirror} from 'react-codemirror2';
 import  UserContext  from '../components/UserContext';
 import api from '../api'
 import axios from 'axios'
 import AuthService from "../services/auth.service";
 import manejadorPasayo from './ManejadorErrores'
+import FormCorreccion from './FormCorreccion'
 
 require('codemirror/lib/codemirror.css');
 require('codemirror/theme/material.css');
@@ -172,8 +173,10 @@ return(fecha)
                       <LogoPasayo/>
                       {experiencia.titulo}
                   </Modal.Title>
-                </Modal.Header>
+                </Modal.Header>                              
                 <Modal.Body>
+                <Row>                  
+                <Col xs={8}>
                   <TablaExp experiencia={experiencia}/>
                     <CodeMirror
                       value={sesion.codigo}
@@ -189,6 +192,11 @@ return(fecha)
                           </Button>
                         </ButtonGroup>
                     </div>
+                    </Col>
+                    <Col >
+                      <FormCorreccion></FormCorreccion>
+                    </Col>
+                    </Row>    
                 </Modal.Body>
                 <Modal.Footer>
                   <Button variant="warning" onClick={()=>setMostrar(false)}>
