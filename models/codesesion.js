@@ -15,7 +15,16 @@ const Codesesion = new Schema(
        type: String,
        required: false
      },     
-    },    { timestamps: true }
+     observacion: {
+       type: String,
+       required: false
+     },
+     estadoObservacion: {
+       type: String,
+       required: false
+     },     
+    },    
+    { timestamps: true }
 )
 
 module.exports = mongoose.model('codesesion', Codesesion)

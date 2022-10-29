@@ -1,84 +1,98 @@
 import React, { useState } from "react";
-import {Span, ButtonGroup,Container, Button, Form, Dropdown } from 'react-bootstrap';
+import {Alert, Span, ButtonGroup,Container, Button, Form, Dropdown } from 'react-bootstrap';
 import { post } from 'axios';
 import api from '../api'
 
 
 
-function FormCorreccion(props) {
+function FormCorreccion({codesesion, 
+                        actualizarSesion, 
+                        observacionInicial,
+                        estadoObservacionInicial
+ }) {
 
-  const initialState = { titulo: '',
-                         narrativa: '',
-                         objetivo:'',
-                         tema: '',
-                         activo:1,                  
-                         user: props.user
+  const initialState = { _id: codesesion._id, 
+                        estadoObservacion:estadoObservacionInicial,
+                         observacion: observacionInicial ,                         
                       }
-  const [trayecto, setTrayecto] = useState(initialState)
-
+  const [observacion, setObservacion] = useState(initialState)
+  const [exito, setExito] = useState(false)
 
 function handleChange(event) {
-    setTrayecto({...trayecto, [event.target.name]: event.target.value})
+    setObservacion({...observacion, [event.target.name]: event.target.value})
+    
 
+}
+
+const apagar = () => {
+
+  setExito(false);
+  
 }
 
 
 function handleSubmit(event) {
       //event.preventDefault();
-      async function postTrayecto() {
+      async function updateObservaciones() {
         try {
           //const response = await post('/trayecto', trayecto);
-          const response = await api.insertTrayecto(trayecto)
-          console.log(response)
-          props.onHide()
-          //props.history.push(`/articles/${response.data._id}`);
+          setExito(true)  
+          const response = await api.updateCodesesionObservacion(observacion)
+          actualizarSesion(observacion)
+        setTimeout(apagar, 3000)
+        
+          
+          
         } catch(error) {
           console.log('error', error);
         }
       }
-      postTrayecto();
+      updateObservaciones();
     }
 
 
 
 
-
+//console.log(codesesion)
   return (
-<div className='border'>
-  <br/>
+<div >
+  
 <Container className="border-left">
 <Form >
   <Form.Group className="mb-3" controlId="formBasicEmail">
   <Form.Select aria-label="Indicá el tema de tu trayecto"
-              name="tema"
+              name="estadoObservacion"
               onChange={handleChange}
-              value={trayecto.tema}
+              value={observacion.estadoObservacion}
     > 
         <option>Seleccioná un estado</option>
-        <option value = "SECUENCIAS"> Muy bien! Sin comentarios </option>
-        <option value = "MODULARIDAD"> Con comentarios </option>        
+        <option value = "Muy Bien!"> Muy bien! </option>
+        <option value = "Con comentarios"> Con comentarios </option>        
     </Form.Select>
     <br/>
     
     <Form.Control as="textarea"
-                  name="narrativa"
-                  rows={12}
+                  style={{"background-color":"#F2F2F2"}}
+                  name="observacion"
+                  rows={16}
                   placeholder="Ingresa tus comentarios u observaciones"
-                  value={trayecto.narrativa}
+                  value={observacion.observacion}
                   onChange={handleChange}
                   />
-    <br/>
-    
+    <div className="d-grid gap-1">
+  <Button variant="warning" onClick={handleSubmit}>
+  <i class="bi bi-save2-fill"></i> Guardar observación
+  </Button>
+  <Alert key={"warning21"} variant={"warning"} dismissible show={exito}>
+       <i className="bi bi-box2-heart"></i> Hemos guardado tus correcciones.
+  </Alert>
+</div>  
   </Form.Group>
 
-<div className="d-flex justify-content-end">
 
-  <Button variant="warning" onClick={handleSubmit}>
-    Guardar
-  </Button>
-  
 
-</div>
+
+
 </Form>
 </Container>
 <br/>

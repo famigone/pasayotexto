@@ -51,7 +51,8 @@ const CardSesion = ({sesion, userId, onDelete, experiencia, handleClickExp, cana
   const [mostrarBtnPlay, setMostrarBtnPlay] = useState(false);
   const [mostrarBtnSave, setMostrarBtnSave] = useState(false);
   const [mostrarBtnSaveSesion, setMostrarBtnSaveSesion] = useState(false);
-
+  const [observacion, setObservacion] = useState(sesion.observacion);
+  const [estadoObservacion, setEstadoObservacion] = useState(sesion.estadoObservacion);
 
   const user = AuthService.getCurrentUser().username;
   
@@ -155,7 +156,16 @@ const formatear=(fecha) => {
   fecha = new Date(fecha).toLocaleDateString()
 return(fecha)
 }
- console.log("sesionó "+experiencia.titulo)
+
+const actualizarSesion=(sesionUpdate) => {
+  //console.log("actualizo: "+sesionUpdate.observacion)
+  setObservacion(sesionUpdate.observacion)
+  setEstadoObservacion(sesionUpdate.estadoObservacion)
+}
+
+
+
+ //console.log("sesionó "+experiencia.titulo)
 
     return (
             <UnaCard >
@@ -194,7 +204,12 @@ return(fecha)
                     </div>
                     </Col>
                     <Col >
-                      <FormCorreccion></FormCorreccion>
+                      <FormCorreccion 
+                        codesesion={sesion}
+                        actualizarSesion= {actualizarSesion}
+                        observacionInicial= {observacion}
+                        estadoObservacionInicial = {estadoObservacion}
+                      />
                     </Col>
                     </Row>    
                 </Modal.Body>

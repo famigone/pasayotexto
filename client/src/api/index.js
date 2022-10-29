@@ -27,9 +27,11 @@ export const getExperienciaTrayectoById = id => api.get('/experiencia/trayecto/'
 
 //Codesesions
 export const getCodesesionByUser = (filtro) => api.get('/codesesion/', {params:filtro})
+export const getCodeSesion = (filtro) => api.get('/codesesion/getone', {params:filtro})
 export const getAllCodesesion = (filtro) => api.get('/allcodesesion/', {params:filtro})
 export const insertCodesesion = payload => api.post('/codesesion/', payload)
 export const updateCodesesionById = (id, payload) => api.put('/codesesion/'+id, payload)
+export const updateCodesesionObservacion = (payload) => api.put('/codesesion/update/observacion', payload)
 
 //user
 export const postLogin = payload => api.post('/user/login', payload)
@@ -60,7 +62,9 @@ const apis = {
     getCodesesionByUser,
     getAuth,
     getAllUser,
-    getAllCodesesion,
+    getAllCodesesion,    
+    updateCodesesionObservacion,
+    getCodeSesion,
 }
 
 export default apis

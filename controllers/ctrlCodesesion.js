@@ -36,6 +36,44 @@ updateCodesesion = async (req, res) => {
     })
 }
 
+updateCodesesionObservacion = async (req, res) => {
+    const body = req.body
+    console.log(body)
+    if (!body) {
+        return res.status(400).json({
+            success: false,
+            error: 'You must provide a body to update',
+        })
+    }
+
+    Codesesion.findOne({ _id: body._id }, (err, codesesion) => {
+        if (err) {
+            return res.status(404).json({
+                err,
+                message: 'Codesesion not found!',
+            })
+        }
+        codesesion.observacion = body.observacion
+        codesesion.estadoObservacion = body.estadoObservacion
+        codesesion
+            .save()
+            .then(() => {
+                return res.status(200).json({
+                    success: true,
+                    id: codesesion._id,
+                    message: 'codesesion updated!',
+                })
+            })
+            .catch(error => {
+                return res.status(404).json({
+                    error,
+                    message: 'codesesion not updated!',
+                })
+            })
+    })
+}
+
+
 getCodesesionByUser =  (req, res) => {
        //console.log("Llego esto: "+req.params.user + " - "+req.params.experienciaid)
        const filtro = req.query
@@ -51,6 +89,25 @@ getCodesesionByUser =  (req, res) => {
         }
         return res.status(200).json({ success: true, data: codesesion })
     })
+}
+
+
+getCodeSesion =  (req, res) => {
+    //console.log("Llego esto: "+req.params.user + " - "+req.params.experienciaid)
+    const filtro = req.query
+    console.log("filtro codesesion "+filtro)
+    Codesesion.findOne(filtro,(err, codesesion) => {
+     if (err) {
+         return res.status(400).json({ success: false, error: err })
+     }
+
+     if (!codesesion) {
+         return res
+             .status(404)
+             .json({ success: false, error: "Codesesion not found" })
+     }
+     return res.status(200).json({ success: true, data: codesesion })
+ })
 }
 
 createCodesesion = (req, res) => {
@@ -114,5 +171,7 @@ module.exports = {
 getCodesesionByUser,
 createCodesesion,
 updateCodesesion,
-getAllCodesesion
+getAllCodesesion,
+updateCodesesionObservacion,
+getCodeSesion
 }

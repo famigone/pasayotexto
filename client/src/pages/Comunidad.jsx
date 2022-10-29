@@ -75,7 +75,7 @@ const Comunidad = () => {
      //console.log("limite ",limite)
    }, [limite]);
 
-
+  
 
 
   

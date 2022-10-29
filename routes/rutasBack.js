@@ -35,9 +35,10 @@ router.get('/experiencia/:id', ExpCtrl.getExperienciaById)
 //router.get('/codesesion/:id', ExpCtrl.getCodesesionById)
 router.get('/codesesion', CodeCtrl.getCodesesionByUser)
 router.post('/codesesion', CodeCtrl.createCodesesion)
+router.get('/codesesion/getone', CodeCtrl.getCodeSesion)
 router.put('/codesesion/:id', CodeCtrl.updateCodesesion)
+router.put('/codesesion/update/observacion/', CodeCtrl.updateCodesesionObservacion)
 router.get('/allcodesesion/', CodeCtrl.getAllCodesesion)
-
 ///////////////////////////////////////////////////////////////////////////
 //user
 
