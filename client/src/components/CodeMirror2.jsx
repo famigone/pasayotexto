@@ -67,8 +67,9 @@ const CodeMirror2 = ({...props}) => {
       var predef = {
         foo: false
       };
-     // JSHINT(source, options, predef);
-     // console.log(JSHINT.data());
+      JSHINT(codigo, options, predef);
+      console.log(JSHINT.data());
+      alert(JSHINT.data().errors[0].raw)
     }
 
 
