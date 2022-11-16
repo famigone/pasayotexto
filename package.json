@@ -22,14 +22,17 @@
     "express": "^4.17.3",
     "express-session": "^1.17.3",
     "joi": "^17.6.0",
+    "jshint": "^2.13.6",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.10",
+    "node-polyfill-webpack-plugin": "^2.0.1",
     "nodemon": "^2.0.15",
     "passport": "^0.5.3",
     "passport-local": "^1.0.0",
     "react-codemirror": "^1.0.0",
     "react-codemirror2": "^7.2.1",
     "react-select": "^5.4.0",
-    "socket.io": "^4.5.0"
+    "socket.io": "^4.5.0",
+    "util": "^0.12.5"
   }
 }

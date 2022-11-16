@@ -15,7 +15,7 @@ require('codemirror/theme/material.css');
 require('codemirror/theme/neat.css');
 require('codemirror/mode/xml/xml.js');
 require('codemirror/mode/javascript/javascript.js');
-
+const { JSHINT } = require('jshint');
 
 
 
@@ -54,6 +54,23 @@ const CodeMirror2 = ({...props}) => {
     mode: 'javascript',
     theme: 'material',
     }
+
+
+    const lintear = () => {
+      var source = [
+        'function goo() {}',
+        'foo = 3;'
+      ];
+      var options = {
+        undef: true
+      };
+      var predef = {
+        foo: false
+      };
+     // JSHINT(source, options, predef);
+     // console.log(JSHINT.data());
+    }
+
 
   useEffect(function() {
       socket = io(ENDPOINT , {withCredentials: true});
@@ -311,7 +328,7 @@ const botonera = () => {
 
 const botoneraSimple = () => {
   return (
-    <div className="d-grid gap-3">
+    <div className="d-grid gap-4">
         <ButtonGroup>
             {(props.guardarSesion) &&
           <OverlayTrigger
@@ -327,6 +344,9 @@ const botoneraSimple = () => {
             <i className="bi bi-dash-circle-fill"></i>
           </Button>
         </OverlayTrigger>}
+        <Button className="btn btn-warning" onClick={lintear}>
+            LINT
+          </Button>
           <OverlayTrigger
              key={'top6'}
              placement={'top'}
